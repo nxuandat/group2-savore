@@ -3300,3 +3300,15 @@ body.home-2{
 	background:#2B82AD;
 	color:#fff;
 }
+
+.row {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+  }
+  
+  .teamMem {
+	width: calc(20% - 20px);
+	margin-bottom: 20px;
+  }
+  
