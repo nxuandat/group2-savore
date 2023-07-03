@@ -1,15 +1,5 @@
 /*-----------------------------------------------------------------------------------
-
-    Template Name: b-sale
-    Template URI: https://devitems.com
-    Description: This is html5 template
-    Author: DevItems
-    Author URI:  https://devitems.com
-    Version: 1.0
-
-
------------------------------------------------------------------------------------
-    
+   
     CSS INDEX
     ===================
 	
@@ -58,7 +48,7 @@ p {margin:0 0 15px;}
 h1, h2, h3, h4, h5, h6 {
   margin: 0 0 15px;
 }
-a {transition: all 0.3s ease 0s;text-decoration:none;color:#777}
+a {transition: all 0.3s ease 0s;text-decoration:none;color:#c0cfe3}
 a:hover {
   color: #b2843d;
   text-decoration: none;
@@ -81,7 +71,7 @@ padding: 0
 }
 body{
 	background:#F8F8F8;
-	color: #666666;
+	color: #ababab;
 	font-family: 'Raleway', arial;
 	font-size: 14px;
 	font-style: normal;
@@ -186,7 +176,7 @@ body{
 }
 .catagori-menu li a{
 	background: #F1F1F1 none repeat scroll 0 0;
-	color: #666666;
+	color: #ababab;
 	display: block;
 	font-size: 16px;
 	padding: 7px 20px 8px;
@@ -335,7 +325,7 @@ body{
 3. Main-Menu-area
 ------------------------------*/
 .main-menu-area{
-	background:#2B82AD;
+	background:#b2843d;
 }
 .main-menu nav ul{
 	margin:0;
@@ -362,7 +352,7 @@ body{
 	background:#7c4c1b;
 }
 .main-menu nav ul ul{
-	background: #2b82ad none repeat scroll 0 0;
+	background: #b2843d none repeat scroll 0 0;
 	border-top: 2px solid #7c4c1b;
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3);
 	display: block;
@@ -401,7 +391,7 @@ body{
 }
 .main-menu nav ul .mega-menu{
 	position:absolute;
-	background: #2B82AD;
+	background: #b2843d;
 	width: 700px;
 }
 .main-menu nav ul .mega-menu .single-mega-menu{
@@ -521,10 +511,10 @@ body{
 	margin-bottom:20px;
 }
 .slider-product-button .add-chart a:hover{
-	background: #2B82AD none repeat scroll 0 0;
+	background: #b2843d none repeat scroll 0 0;
 }
 .view-details a{
-	background: #2B82AD none repeat scroll 0 0;
+	background: #b2843d none repeat scroll 0 0;
 	color: #fff;
 	font-size: 18px;
 	font-weight: 700;
@@ -556,7 +546,7 @@ body{
 	background: #fff none repeat scroll 0 0 !important;
 	border: 1px solid #e8e8e8;
 	border-radius: 2px !important;
-	color: #666666 !important;
+	color: #ababab !important;
 	font-size: 14px !important;
 	margin-right: -6px !important;
 	opacity: 1 !important;
@@ -566,7 +556,7 @@ body{
 .home-one .owl-buttons .owl-next{
 	background: #fff none repeat scroll 0 0 !important;
 	border-radius: 2px !important;
-	color: #666666 !important;
+	color: #ababab !important;
 	font-size: 14px !important;
 	opacity: 1 !important;
 	border: 1px solid #E8E8E8;
@@ -623,7 +613,7 @@ body{
 	transition: all .4s;
 }
 .main-slider .slide-text a:hover{
-	background:#2B82AD;
+	background:#b2843d;
 }
 .slide2-image img{
 	left: 55%;
@@ -632,10 +622,10 @@ body{
 	right: auto;
 }
 .main-slider .slide2-text h2{
-	color:#666666;
+	color:#ababab;
 }
 .main-slider .slide2-text h1{
-	color:#666666;
+	color:#ababab;
 }
 .nivoSlider img{
   right: 0 !important;
@@ -672,8 +662,8 @@ i.nivo-prev-icon, i.nivo-next-icon{
 	opacity:0;
 }
 i.nivo-prev-icon:hover, i.nivo-next-icon:hover{
-	border:1px solid #2B82AD;
-	color:#2B82AD;
+	border:1px solid #b2843d;
+	color:#b2843d;
 }
 i.nivo-prev-icon{}
 i.nivo-next-icon{}
@@ -726,7 +716,7 @@ i.nivo-next-icon{}
 }
 .product-categeries .panel-heading{
 	background: #fff none repeat scroll 0 0 !important;
-	color: #666666;
+	color: #ababab;
 	padding: 0;
 }
 .product-categeries .panel-heading:hover{
@@ -819,7 +809,7 @@ i.nivo-next-icon{}
 	z-index:99;
 }
 .single-product-content{
-	background: #2b82ad none repeat scroll 0 0;
+	background: #b2843d none repeat scroll 0 0;
 	color: #fff;
 	overflow: hidden;
 	padding: 10px 20px 7px;
@@ -920,7 +910,7 @@ i.nivo-next-icon{}
 }
 .best-product-content h3{
 	font-size: 14px;
-	color:#2b82ad;
+	color:#b2843d;
 	margin-bottom:5px;
 }
 .best-product-rating i{
@@ -982,7 +972,7 @@ i.nivo-next-icon{}
 	width: 99%;
 }
 .testmonial span{
-	color:#2B82AD;
+	color:#b2843d;
 	font-size:24px;
 	margin-bottom:0px;
 }
@@ -1023,7 +1013,7 @@ i.nivo-next-icon{}
 	width: 83%;
 }
 .subscribe-area .input-group button{
-	background: #2b82ad none repeat scroll 0 0;
+	background: #b2843d none repeat scroll 0 0;
 	border: medium none;
 	border-radius: 0;
 	box-shadow: none;
@@ -1239,7 +1229,7 @@ body.home-2{
 }
 
 .home-2 .main-slider .slide-text a:hover{
-	background:#2B82AD;
+	background:#b2843d;
 }
 .home-2 .slide2-image img{
 	left: 55%;
@@ -1248,10 +1238,10 @@ body.home-2{
 	right: auto;
 }
 .home-2 .main-slider .slide2-text h2{
-	color:#666666;
+	color:#ababab;
 }
 .home-2 .main-slider .slide2-text h1{
-	color:#666666;
+	color:#ababab;
 }
 /* ----------------------------
 8.2. Home-two Offer Area
@@ -1415,7 +1405,7 @@ body.home-2{
 	margin-bottom: 2px;
 }
 .new-sell .sell{
-	background: #2B82AD none repeat scroll 0 0;
+	background: #b2843d none repeat scroll 0 0;
 }
 .add-to-chart{
 	margin-top: 20px;
@@ -1474,7 +1464,7 @@ body.home-2{
 	background: #ebebeb none repeat scroll 0 0 !important;
 	border: 1px solid #e8e8e8;
 	border-radius: 2px !important;
-	color: #666666 !important;
+	color: #ababab !important;
 	font-size: 10px !important;
 	margin-right: -2px !important;
 	opacity: 1 !important;
@@ -1485,7 +1475,7 @@ body.home-2{
 	background: #ebebeb none repeat scroll 0 0 !important;
 	border: 1px solid #e8e8e8;
 	border-radius: 2px !important;
-	color: #666666 !important;
+	color: #ababab !important;
 	font-size: 10px !important;
 	opacity: 1 !important;
 	padding: 3px 8px !important;
@@ -1565,7 +1555,7 @@ body.home-2{
 	line-height: 25px;
 	margin-bottom: 5px;
 	font-weight:700;
-	color:#666666;
+	color:#ababab;
 }
 .single-product-bag-action{
 	position:absolute;
@@ -1633,7 +1623,7 @@ body.home-2{
 	font-weight: 600;
 }
 .blog-content h2 a{
-	color:#666666;
+	color:#ababab;
 }
 .blog-content a:hover{
 	color:#b2843d;
@@ -1684,7 +1674,7 @@ body.home-2{
 	background: #fff none repeat scroll 0 0 !important;
 	border: 1px solid #e8e8e8;
 	border-radius: 2px !important;
-	color: #666666 !important;
+	color: #ababab !important;
 	font-size: 14px !important;
 	margin-right: -6px !important;
 	opacity: 1 !important;
@@ -1694,7 +1684,7 @@ body.home-2{
 .home-3 .owl-buttons .owl-next{
 	background: #fff none repeat scroll 0 0 !important;
 	border-radius: 2px !important;
-	color: #666666 !important;
+	color: #ababab !important;
 	font-size: 14px !important;
 	opacity: 1 !important;
 	border: 1px solid #E8E8E8;
@@ -1736,7 +1726,7 @@ body.home-2{
 	background:#fff;
 }
 .product-type h2{
-	background: #2b82ad none repeat scroll 0 0;
+	background: #b2843d none repeat scroll 0 0;
 	color: #fff;
 	font-size: 20px;
 	font-weight: 700;
@@ -1837,10 +1827,10 @@ body.home-2{
 	margin-right:0px;	
 }
 .view-mode a:hover{
-	background:#2B82AD;
+	background:#b2843d;
 }
 .view-mode a.active{
-	background:#2B82AD;
+	background:#b2843d;
 }
 .view-mode a i{}
 .single-item-area{
@@ -1940,7 +1930,7 @@ body.home-2{
 	margin-top: -2px;
 }
 .item-action-button>a{
-	background: #2b82ad none repeat scroll 0 0;
+	background: #b2843d none repeat scroll 0 0;
 	color: #fff;
 	float: left;
 	height: 30px;
@@ -1953,8 +1943,8 @@ body.home-2{
 	float:left;
 }
 .item-action-icon a{
-	background: #2b82ad none repeat scroll 0 0;
-	border-left: 1px solid #005c89;
+	background: #b2843d none repeat scroll 0 0;
+	border-left: 1px solid #f1f3f4;
 	color: #fff;
 	display: block;
 	float: left;
@@ -1992,12 +1982,12 @@ body.home-2{
 	height: 0.6em;
 }
 .price-filter .ui-widget-header{
-	background: #0080BB none repeat scroll 0 0;
-	border: 1px solid #666666;
+	background: #c0cfe3 none repeat scroll 0 0;
+	border: 1px solid #ababab;
 }
 .price-filter .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
-	background: #0080bb none repeat scroll 0 0;
-	border: 1px solid #666666;
+	background: #c0cfe3 none repeat scroll 0 0;
+	border: 1px solid #ababab;
 }
 .price-filter .ui-slider .ui-slider-handle {
 	border-radius: 50%;
@@ -2019,7 +2009,7 @@ body.home-2{
 	transition:all .3s;
 }
 .price-filter button:hover{
-	background: #0080BB none repeat scroll 0 0;
+	background: #c0cfe3 none repeat scroll 0 0;
 	color:#fff;
 }
 .price-filter p{
@@ -2033,7 +2023,7 @@ body.home-2{
 	width: 45%;
 	font-size: 14px;
 	font-weight: normal !important;
-	color:#666666 !important;
+	color:#ababab !important;
 }
 .filter-size{
 	font-weight: 700;
@@ -2054,7 +2044,7 @@ body.home-2{
 	margin-top: 0;
 }
 .shop-pagination .pagination li a{
-	color: #666666;
+	color: #ababab;
 	margin-left: 5px;
 }
 .shop-pagination .pagination > li:first-child > a, .pagination > li:first-child > span {
@@ -2146,7 +2136,7 @@ body.home-2{
 	background: #ebebeb none repeat scroll 0 0 !important;
 	border: 1px solid #e8e8e8;
 	border-radius: 2px !important;
-	color: #666666 !important;
+	color: #ababab !important;
 	font-size: 10px !important;
 	margin-right: -2px !important;
 	opacity: 1 !important;
@@ -2157,7 +2147,7 @@ body.home-2{
 	background: #ebebeb none repeat scroll 0 0 !important;
 	border: 1px solid #e8e8e8;
 	border-radius: 2px !important;
-	color: #666666 !important;
+	color: #ababab !important;
 	font-size: 10px !important;
 	opacity: 1 !important;
 	padding: 3px 8px !important;
@@ -2321,7 +2311,7 @@ body.home-2{
 	text-transform: uppercase;
 }
 .sigle-services-content p{
-	color:#666666;
+	color:#ababab;
 	font-family:roboto;
 }
 .our-team-member{
@@ -2558,7 +2548,7 @@ body.home-2{
 	transition:all .4s;
 }
 .message-post button:hover, .blog-search button:hover{
-	background: #2b82ad none repeat scroll 0 0;
+	background: #b2843d none repeat scroll 0 0;
 	color: #fff;
 }
 .blog-search{
@@ -2710,7 +2700,7 @@ body.home-2{
 	padding:10px 20px;
 }
 .single-blog-post .continue-reading a:hover{
-	border:2px solid #2B82AD;
+	border:2px solid #b2843d;
 }
 .left-blog-post{
 	margin-bottom:30px;
@@ -2800,7 +2790,7 @@ body.home-2{
 	transition: all .4s;
 }
 .cart-button button:hover{
-	background:#2B82AD;
+	background:#b2843d;
 	color:#fff;
 }
 .cart-shopping-area{
@@ -2851,7 +2841,7 @@ body.home-2{
 	margin-top:15px;
 }
 .chart-all button:hover{
-	background:#2B82AD;
+	background:#b2843d;
 	color:#fff;
 }
 .shopping-summary{
@@ -3032,7 +3022,7 @@ body.home-2{
 	transition: all .4s;
 }
 .payment-method button:hover{
-	background:#2B82AD;
+	background:#b2843d;
 	color:#fff;
 }
 /* ----------------------------
@@ -3143,7 +3133,7 @@ body.home-2{
 	text-transform:uppercase;
 }
 .not-found a:hover{
-	background:#2B82AD;
+	background:#b2843d;
 }
 /* ----------------------------
 18. Contact page
@@ -3285,7 +3275,7 @@ body.home-2{
 	margin-right:10px;
 }
 .shop-button button:hover{
-	background:#2B82AD;
+	background:#b2843d;
 	color:#fff;
 }
 .shop-social-button a{
@@ -3297,6 +3287,6 @@ body.home-2{
 	transition: all .4s;
 }
 .shop-social-button a:hover{
-	background:#2B82AD;
+	background:#b2843d;
 	color:#fff;
 }
