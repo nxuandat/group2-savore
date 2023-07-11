@@ -3306,3 +3306,20 @@ body.home-2{
 	margin-bottom: 20px;
   }
   
+/* ----------------------------
+17. Login page
+------------------------------*/
+.login-area{
+	font-family:roboto;
+	margin: 0 0 60px;
+}
+.login-area a{
+	color:#b2843d;
+}
+.login-area a:hover{
+	color:#b2843d;
+}
+.login-area h2{
+	color: #333333;
+	text-transform: uppercase;
+}
