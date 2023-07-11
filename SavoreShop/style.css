@@ -142,7 +142,11 @@ body{
 	background:#7c4c1b;
 	padding:20px 0;
 }
-.header-logo{}
+.header-logo{
+	/* transform: scale(0.6); */
+	width: 50px;
+	height: auto;
+}
 .search-chart-list{
 	float: right;
 }
@@ -1036,7 +1040,7 @@ i.nivo-next-icon{}
 	padding: 30px 0 15px;
 }
 .footer-logo img{
-	margin-bottom:20px;
+	margin-bottom:2px;
 }
 .footer-info-card p{
 	border-bottom: 1px solid #7c4c1b;
@@ -3290,3 +3294,15 @@ body.home-2{
 	background:#b2843d;
 	color:#fff;
 }
+
+.row {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+  }
+  
+  .teamMem {
+	width: calc(20% - 20px);
+	margin-bottom: 20px;
+  }
+  
