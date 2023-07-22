@@ -1,18 +1,20 @@
 const data = {
   products: [
     {
+      _id: "1",
       name: "Expresso",
       slug: "expresso",
       category: "Coffee",
       image: "/images/p1.jpg",
       price: 5,
-      countInStock: 10,
+      countInStock: 0,
       brand: "ThienLan",
       rating: 4.5,
       numReviews: 10,
       description: "high quality coffee",
     },
     {
+      _id: "2",
       name: "Cappuccino",
       slug: "cappuccino",
       category: "Coffee",
@@ -25,6 +27,7 @@ const data = {
       description: "high quality capuccino",
     },
     {
+      _id: "3",
       name: "Latte",
       slug: "latte",
       category: "Coffee",
@@ -37,6 +40,7 @@ const data = {
       description: "high quality latte",
     },
     {
+      _id: "4",
       name: "Mocha",
       slug: "mocha",
       category: "Coffee",
