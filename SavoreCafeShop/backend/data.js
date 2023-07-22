@@ -6,7 +6,7 @@ const data = {
       category: "Coffee",
       image: "/images/p1.jpg",
       price: 5,
-      countInStock: 10,
+      countInStock: 0,
       brand: "ThienLan",
       rating: 4.5,
       numReviews: 10,
