@@ -2,6 +2,7 @@ import express from 'express';
 import data from './data.js';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import seedRouter from './routes/seedRoutes.js';
 
 dotenv.config();
 
@@ -15,6 +16,8 @@ mongoose
   });
 
 const app = express();
+
+app.use('/api/seed', seedRouter);
 
 // Lấy data từ file data.js của Backend
 app.get('/api/products', (req, res) => {
@@ -36,8 +39,9 @@ app.get('/api/products/:id', (req, res) => {
     res.status(404).send({ message: 'Product Not Found' });
   }
 });
+
 // Tạo port
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5000; //5000 27017
 app.listen(port, () => {
   console.log(`server at http://localhost:${port}`);
 });
