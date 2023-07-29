@@ -53,7 +53,7 @@ function App() {
                     </LinkContainer>
                     <NavDropdown.Divider />
                     <Link
-                      className="dropdowm-item"
+                      className="dropdown-item signout-link align-items-center"
                       to="#signout"
                       onClick={signoutHandler}
                     >
