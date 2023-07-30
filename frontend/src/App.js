@@ -14,6 +14,7 @@ import { Store } from './Store';
 // Cart Screen
 import CartScreen from './screens/CartScreen';
 import SigninScreen from './screens/SigninScreen';
+import ShippingAddressScreen from './screens/ShippingAddressScreen';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -22,46 +23,47 @@ function App() {
   const signoutHandler = () => {
     ctxDispatch({ type: 'USER_SIGNOUT' });
     localStorage.removeItem('userInfo');
+    localStorage.removeItem('shippingAddress');
   };
 
   return (
     <BrowserRouter>
-      <div className="d-flex flex-column site-container">
-        <ToastContainer position="bottom-center" limit={1} />
+      <div className='d-flex flex-column site-container'>
+        <ToastContainer position='bottom-center' limit={1} />
         <header>
-          <Navbar bg="dark" variant="dark">
+          <Navbar bg='dark' variant='dark'>
             <Container>
-              <LinkContainer to="/">
+              <LinkContainer to='/'>
                 <Navbar.Brand>SavoreCafeShop</Navbar.Brand>
               </LinkContainer>
-              <Nav className="me-auto">
-                <Link to="/cart" className="nav-link">
+              <Nav className='me-auto'>
+                <Link to='/cart' className='nav-link'>
                   Cart
                   {cart.cartItems.length > 0 && (
-                    <Badge pill bg="danger">
+                    <Badge pill bg='danger'>
                       {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
                     </Badge>
                   )}
                 </Link>
                 {userInfo ? (
-                  <NavDropdown title={userInfo.name} id="basic-nav-dropdown">
-                    <LinkContainer to="/profile">
+                  <NavDropdown title={userInfo.name} id='basic-nav-dropdown'>
+                    <LinkContainer to='/profile'>
                       <NavDropdown.Item>User Profile</NavDropdown.Item>
                     </LinkContainer>
-                    <LinkContainer to="/orderhistory">
+                    <LinkContainer to='/orderhistory'>
                       <NavDropdown.Item>Order History</NavDropdown.Item>
                     </LinkContainer>
                     <NavDropdown.Divider />
                     <Link
-                      className="dropdown-item signout-link align-items-center"
-                      to="#signout"
+                      className='dropdown-item signout-link align-items-center'
+                      to='#signout'
                       onClick={signoutHandler}
                     >
                       Sign Out
                     </Link>
                   </NavDropdown>
                 ) : (
-                  <Link className="nav-link" to="/signin">
+                  <Link className='nav-link' to='/signin'>
                     Sign In
                   </Link>
                 )}
@@ -70,17 +72,18 @@ function App() {
           </Navbar>
         </header>
         <main>
-          <Container className="mt-3">
+          <Container className='mt-3'>
             <Routes>
-              <Route path="/product/:slug" element={<ProductScreen />} />
-              <Route path="/cart" element={<CartScreen />} />
-              <Route path="/signin" element={<SigninScreen />} />
-              <Route path="/" element={<HomeScreen />} />
+              <Route path='/product/:slug' element={<ProductScreen />} />
+              <Route path='/cart' element={<CartScreen />} />
+              <Route path='/signin' element={<SigninScreen />} />
+              <Route path='/shipping' element={<ShippingAddressScreen />} />
+              <Route path='/' element={<HomeScreen />} />
             </Routes>
           </Container>
         </main>
         <footer>
-          <div className="text-center">&copy;2023 SavoreCafeShop</div>
+          <div className='text-center'>&copy;2023 SavoreCafeShop</div>
         </footer>
       </div>
     </BrowserRouter>
