@@ -24,6 +24,12 @@
   color: white;
 }
 
+.signout-link {
+  color: #212529; /* màu chữ */
+  font-size: 1rem; /* kích thước chữ */
+  padding: 0.5rem 1rem; /* khoảng cách giữa nội dung và khung */
+}
+
 .App-link {
   color: #61dafb;
 }
