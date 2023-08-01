@@ -24,6 +24,16 @@ orderRouter.post(
   })
 );
 
+// Create Order History
+orderRouter.get(
+  '/mine',
+  isAuth,
+  expressAsyncHandler(async (req, res) => {
+    const orders = await Order.find({ user: req.user._id });
+    res.send(orders);
+  })
+);
+
 // Create order screen
 orderRouter.get(
   '/:id',
