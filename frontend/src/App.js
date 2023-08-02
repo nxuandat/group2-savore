@@ -29,16 +29,12 @@ import ProfileScreen from './screens/ProfileScreen';
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { cart, userInfo } = state;
-
   const signoutHandler = () => {
+    ctxDispatch({ type: 'USER_SIGNOUT' });
     localStorage.removeItem('userInfo');
     localStorage.removeItem('shippingAddress');
     localStorage.removeItem('paymentMethod');
-    // Wait for local storage items to be removed before redirecting to signin page
-    setTimeout(() => {
-      ctxDispatch({ type: 'USER_SIGNOUT' });
-      window.location.href = '/signin';
-    }, 1000);
+    window.location.href = '/signin';
   };
 
   return (
