@@ -14,6 +14,12 @@ const data = {
       password: bcrypt.hashSync('123456'),
       isAdmin: false,
     },
+    {
+      name: 'test',
+      email: 'testSavore@example.com',
+      password: bcrypt.hashSync('123456'),
+      isAdmin: false,
+    },
   ],
   products: [
     {
@@ -44,9 +50,9 @@ const data = {
     },
     {
       //_id: "3",
-      name: "Latte",
-      slug: "latte",
-      category: "Coffee",
+      name: "Green Tea Freeze",
+      slug: "greentea",
+      category: "Tea",
       image: "/images/p3.jpg",
       price: 6,
       countInStock: 17,
