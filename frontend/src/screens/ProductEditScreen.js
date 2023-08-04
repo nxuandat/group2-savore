@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useReducer, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import axios from 'axios';
 import { Store } from '../Store';
 import { getError } from '../utils';
@@ -18,17 +19,24 @@ const reducer = (state, action) => {
       return { ...state, loading: false };
     case 'FETCH_FAIL':
       return { ...state, loading: false, error: action.payload };
+    case 'UPDATE_REQUEST':
+      return { ...state, loadingUpdate: true };
+    case 'UPDATE_SUCCESS':
+      return { ...state, loadingUpdate: false };
+    case 'UPDATE_FAIL':
+      return { ...state, loadingUpdate: false };
     default:
       return state;
   }
 };
 export default function ProductEditScreen() {
+  const navigate = useNavigate();
   const params = useParams(); // /product/:id
   const { id: productId } = params;
 
   const { state } = useContext(Store);
   const { userInfo } = state;
-  const [{ loading, error }, dispatch] = useReducer(reducer, {
+  const [{ loading, error, loadingUpdate }, dispatch] = useReducer(reducer, {
     loading: true,
     error: '',
   });
@@ -66,8 +74,39 @@ export default function ProductEditScreen() {
     fetchData();
   }, [productId]);
 
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    try {
+      dispatch({ type: 'UPDATE_REQUEST' });
+      await axios.put(
+        `/api/products/${productId}`,
+        {
+          _id: productId,
+          name,
+          slug,
+          price,
+          image,
+          category,
+          brand,
+          countInStock,
+          description,
+        },
+        {
+          headers: { Authorization: `Bearer ${userInfo.token}` },
+        }
+      );
+      dispatch({
+        type: 'UPDATE_SUCCESS',
+      });
+      toast.success('Product updated successfully');
+      navigate('/admin/products');
+    } catch (err) {
+      toast.error(getError(err));
+      dispatch({ type: 'UPDATE_FAIL' });
+    }
+  };
   return (
-    <Container className="small-container">
+    <Container className='small-container'>
       <Helmet>
         <title>Edit Product ${productId}</title>
       </Helmet>
@@ -76,10 +115,10 @@ export default function ProductEditScreen() {
       {loading ? (
         <LoadingBox></LoadingBox>
       ) : error ? (
-        <MessageBox variant="danger">{error}</MessageBox>
+        <MessageBox variant='danger'>{error}</MessageBox>
       ) : (
-        <Form>
-          <Form.Group className="mb-3" controlId="name">
+        <Form onSubmit={submitHandler}>
+          <Form.Group className='mb-3' controlId='name'>
             <Form.Label>Name</Form.Label>
             <Form.Control
               value={name}
@@ -87,7 +126,7 @@ export default function ProductEditScreen() {
               required
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="slug">
+          <Form.Group className='mb-3' controlId='slug'>
             <Form.Label>Slug</Form.Label>
             <Form.Control
               value={slug}
@@ -95,7 +134,7 @@ export default function ProductEditScreen() {
               required
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="name">
+          <Form.Group className='mb-3' controlId='name'>
             <Form.Label>Price</Form.Label>
             <Form.Control
               value={price}
@@ -103,7 +142,7 @@ export default function ProductEditScreen() {
               required
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="image">
+          <Form.Group className='mb-3' controlId='image'>
             <Form.Label>Image File</Form.Label>
             <Form.Control
               value={image}
@@ -111,7 +150,7 @@ export default function ProductEditScreen() {
               required
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="category">
+          <Form.Group className='mb-3' controlId='category'>
             <Form.Label>Category</Form.Label>
             <Form.Control
               value={category}
@@ -119,7 +158,7 @@ export default function ProductEditScreen() {
               required
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="brand">
+          <Form.Group className='mb-3' controlId='brand'>
             <Form.Label>Brand</Form.Label>
             <Form.Control
               value={brand}
@@ -127,7 +166,7 @@ export default function ProductEditScreen() {
               required
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="countInStock">
+          <Form.Group className='mb-3' controlId='countInStock'>
             <Form.Label>Count In Stock</Form.Label>
             <Form.Control
               value={countInStock}
@@ -135,7 +174,7 @@ export default function ProductEditScreen() {
               required
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="description">
+          <Form.Group className='mb-3' controlId='description'>
             <Form.Label>Description</Form.Label>
             <Form.Control
               value={description}
@@ -143,8 +182,11 @@ export default function ProductEditScreen() {
               required
             />
           </Form.Group>
-          <div className="mb-3">
-            <Button type="submit">Update</Button>
+          <div className='mb-3'>
+            <Button disabled={loadingUpdate} type='submit'>
+              Update
+            </Button>
+            {loadingUpdate && <LoadingBox></LoadingBox>}
           </div>
         </Form>
       )}
