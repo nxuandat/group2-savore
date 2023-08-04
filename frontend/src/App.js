@@ -44,6 +44,9 @@ import AdminRoute from './components/AdminRoute';
 // Product Management
 import ProductListScreen from './screens/ProductListScreen';
 
+//Product Edit
+import ProductEditScreen from './screens/ProductEditScreen';
+
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { cart, userInfo } = state;
@@ -221,7 +224,14 @@ function App() {
                   </AdminRoute>
                 }
               ></Route>
-
+              <Route
+                path="/admin/product/:id"
+                element={
+                  <AdminRoute>
+                    <ProductEditScreen />
+                  </AdminRoute>
+                }
+              ></Route>
               <Route path="/" element={<HomeScreen />} />
             </Routes>
           </Container>
