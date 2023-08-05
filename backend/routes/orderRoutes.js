@@ -105,6 +105,23 @@ orderRouter.get(
   })
 );
 
+//Create Deliver order for admin
+orderRouter.put(
+  '/:id/deliver',
+  isAuth,
+  expressAsyncHandler(async (req, res) => {
+    const order = await Order.findById(req.params.id);
+    if (order) {
+      order.isDelivered = true;
+      order.deliveredAt = Date.now();
+      await order.save();
+      res.send({ message: 'Order Delivered' });
+    } else {
+      res.status(404).send({ message: 'Order Not Found' });
+    }
+  })
+);
+
 // Create Pay-Pal Order
 orderRouter.put(
   '/:id/pay',

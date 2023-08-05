@@ -60,7 +60,7 @@ export default function ProductListScreen() {
     error: '',
   });
 
-  const { search, pathname } = useLocation();
+  const { search } = useLocation(); //, pathname
   const navigate = useNavigate();
   const sp = new URLSearchParams(search);
   const page = sp.get('page') || 1;
@@ -132,9 +132,9 @@ export default function ProductListScreen() {
         <Col>
           <h1>Products</h1>
         </Col>
-        <Col className='col text-end'>
+        <Col className="col text-end">
           <div>
-            <Button type='button' onClick={createHandler}>
+            <Button type="button" onClick={createHandler}>
               Create Product
             </Button>
           </div>
@@ -147,10 +147,10 @@ export default function ProductListScreen() {
       {loading ? (
         <LoadingBox></LoadingBox>
       ) : error ? (
-        <MessageBox variant='danger'>{error}</MessageBox>
+        <MessageBox variant="danger">{error}</MessageBox>
       ) : (
         <>
-          <table className='table'>
+          <table className="table">
             <thead>
               <tr>
                 <th>ID</th>
@@ -171,16 +171,16 @@ export default function ProductListScreen() {
                   <td>{product.brand}</td>
                   <td>
                     <Button
-                      type='button'
-                      variant='light'
+                      type="button"
+                      variant="light"
                       onClick={() => navigate(`/admin/product/${product._id}`)}
                     >
                       Edit
                     </Button>
                     &nbsp;
                     <Button
-                      type='button'
-                      variant='light'
+                      type="button"
+                      variant="light"
                       onClick={() => deleteHandler(product)}
                     >
                       {' '}
