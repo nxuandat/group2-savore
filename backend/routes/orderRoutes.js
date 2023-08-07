@@ -143,8 +143,6 @@ orderRouter.put(
 
       const updatedOrder = await order.save();
 
-      console.log(`${order.user.name} <${order.user.email}>`);
-
       mailgun()
         .messages()
         .send(
