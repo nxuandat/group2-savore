@@ -149,7 +149,7 @@ orderRouter.put(
         .messages()
         .send(
           {
-            from: 'Savore <postmaster@sandbox354a5370f9dc49789738d6c0a93067b5.mailgun.org>',
+            from: 'Savore <postmaster@xuandat.id.vn>',
             to: `${order.user.name} <${order.user.email}>`,
             subject: `New order ${order._id}`,
             html: payOrderEmailTemplate(order),
