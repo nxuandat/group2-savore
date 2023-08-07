@@ -24,7 +24,8 @@ header a {
 main {
   flex: 1;
 }
-.btn-primary, .btn-outline-primary {
+.btn-primary,
+.btn-outline-primary {
   background-color: #f0c040;
   color: black;
 }
@@ -54,7 +55,10 @@ main {
 }
 
 .img-large {
-  max-width: 100%;
+  width: 100%; /* Đảm bảo ảnh sẽ lấp đầy toàn bộ kích thước của container */
+  height: 100%; /* Đảm bảo ảnh sẽ lấp đầy toàn bộ kích thước của container */
+  transform: scale(0.75);
+  /* max-width: 100%; */
 }
 
 /* Cart Screen */
@@ -76,10 +80,10 @@ main {
 }
 
 /*sidebar*/
-.navbar-brand{
+.navbar-brand {
   font-weight: bold;
 }
-.side-navbar{
+.side-navbar {
   width: 240px;
   height: 100%;
   position: absolute;
@@ -90,9 +94,9 @@ main {
 .site-container {
   min-height: 0;
 }
-.active-cont{
+.active-cont {
   margin-left: 240px;
 }
-.active-nav{
+.active-nav {
   left: 0;
 }
