@@ -91,7 +91,11 @@ function App() {
       >
         <ToastContainer position="bottom-center" limit={1} />
         <header>
-          <Navbar bg="dark" variant="dark" expand="lg">
+          <Navbar
+            style={{ backgroundColor: '#2f4f4e' }}
+            variant="dark"
+            expand="lg"
+          >
             <Container>
               <Button
                 variant="dark"
