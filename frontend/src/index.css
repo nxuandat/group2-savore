@@ -100,3 +100,6 @@ main {
 .active-nav {
   left: 0;
 }
+button.thumbnail {
+  padding: 0;
+}
