@@ -38,7 +38,7 @@ export default function PlaceOrderScreen() {
 
   const round2 = (num) => Math.round(num * 100 + Number.EPSILON) / 100; // 123.2345 => 123.23
   cart.itemsPrice = round2(
-    cart.cartItems.reduce((a, c) => a + c.quantity * c.price, 0)
+    cart.cartItems.reduce((a, c) => a + c.quantity * c.totalPriceProduct, 0)
   );
   cart.shippingPrice = cart.itemsPrice > 20 ? round2(0) : round2(2); //$2 for ship or freeship for order > $20
   cart.taxPrice = round2(0.08 * cart.itemsPrice); //VAT Vietnam 8%
@@ -127,11 +127,12 @@ export default function PlaceOrderScreen() {
                           className='img-fluid rounded img-thumbnail'
                         ></img>{' '}
                         <Link to={`/product/${item.slug}`}>{item.name}</Link>
+                        <p>Size: {item.size}</p> {/* Hiển thị kích thước */}
                       </Col>
                       <Col md={3}>
                         <span>{item.quantity}</span>
                       </Col>
-                      <Col md={3}>${item.price}</Col>
+                      <Col md={3}>${item.totalPriceProduct}</Col>
                     </Row>
                   </ListGroup.Item>
                 ))}

@@ -43,6 +43,8 @@ function ProductScreen() {
 
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
+  const [selectedSize, setSelectedSize] = useState('');
+  const [selectedSizePrice, setSelectedSizePrice] = useState(0);
 
   const navigate = useNavigate();
   const params = useParams();
@@ -71,16 +73,36 @@ function ProductScreen() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { cart, userInfo } = state;
   const addToCartHandler = async () => {
-    const existItem = cart.cartItems.find((x) => x._id === product._id);
+    if (!selectedSize) {
+      toast.error('Please select a size');
+      return;
+    }
+    const existItem = cart.cartItems.find(
+      (x) => x._id === product._id && x.size === selectedSize
+    );
     const quantity = existItem ? existItem.quantity + 1 : 1;
     const { data } = await axios.get(`/api/products/${product._id}`);
     if (data.countInStock < quantity) {
       window.alert('Sorry. Product is out of stock!');
       return;
     }
+    let selectedSizePrice = 0;
+    if (selectedSize === 'Medium') {
+      selectedSizePrice = 0.5;
+    } else if (selectedSize === 'Large') {
+      selectedSizePrice = 1;
+    }
+
+    const totalPriceProduct = product.price + selectedSizePrice;
+
     ctxDispatch({
       type: 'CART_ADD_ITEM',
-      payload: { ...product, quantity },
+      payload: {
+        ...product,
+        size: selectedSize,
+        quantity: 1,
+        totalPriceProduct,
+      },
     });
     navigate('/cart');
   };
@@ -159,7 +181,7 @@ function ProductScreen() {
                 <ListGroup.Item>
                   <Row>
                     <Col>Price:</Col>
-                    <Col>${product.price}</Col>
+                    <Col>${product.price + selectedSizePrice}</Col>
                   </Row>
                 </ListGroup.Item>
                 <ListGroup.Item>
@@ -174,6 +196,37 @@ function ProductScreen() {
                     </Col>
                   </Row>
                 </ListGroup.Item>
+                <ListGroup.Item>
+                  <Row>
+                    <Col>Available Sizes:</Col>
+                    <Col>
+                      <Form.Select
+                        aria-label='Size'
+                        value={selectedSize}
+                        onChange={(e) => {
+                          const size = e.target.value;
+                          setSelectedSize(size);
+                          // Cập nhật giá dựa vào kích thước đã chọn
+                          if (size === 'Small') {
+                            setSelectedSizePrice(0);
+                          } else if (size === 'Medium') {
+                            setSelectedSizePrice(0.5);
+                          } else if (size === 'Large') {
+                            setSelectedSizePrice(1);
+                          }
+                        }}
+                      >
+                        <option value=''>Select size</option>
+                        {product.sizes.map((size, index) => (
+                          <option key={index} value={size}>
+                            {size}
+                          </option>
+                        ))}
+                      </Form.Select>
+                    </Col>
+                  </Row>
+                </ListGroup.Item>
+
                 {product.countInStock > 0 && (
                   <ListGroup.Item>
                     <div className='d-grid'>

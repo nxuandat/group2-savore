@@ -147,7 +147,7 @@ orderRouter.put(
         .messages()
         .send(
           {
-            from: 'Savore <postmaster@xuandat.id.vn>',
+            from: 'Savoré Café Shop <savorecafeshop@xuandat.id.vn>',
             to: `${order.user.name} <${order.user.email}>`,
             subject: `New order ${order._id}`,
             html: payOrderEmailTemplate(order),

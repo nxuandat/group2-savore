@@ -282,11 +282,13 @@ export default function OrderScreen() {
                           className='img-fluid rounded img-thumbnail'
                         ></img>{' '}
                         <Link to={`/product/${item.slug}`}>{item.name}</Link>
+                        <p>Size: {item.size}</p> {/* Hiển thị kích thước */}
                       </Col>
                       <Col md={3}>
                         <span>{item.quantity}</span>
                       </Col>
-                      <Col md={3}>${item.price}</Col>
+                      <Col md={3}>${item.totalPriceProduct}</Col>{' '}
+                      {/* Hiển thị giá */}
                     </Row>
                   </ListGroup.Item>
                 ))}
