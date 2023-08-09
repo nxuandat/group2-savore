@@ -28,7 +28,7 @@ function Product(props) {
   return (
     <Card>
       <a href={`/product/${product.slug}`}>
-        <img src={product.image} className="card-img-top" alt={product.name} />
+        <img src={product.image} className='card-img-top' alt={product.name} />
       </a>
       <Card.Body>
         <a href={`/product/${product.slug}`}>
@@ -37,11 +37,17 @@ function Product(props) {
         <Rating rating={product.rating} numReviews={product.numReviews} />
         <Card.Text>${product.price}</Card.Text>
         {product.countInStock === 0 ? (
-          <Button variant="light" disabled>
+          <Button variant='light' disabled>
             Out of stock
           </Button>
         ) : (
-          <Button onClick={() => addToCartHandler(product)}>Add to cart</Button>
+          <Button
+            onClick={() => {
+              window.location.href = `/product/${product.slug}`;
+            }}
+          >
+            Buy
+          </Button>
         )}
       </Card.Body>
     </Card>
