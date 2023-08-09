@@ -43,6 +43,15 @@ export const isAdmin = (req, res, next) => {
   }
 };
 
+// Staff Validation Check for Dashboard Screen Permission
+export const isStaff = (req, res, next) => {
+  if (req.user && req.user.isStaff) {
+    next();
+  } else {
+    res.status(401).send({ message: 'Invalid Staff Token' });
+  }
+};
+
 export const mailgun = () =>
   mg({
     apiKey: process.env.MAILGUN_API_KEY,
