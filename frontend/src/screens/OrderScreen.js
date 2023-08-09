@@ -13,6 +13,7 @@ import MessageBox from '../components/MessageBox';
 import { Store } from '../Store';
 import { getError } from '../utils';
 import { toast } from 'react-toastify';
+import Button from 'react-bootstrap/Button';
 
 function reducer(state, action) {
   switch (action.type) {
@@ -30,7 +31,27 @@ function reducer(state, action) {
       return { ...state, loadingPay: false };
     case 'PAY_RESET':
       return { ...state, loadingPay: false, successPay: false };
+    case 'COD_PAY_REQUEST':
+      return { ...state, loadingCOD: true };
+    case 'COD_PAY_SUCCESS':
+      return { ...state, loadingCOD: false, successCOD: true };
+    case 'COD_PAY_FAIL':
+      return { ...state, loadingCOD: false };
+    case 'COD_PAY_RESET':
+      return { ...state, loadingCOD: false, successCOD: false };
 
+    case 'DELIVER_REQUEST':
+      return { ...state, loadingDeliver: true };
+    case 'DELIVER_SUCCESS':
+      return { ...state, loadingDeliver: false, successDeliver: true };
+    case 'DELIVER_FAIL':
+      return { ...state, loadingDeliver: false };
+    case 'DELIVER_RESET':
+      return {
+        ...state,
+        loadingDeliver: false,
+        successDeliver: false,
+      };
     default:
       return state;
   }
@@ -43,16 +64,47 @@ export default function OrderScreen() {
   const { id: orderId } = params;
   const navigate = useNavigate();
 
-  const [{ loading, error, order, successPay, loadingPay }, dispatch] =
-    useReducer(reducer, {
-      loading: true,
-      order: {},
-      error: '',
-      successPay: false,
-      loadingPay: false,
-    });
+  const [
+    {
+      loading,
+      error,
+      order,
+      successPay,
+      loadingPay,
+      loadingDeliver,
+      successDeliver,
+    },
+    dispatch,
+  ] = useReducer(reducer, {
+    loading: true,
+    order: {},
+    error: '',
+    successPay: false,
+    loadingPay: false,
+  });
 
   const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
+
+  async function payWithCODHandler() {
+    try {
+      dispatch({ type: 'COD_PAY_REQUEST' });
+      const { data } = await axios.put(
+        `/api/orders/${order._id}/pay`,
+        { paymentMethod: 'COD' },
+        {
+          headers: { authorization: `Bearer ${userInfo.token}` },
+        }
+      );
+      dispatch({ type: 'COD_PAY_SUCCESS', payload: data });
+      toast.success('Order successfully with COD');
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+    } catch (err) {
+      dispatch({ type: 'COD_PAY_FAIL', payload: getError(err) });
+      toast.error(getError(err));
+    }
+  }
 
   function createOrder(data, actions) {
     return actions.order
@@ -107,10 +159,18 @@ export default function OrderScreen() {
     if (!userInfo) {
       return navigate('/signin');
     }
-    if (!order._id || successPay || (order._id && order._id !== orderId)) {
+    if (
+      !order._id ||
+      successPay ||
+      successDeliver ||
+      (order._id && order._id !== orderId)
+    ) {
       fetchOrder();
       if (successPay) {
         dispatch({ type: 'PAY_RESET' });
+      }
+      if (successDeliver) {
+        dispatch({ type: 'DELIVER_RESET' });
       }
     } else {
       const loadPaypalScript = async () => {
@@ -128,20 +188,47 @@ export default function OrderScreen() {
       };
       loadPaypalScript();
     }
-  }, [order, userInfo, orderId, navigate, paypalDispatch, successPay]);
+  }, [
+    order,
+    userInfo,
+    orderId,
+    navigate,
+    paypalDispatch,
+    successPay,
+    successDeliver,
+  ]);
+
+  async function deliverOrderHandler() {
+    try {
+      dispatch({ type: 'DELIVER_REQUEST' });
+      const { data } = await axios.put(
+        `/api/orders/${order._id}/deliver`,
+        {},
+        {
+          headers: { authorization: `Bearer ${userInfo.token}` },
+        }
+      );
+      dispatch({ type: 'DELIVER_SUCCESS', payload: data });
+      toast.success('Order is delivered');
+    } catch (err) {
+      toast.error(getError(err));
+      dispatch({ type: 'DELIVER_FAIL' });
+    }
+  }
+
   return loading ? (
     <LoadingBox></LoadingBox>
   ) : error ? (
-    <MessageBox variant="danger">{error}</MessageBox>
+    <MessageBox variant='danger'>{error}</MessageBox>
   ) : (
     <div>
       <Helmet>
         <title>Order {orderId}</title>
       </Helmet>
-      <h1 className="my-3">Order {orderId}</h1>
+      <h1 className='my-3'>Order {orderId}</h1>
       <Row>
         <Col md={8}>
-          <Card className="mb-3">
+          <Card className='mb-3'>
             <Card.Body>
               <Card.Title>Shipping</Card.Title>
               <Card.Text>
@@ -151,49 +238,57 @@ export default function OrderScreen() {
                 ,{order.shippingAddress.country}
               </Card.Text>
               {order.isDelivered ? (
-                <MessageBox variant="success">
+                <MessageBox variant='success'>
                   Delivered at {order.deliveredAt}
                 </MessageBox>
               ) : (
-                <MessageBox variant="danger">Not Delivered</MessageBox>
+                <MessageBox variant='danger'>Not Delivered</MessageBox>
               )}
             </Card.Body>
           </Card>
-          <Card className="mb-3">
+          <Card className='mb-3'>
             <Card.Body>
               <Card.Title>Payment</Card.Title>
               <Card.Text>
                 <strong>Method:</strong> {order.paymentMethod}
               </Card.Text>
               {order.isPaid ? (
-                <MessageBox variant="success">
-                  Paid at {order.paidAt}
-                </MessageBox>
-              ) : (
-                <MessageBox variant="danger">Not Paid</MessageBox>
-              )}
+                order.paymentMethod === 'PayPal' ? (
+                  <MessageBox variant='success'>
+                    Paid at {order.paidAt}
+                  </MessageBox>
+                ) : order.paymentMethod === 'COD' ? (
+                  <MessageBox variant='info'>Cash on Delivery</MessageBox>
+                ) : null
+              ) : order.paymentMethod === 'PayPal' ? (
+                <MessageBox variant='danger'>Not Paid</MessageBox>
+              ) : order.paymentMethod === 'COD' ? (
+                <MessageBox variant='warning'>Cash on Delivery</MessageBox>
+              ) : null}
             </Card.Body>
           </Card>
 
-          <Card className="mb-3">
+          <Card className='mb-3'>
             <Card.Body>
               <Card.Title>Items</Card.Title>
-              <ListGroup variant="flush">
+              <ListGroup variant='flush'>
                 {order.orderItems.map((item) => (
                   <ListGroup.Item key={item._id}>
-                    <Row className="align-items-center">
+                    <Row className='align-items-center'>
                       <Col md={6}>
                         <img
                           src={item.image}
                           alt={item.name}
-                          className="img-fluid rounded img-thumbnail"
+                          className='img-fluid rounded img-thumbnail'
                         ></img>{' '}
                         <Link to={`/product/${item.slug}`}>{item.name}</Link>
+                        <p>Size: {item.size}</p> {/* Hiển thị kích thước */}
                       </Col>
                       <Col md={3}>
                         <span>{item.quantity}</span>
                       </Col>
-                      <Col md={3}>${item.price}</Col>
+                      <Col md={3}>${item.totalPriceProduct}</Col>{' '}
+                      {/* Hiển thị giá */}
                     </Row>
                   </ListGroup.Item>
                 ))}
@@ -202,10 +297,10 @@ export default function OrderScreen() {
           </Card>
         </Col>
         <Col md={4}>
-          <Card className="mb-3">
+          <Card className='mb-3'>
             <Card.Body>
               <Card.Title>Order Summary</Card.Title>
-              <ListGroup variant="flush">
+              <ListGroup variant='flush'>
                 <ListGroup.Item>
                   <Row>
                     <Col>Items</Col>
@@ -238,7 +333,7 @@ export default function OrderScreen() {
                   <ListGroup.Item>
                     {isPending ? (
                       <LoadingBox />
-                    ) : (
+                    ) : order.paymentMethod === 'PayPal' ? ( // Sử dụng biến paymentMethod từ context Store
                       <div>
                         <PayPalButtons
                           createOrder={createOrder}
@@ -246,8 +341,28 @@ export default function OrderScreen() {
                           onError={onError}
                         ></PayPalButtons>
                       </div>
-                    )}
+                    ) : order.paymentMethod === 'COD' ? (
+                      <div className='d-grid'>
+                        <Button
+                          variant='primary'
+                          size='lg'
+                          onClick={payWithCODHandler}
+                        >
+                          Confirm (COD)
+                        </Button>
+                      </div>
+                    ) : null}
                     {loadingPay && <LoadingBox></LoadingBox>}
+                  </ListGroup.Item>
+                )}
+                {userInfo.isAdmin && order.isPaid && !order.isDelivered && (
+                  <ListGroup.Item>
+                    {loadingDeliver && <LoadingBox></LoadingBox>}
+                    <div className='d-grid'>
+                      <Button type='button' onClick={deliverOrderHandler}>
+                        Deliver Order
+                      </Button>
+                    </div>
                   </ListGroup.Item>
                 )}
               </ListGroup>
