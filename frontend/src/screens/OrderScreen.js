@@ -219,16 +219,16 @@ export default function OrderScreen() {
   return loading ? (
     <LoadingBox></LoadingBox>
   ) : error ? (
-    <MessageBox variant='danger'>{error}</MessageBox>
+    <MessageBox variant="danger">{error}</MessageBox>
   ) : (
     <div>
       <Helmet>
         <title>Order {orderId}</title>
       </Helmet>
-      <h1 className='my-3'>Order {orderId}</h1>
+      <h1 className="my-3">Order {orderId}</h1>
       <Row>
         <Col md={8}>
-          <Card className='mb-3'>
+          <Card className="mb-3">
             <Card.Body>
               <Card.Title>Shipping</Card.Title>
               <Card.Text>
@@ -238,15 +238,15 @@ export default function OrderScreen() {
                 ,{order.shippingAddress.country}
               </Card.Text>
               {order.isDelivered ? (
-                <MessageBox variant='success'>
+                <MessageBox variant="success">
                   Delivered at {order.deliveredAt}
                 </MessageBox>
               ) : (
-                <MessageBox variant='danger'>Not Delivered</MessageBox>
+                <MessageBox variant="danger">Not Delivered</MessageBox>
               )}
             </Card.Body>
           </Card>
-          <Card className='mb-3'>
+          <Card className="mb-3">
             <Card.Body>
               <Card.Title>Payment</Card.Title>
               <Card.Text>
@@ -254,32 +254,32 @@ export default function OrderScreen() {
               </Card.Text>
               {order.isPaid ? (
                 order.paymentMethod === 'PayPal' ? (
-                  <MessageBox variant='success'>
+                  <MessageBox variant="success">
                     Paid at {order.paidAt}
                   </MessageBox>
                 ) : order.paymentMethod === 'COD' ? (
-                  <MessageBox variant='info'>Cash on Delivery</MessageBox>
+                  <MessageBox variant="info">Cash on Delivery</MessageBox>
                 ) : null
               ) : order.paymentMethod === 'PayPal' ? (
-                <MessageBox variant='danger'>Not Paid</MessageBox>
+                <MessageBox variant="danger">Not Paid</MessageBox>
               ) : order.paymentMethod === 'COD' ? (
-                <MessageBox variant='warning'>Cash on Delivery</MessageBox>
+                <MessageBox variant="warning">Cash on Delivery</MessageBox>
               ) : null}
             </Card.Body>
           </Card>
 
-          <Card className='mb-3'>
+          <Card className="mb-3">
             <Card.Body>
               <Card.Title>Items</Card.Title>
-              <ListGroup variant='flush'>
+              <ListGroup variant="flush">
                 {order.orderItems.map((item) => (
                   <ListGroup.Item key={item._id}>
-                    <Row className='align-items-center'>
+                    <Row className="align-items-center">
                       <Col md={6}>
                         <img
                           src={item.image}
                           alt={item.name}
-                          className='img-fluid rounded img-thumbnail'
+                          className="img-fluid rounded img-thumbnail"
                         ></img>{' '}
                         <Link to={`/product/${item.slug}`}>{item.name}</Link>
                         <p>Size: {item.size}</p> {/* Hiển thị kích thước */}
@@ -297,10 +297,10 @@ export default function OrderScreen() {
           </Card>
         </Col>
         <Col md={4}>
-          <Card className='mb-3'>
+          <Card className="mb-3">
             <Card.Body>
               <Card.Title>Order Summary</Card.Title>
-              <ListGroup variant='flush'>
+              <ListGroup variant="flush">
                 <ListGroup.Item>
                   <Row>
                     <Col>Items</Col>
@@ -342,13 +342,14 @@ export default function OrderScreen() {
                         ></PayPalButtons>
                       </div>
                     ) : order.paymentMethod === 'COD' ? (
-                      <div className='d-grid'>
+                      <div className="d-grid">
                         <Button
-                          variant='primary'
-                          size='lg'
+                          style={{ backgroundColor: '#5e9ea0' }}
+                          variant="primary"
+                          size="lg"
                           onClick={payWithCODHandler}
                         >
-                          Confirm (COD)
+                          <b> Confirm (COD) </b>
                         </Button>
                       </div>
                     ) : null}
@@ -358,9 +359,13 @@ export default function OrderScreen() {
                 {userInfo.isAdmin && order.isPaid && !order.isDelivered && (
                   <ListGroup.Item>
                     {loadingDeliver && <LoadingBox></LoadingBox>}
-                    <div className='d-grid'>
-                      <Button type='button' onClick={deliverOrderHandler}>
-                        Deliver Order
+                    <div className="d-grid">
+                      <Button
+                        style={{ backgroundColor: '#5e9ea0' }}
+                        type="button"
+                        onClick={deliverOrderHandler}
+                      >
+                        <b> Deliver Order </b>
                       </Button>
                     </div>
                   </ListGroup.Item>

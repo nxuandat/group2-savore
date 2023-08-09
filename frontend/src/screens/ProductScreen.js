@@ -235,7 +235,7 @@ function ProductScreen() {
                           }
                         }}
                       >
-                        <option value="">Select size</option>
+                        <option value="">Size</option>
                         {product.sizes.map((size, index) => (
                           <option key={index} value={size}>
                             {size}
@@ -249,8 +249,12 @@ function ProductScreen() {
                 {product.countInStock > 0 && (
                   <ListGroup.Item>
                     <div className="d-grid">
-                      <Button onClick={addToCartHandler} variant="primary">
-                        Add to Cart
+                      <Button
+                        style={{ backgroundColor: '#5e9ea0' }}
+                        onClick={addToCartHandler}
+                        variant="primary"
+                      >
+                        <b> Add to Cart </b>
                       </Button>
                     </div>
                   </ListGroup.Item>
@@ -289,11 +293,11 @@ function ProductScreen() {
                   onChange={(e) => setRating(e.target.value)}
                 >
                   <option value="">Select...</option>
-                  <option value="1">1- Poor</option>
-                  <option value="2">2- Fair</option>
+                  <option value="1">1- Bad</option>
+                  <option value="2">2- Average</option>
                   <option value="3">3- Good</option>
                   <option value="4">4- Very good</option>
-                  <option value="5">5- Excelent</option>
+                  <option value="5">5- Excellent </option>
                 </Form.Select>
               </Form.Group>
               <FloatingLabel
@@ -310,8 +314,12 @@ function ProductScreen() {
               </FloatingLabel>
 
               <div className="mb-3">
-                <Button disabled={loadingCreateReview} type="submit">
-                  Submit
+                <Button
+                  style={{ backgroundColor: '#5e9ea0' }}
+                  disabled={loadingCreateReview}
+                  type="submit"
+                >
+                  <b> Submit </b>
                 </Button>
                 {loadingCreateReview && <LoadingBox></LoadingBox>}
               </div>

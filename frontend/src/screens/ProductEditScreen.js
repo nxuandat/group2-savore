@@ -260,8 +260,12 @@ export default function ProductEditScreen() {
             />
           </Form.Group>
           <div className="mb-3">
-            <Button disabled={loadingUpdate} type="submit">
-              Update
+            <Button
+              style={{ backgroundColor: '#5e9ea0' }}
+              disabled={loadingUpdate}
+              type="submit"
+            >
+              <b> Update </b>
             </Button>
             {loadingUpdate && <LoadingBox></LoadingBox>}
           </div>
