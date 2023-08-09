@@ -51,16 +51,18 @@ function Product(props) {
             Out of stock
           </Button>
         ) : (
-          <Button
-            style={{
-              backgroundColor: '#5e9ea0',
-              textDecoration: 'none',
-              color: '#0e191d',
-            }}
-            onClick={() => addToCartHandler(product)}
-          >
-            <b> Add to Cart </b>
-          </Button>
+          <a href={`/product/${product.slug}`}>
+            <Button
+              style={{
+                backgroundColor: '#5e9ea0',
+                textDecoration: 'none',
+                color: '#0e191d',
+              }}
+              onClick={() => addToCartHandler(product)}
+            >
+              <b> Add to Cart </b>
+            </Button>
+          </a>
         )}
       </Card.Body>
     </Card>
