@@ -28,7 +28,8 @@ const productSchema = new mongoose.Schema(
       type: [String],
       required: true,
       default: ['Small', 'Medium', 'Large'],
-    }, // Thêm trường sizes vào mô hình    reviews: [reviewSchema],
+    }, // Thêm trường sizes vào mô hình
+    reviews: [reviewSchema],
   },
   {
     timestamps: true,
