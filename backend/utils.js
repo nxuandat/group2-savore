@@ -66,10 +66,10 @@ export const mailgun = () =>
   });
 
 export const payOrderEmailTemplate = (order) => {
-  return `<h1>Thanks for shopping with us</h1>
+  return `<h1>Thanks for choosing us!</h1>
     <p>
     Hi ${order.user.name},</p>
-    <p>We have finished processing your order.</p>
+    <p>Your order has been successfully processed! Here are the details:</p>
     <h2>[Order ${order._id}] (${order.createdAt
     .toString()
     .substring(0, 10)})</h2>
@@ -112,6 +112,10 @@ export const payOrderEmailTemplate = (order) => {
     <td colspan="3">Payment Method:</td>
     <td align="right">${order.paymentMethod}</td>
     </tr>
+    <tr>
+    <td colspan="3">Shipping Method:</td>
+    <td align="right">${order.shippingAddress.shippingMethod}</td>
+    </tr>
     </table>
     <h2>Shipping address</h2>
     <p>
@@ -123,7 +127,9 @@ export const payOrderEmailTemplate = (order) => {
     </p>
     <hr/>
     <p>
-    Thanks for shopping with us.
+    Your order is currently being prepared and will be delivered to you at the earliest convenience. We appreciate your patronage and hope you enjoy your drinks! <br/>
+    Best regards,<br/>
+    Savoré Café Shop
     </p>
     `;
 };
