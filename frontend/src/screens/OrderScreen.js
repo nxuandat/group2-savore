@@ -301,7 +301,9 @@ export default function OrderScreen() {
                   Delivered at {order.deliveredAt}
                 </MessageBox>
               ) : order.isDelivering ? (
-                <MessageBox variant='info'>Delivering...</MessageBox>
+                <MessageBox variant='info'>
+                  Delivering at {order.deliveringAt}
+                </MessageBox>
               ) : (
                 <MessageBox variant='danger'>Preparing...</MessageBox>
               )}
