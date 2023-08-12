@@ -57,7 +57,9 @@ export default function PlaceOrderScreen() {
   }
 
   cart.taxPrice = round2(0.08 * cart.itemsPrice);
-  cart.totalPrice = cart.itemsPrice + cart.shippingPrice + cart.taxPrice;
+  cart.totalPrice = round2(
+    cart.itemsPrice + cart.shippingPrice + cart.taxPrice
+  );
 
   const placeOrderHandler = async () => {
     try {
