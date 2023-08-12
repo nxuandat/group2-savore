@@ -105,6 +105,22 @@ orderRouter.get(
   })
 );
 
+//Create Delivering order for admin
+orderRouter.put(
+  '/:id/delivering',
+  isAuth,
+  expressAsyncHandler(async (req, res) => {
+    const order = await Order.findById(req.params.id);
+    if (order) {
+      order.isDelivering = true;
+      order.deliveringAt = Date.now();
+      await order.save();
+      res.send({ message: 'Order Delivering' });
+    } else {
+      return res.status(404).send({ message: 'Order Not Found' });
+    }
+  })
+);
 //Create Deliver order for admin
 orderRouter.put(
   '/:id/deliver',
