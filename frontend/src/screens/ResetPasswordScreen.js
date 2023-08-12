@@ -8,6 +8,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Store } from '../Store';
 import { getError } from '../utils';
+import PasswordChecklist from 'react-password-checklist';
 
 export default function ResetPasswordScreen() {
   const navigate = useNavigate();
@@ -15,6 +16,7 @@ export default function ResetPasswordScreen() {
 
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [passwordMeetsCriteria, setPasswordMeetsCriteria] = useState(false);
 
   const { state } = useContext(Store);
   const { userInfo } = state;
@@ -44,31 +46,46 @@ export default function ResetPasswordScreen() {
   };
 
   return (
-    <Container className="small-container">
+    <Container className='small-container'>
       <Helmet>
         <title>Reset Password</title>
       </Helmet>
-      <h1 className="my-3">Reset Password</h1>
+      <h1 className='my-3'>Reset Password</h1>
       <Form onSubmit={submitHandler}>
-        <Form.Group className="mb-3" controlId="password">
+        <Form.Group className='mb-3' controlId='password'>
           <Form.Label>New Password</Form.Label>
           <Form.Control
-            type="password"
+            type='password'
             required
             onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Group>
-        <Form.Group className="mb-3" controlId="confirmPassword">
+        <Form.Group className='mb-3' controlId='confirmPassword'>
           <Form.Label>Confirm New Password</Form.Label>
           <Form.Control
-            type="password"
+            type='password'
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
         </Form.Group>
 
-        <div className="mb-3">
-          <Button type="submit">Reset Password</Button>
+        <PasswordChecklist
+          rules={['minLength', 'specialChar', 'number', 'capital']}
+          minLength={8}
+          value={password}
+          onChange={(isValid) => setPasswordMeetsCriteria(isValid)}
+        />
+        {!passwordMeetsCriteria && (
+          <div style={{ color: 'red' }}>Password must meet criteria</div>
+        )}
+        <div className='mb-3'>
+          <Button
+            style={{ backgroundColor: '#5e9ea0' }}
+            type='submit'
+            disabled={!passwordMeetsCriteria}
+          >
+            <b> Reset Password </b>
+          </Button>
         </div>
       </Form>
     </Container>

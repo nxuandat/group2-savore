@@ -87,7 +87,7 @@ export default function SignupScreen() {
           </Form.Group>
 
           <PasswordChecklist
-            rules={['length', 'specialChar', 'number', 'capital']}
+            rules={['minLength', 'specialChar', 'number', 'capital']}
             minLength={8}
             value={password}
             onChange={(isValid) => setPasswordMeetsCriteria(isValid)}
