@@ -6,6 +6,7 @@ import { Store } from '../Store';
 import { toast } from 'react-toastify';
 import { getError } from '../utils';
 import axios from 'axios';
+import PasswordChecklist from 'react-password-checklist';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -28,6 +29,7 @@ export default function ProfileScreen() {
   const [email, setEmail] = useState(userInfo ? userInfo.email : '');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [passwordMeetsCriteria, setPasswordMeetsCriteria] = useState(false);
 
   // eslint-disable-next-line no-unused-vars
   const [{ loadingUpdate }, dispatch] = useReducer(reducer, {
@@ -95,13 +97,13 @@ export default function ProfileScreen() {
   };
 
   return (
-    <div className="container small-container">
+    <div className='container small-container'>
       <Helmet>
         <title>User Profile</title>
       </Helmet>
-      <h1 className="my-3">User Profile</h1>
+      <h1 className='my-3'>User Profile</h1>
       <form onSubmit={submitHandler}>
-        <Form.Group className="mb-3" controlId="name">
+        <Form.Group className='mb-3' controlId='name'>
           <Form.Label>Name</Form.Label>
           <Form.Control
             value={name}
@@ -109,32 +111,45 @@ export default function ProfileScreen() {
             required
           />
         </Form.Group>
-        <Form.Group className="mb-3" controlId="email">
+        <Form.Group className='mb-3' controlId='email'>
           {/* controlId='name' */}
           <Form.Label>Email</Form.Label>
           <Form.Control
-            type="email"
+            type='email'
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
         </Form.Group>
-        <Form.Group className="mb-3" controlId="password">
+        <Form.Group className='mb-3' controlId='password'>
           <Form.Label>Password</Form.Label>
           <Form.Control
-            type="password"
+            type='password'
             onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Group>
-        <Form.Group className="mb-3" controlId="confirmPassword">
+        <Form.Group className='mb-3' controlId='confirmPassword'>
           <Form.Label>Confirm Password</Form.Label>
           <Form.Control
-            type="confirmPassword"
+            type='password'
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
         </Form.Group>
-        <div className="mb-3">
-          <Button style={{ backgroundColor: '#5e9ea0' }} type="submit">
+        <PasswordChecklist
+          rules={['length', 'specialChar', 'number', 'capital']}
+          minLength={8}
+          value={password}
+          onChange={(isValid) => setPasswordMeetsCriteria(isValid)}
+        />
+        {!passwordMeetsCriteria && (
+          <div style={{ color: 'red' }}>Password must meet criteria</div>
+        )}
+        <div className='mb-3'>
+          <Button
+            style={{ backgroundColor: '#5e9ea0' }}
+            type='submit'
+            disabled={!passwordMeetsCriteria}
+          >
             {' '}
             <b> Update </b>
           </Button>

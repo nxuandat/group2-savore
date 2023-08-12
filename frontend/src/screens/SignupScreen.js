@@ -9,6 +9,7 @@ import { useContext, useEffect, useState } from 'react';
 import { Store } from '../Store';
 import { toast } from 'react-toastify';
 import { getError } from '../utils';
+import PasswordChecklist from 'react-password-checklist';
 
 export default function SignupScreen() {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ export default function SignupScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [passwordMeetsCriteria, setPasswordMeetsCriteria] = useState(false);
 
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { userInfo } = state;
@@ -50,47 +52,60 @@ export default function SignupScreen() {
     }
   }, [navigate, redirect, userInfo]);
   return (
-    <Container className="small-container">
+    <Container className='small-container'>
       <Helmet>
         <title>Sign Up</title>
       </Helmet>
-      <h1 className="my-3">Sign Up</h1>
+      <h1 className='my-3'>Sign Up</h1>
       <Form onSubmit={submitHandler}>
-        <Form.Group className="mb-3" controlId="name">
+        <Form.Group className='mb-3' controlId='name'>
           <Form.Label>Name</Form.Label>
           <Form.Control onChange={(e) => setName(e.target.value)} required />
         </Form.Group>
-        <Form.Group className="mb-3" controlId="email">
+        <Form.Group className='mb-3' controlId='email'>
           <Form.Label>Email</Form.Label>
           <Form.Control
-            type="email"
+            type='email'
             required
             onChange={(e) => setEmail(e.target.value)}
           />
         </Form.Group>
-        <Form.Group className="mb-3" controlId="password">
+        <Form.Group className='mb-3' controlId='password'>
           <Form.Label>Password</Form.Label>
           <Form.Control
-            type="password"
+            type='password'
             required
             onChange={(e) => setPassword(e.target.value)}
           />
-          <Form.Group className="mb-3" controlId="confirmPassword">
+          <Form.Group className='mb-3' controlId='confirmPassword'>
             <Form.Label>Confirm Password</Form.Label>
             <Form.Control
-              type="password"
+              type='password'
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
             />
           </Form.Group>
+
+          <PasswordChecklist
+            rules={['length', 'specialChar', 'number', 'capital']}
+            minLength={8}
+            value={password}
+            onChange={(isValid) => setPasswordMeetsCriteria(isValid)}
+          />
+          {!passwordMeetsCriteria && (
+            <div style={{ color: 'red' }}>Password must meet criteria</div>
+          )}
         </Form.Group>
-        <div className="mb-3">
-          <Button style={{ backgroundColor: '#5e9ea0' }} type="submit">
-            {' '}
-            <b> Sign Up </b>{' '}
+        <div className='mb-3'>
+          <Button
+            style={{ backgroundColor: '#5e9ea0' }}
+            type='submit'
+            disabled={!passwordMeetsCriteria}
+          >
+            <b> Sign Up </b>
           </Button>
         </div>
-        <div className="mb-3">
+        <div className='mb-3'>
           Already have an account?{' '}
           <Link to={`/signin?redirect=${redirect}`}>Sign-In</Link>
         </div>
