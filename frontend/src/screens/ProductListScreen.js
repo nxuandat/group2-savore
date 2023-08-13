@@ -134,8 +134,12 @@ export default function ProductListScreen() {
         </Col>
         <Col className="col text-end">
           <div>
-            <Button type="button" onClick={createHandler}>
-              Create Product
+            <Button
+              style={{ backgroundColor: '#5e9ea0' }}
+              type="button"
+              onClick={createHandler}
+            >
+              <b> Create Product </b>
             </Button>
           </div>
         </Col>

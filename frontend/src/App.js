@@ -56,6 +56,9 @@ import UserListScreen from './screens/UserListScreen';
 // Edit Users
 import UserEditScreen from './screens/UserEditScreen';
 
+import ForgetPasswordScreen from './screens/ForgetPasswordScreen';
+import ResetPasswordScreen from './screens/ResetPasswordScreen';
+
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { cart, userInfo } = state;
@@ -91,7 +94,11 @@ function App() {
       >
         <ToastContainer position="bottom-center" limit={1} />
         <header>
-          <Navbar bg="dark" variant="dark" expand="lg">
+          <Navbar
+            style={{ backgroundColor: '#2f4f4e' }}
+            variant="dark"
+            expand="lg"
+          >
             <Container>
               <Button
                 variant="dark"
@@ -100,7 +107,7 @@ function App() {
                 <i className="fas fa-bars"></i>
               </Button>
               <LinkContainer to="/">
-                <Navbar.Brand>SavoreCafeShop</Navbar.Brand>
+                <Navbar.Brand>Savoré Coffee Shop</Navbar.Brand>
               </LinkContainer>
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
@@ -158,6 +165,11 @@ function App() {
           </Navbar>
         </header>
         <div
+          style={{
+            backgroundColor: '#2f4f4e',
+            textDecoration: 'none',
+            color: 'white',
+          }}
           className={
             sidebarIsOpen
               ? 'active-nav side-navbar d-flex justify-content-between flex-wrap flex-column'
@@ -165,16 +177,24 @@ function App() {
           }
         >
           <Nav className="flex-column text-white w-100 p-2">
-            <Nav.Item>
+            <Nav.Item style={{ color: '#5e9ea0', fontSize: '30px' }}>
               <strong>Categories</strong>
             </Nav.Item>
             {categories.map((category) => (
-              <Nav.Item key={category}>
+              <Nav.Item
+                key={category}
+                // style={{ backgroundColor: '#5e9ea0', border: '4px' }}
+              >
                 <LinkContainer
                   to={{ pathname: '/search', search: `category=${category}` }}
                   onClick={() => setSidebarIsOpen(false)}
                 >
-                  <Nav.Link>{category}</Nav.Link>
+                  <Nav.Link>
+                    <span style={{ textDecoration: 'none', color: 'white' }}>
+                      {' '}
+                      <strong>{category} </strong>{' '}
+                    </span>
+                  </Nav.Link>
                 </LinkContainer>
               </Nav.Item>
             ))}
@@ -188,6 +208,16 @@ function App() {
               <Route path="/search" element={<SearchScreen />} />
               <Route path="/signin" element={<SigninScreen />} />
               <Route path="/signup" element={<SignupScreen />} />
+
+              <Route
+                path="/forget-password"
+                element={<ForgetPasswordScreen />}
+              />
+              <Route
+                path="/reset-password/:token"
+                element={<ResetPasswordScreen />}
+              />
+
               <Route
                 path="/profile"
                 element={

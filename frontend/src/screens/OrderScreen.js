@@ -52,6 +52,28 @@ function reducer(state, action) {
         loadingDeliver: false,
         successDeliver: false,
       };
+
+    case 'DELIVERING_REQUEST':
+      return { ...state, loadingDelivering: true };
+    case 'DELIVERING_SUCCESS':
+      return {
+        ...state,
+        loadingDelivering: false,
+        orderDelivering: action.payload,
+      };
+    case 'DELIVERING_FAIL':
+      return {
+        ...state,
+        loadingDelivering: false,
+        errorDelivering: action.payload,
+      };
+    case 'DELIVERING_RESET':
+      return {
+        ...state,
+        loadingDelivering: false,
+        orderDelivering: null,
+        errorDelivering: null,
+      };
     default:
       return state;
   }
@@ -71,6 +93,9 @@ export default function OrderScreen() {
       order,
       successPay,
       loadingPay,
+      loadingDelivering,
+      orderDelivering,
+      errorDelivering,
       loadingDeliver,
       successDeliver,
     },
@@ -81,6 +106,10 @@ export default function OrderScreen() {
     error: '',
     successPay: false,
     loadingPay: false,
+    loadingDelivering: false,
+    orderDelivering: null,
+    errorDelivering: null,
+    successDeliver: false,
   });
 
   const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
@@ -163,6 +192,7 @@ export default function OrderScreen() {
       !order._id ||
       successPay ||
       successDeliver ||
+      orderDelivering ||
       (order._id && order._id !== orderId)
     ) {
       fetchOrder();
@@ -171,6 +201,12 @@ export default function OrderScreen() {
       }
       if (successDeliver) {
         dispatch({ type: 'DELIVER_RESET' });
+      }
+      if (orderDelivering) {
+        dispatch({ type: 'DELIVERING_RESET' });
+      }
+      if (errorDelivering) {
+        dispatch({ type: 'DELIVERING_FAIL' });
       }
     } else {
       const loadPaypalScript = async () => {
@@ -196,7 +232,27 @@ export default function OrderScreen() {
     paypalDispatch,
     successPay,
     successDeliver,
+    orderDelivering,
+    errorDelivering,
   ]);
+
+  async function deliveringOrderHandler() {
+    try {
+      dispatch({ type: 'DELIVERING_REQUEST' });
+      const { data } = await axios.put(
+        `/api/orders/${order._id}/delivering`,
+        {},
+        {
+          headers: { authorization: `Bearer ${userInfo.token}` },
+        }
+      );
+      dispatch({ type: 'DELIVERING_SUCCESS', payload: data });
+      toast.success('Order is delivering');
+    } catch (err) {
+      toast.error(getError(err));
+      dispatch({ type: 'DELIVERING_FAIL' });
+    }
+  }
 
   async function deliverOrderHandler() {
     try {
@@ -236,13 +292,20 @@ export default function OrderScreen() {
                 <strong>Address: </strong> {order.shippingAddress.address},
                 {order.shippingAddress.city}, {order.shippingAddress.postalCode}
                 ,{order.shippingAddress.country}
+                <br />
+                <strong>Shipping Method:</strong>{' '}
+                {order.shippingAddress.shippingMethod}
               </Card.Text>
               {order.isDelivered ? (
                 <MessageBox variant='success'>
                   Delivered at {order.deliveredAt}
                 </MessageBox>
+              ) : order.isDelivering ? (
+                <MessageBox variant='info'>
+                  Delivering at {order.deliveringAt}
+                </MessageBox>
               ) : (
-                <MessageBox variant='danger'>Not Delivered</MessageBox>
+                <MessageBox variant='danger'>Preparing...</MessageBox>
               )}
             </Card.Body>
           </Card>
@@ -344,28 +407,56 @@ export default function OrderScreen() {
                     ) : order.paymentMethod === 'COD' ? (
                       <div className='d-grid'>
                         <Button
+                          style={{ backgroundColor: '#5e9ea0' }}
                           variant='primary'
                           size='lg'
                           onClick={payWithCODHandler}
                         >
-                          Confirm (COD)
+                          <b> Confirm (COD) </b>
                         </Button>
                       </div>
                     ) : null}
                     {loadingPay && <LoadingBox></LoadingBox>}
                   </ListGroup.Item>
                 )}
-                {userInfo.isAdmin && order.isPaid && !order.isDelivered && (
+                {userInfo.isAdmin &&
+                  order.isPaid &&
+                  !order.isDelivered &&
+                  !order.isDelivering && (
+                    // !order.isDelivering &&
+                    <ListGroup.Item>
+                      {loadingDelivering && <LoadingBox></LoadingBox>}
+                      <div className='d-grid'>
+                        <Button
+                          style={{ backgroundColor: '#5e9ea0' }}
+                          type='button'
+                          onClick={deliveringOrderHandler}
+                          // disabled={order.isDelivering || order.isDelivered}
+                        >
+                          <b> Delivering Order </b>
+                        </Button>
+                      </div>
+                    </ListGroup.Item>
+                  )}
+              </ListGroup>
+              {userInfo.isAdmin &&
+                order.isPaid &&
+                order.isDelivering &&
+                !order.isDelivered && (
                   <ListGroup.Item>
                     {loadingDeliver && <LoadingBox></LoadingBox>}
                     <div className='d-grid'>
-                      <Button type='button' onClick={deliverOrderHandler}>
-                        Deliver Order
+                      <Button
+                        style={{ backgroundColor: '#5e9ea0' }}
+                        type='button'
+                        onClick={deliverOrderHandler}
+                        // disabled={order.isDelivering || order.isDelivered}
+                      >
+                        <b> Delivered Order </b>
                       </Button>
                     </div>
                   </ListGroup.Item>
                 )}
-              </ListGroup>
             </Card.Body>
           </Card>
         </Col>

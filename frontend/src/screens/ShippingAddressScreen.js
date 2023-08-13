@@ -9,6 +9,7 @@ import CheckoutSteps from '../components/CheckoutSteps';
 export default function ShippingAddressScreen() {
   const navigate = useNavigate();
   const { state, dispatch: ctxDispatch } = useContext(Store);
+  const [shippingMethod, setShippingMethod] = useState('Fast');
   const {
     userInfo,
     cart: { shippingAddress },
@@ -35,6 +36,7 @@ export default function ShippingAddressScreen() {
         city,
         postalCode,
         country,
+        shippingMethod,
       },
     });
     localStorage.setItem(
@@ -45,6 +47,7 @@ export default function ShippingAddressScreen() {
         city,
         postalCode,
         country,
+        shippingMethod,
       })
     );
     navigate('/payment');
@@ -98,6 +101,30 @@ export default function ShippingAddressScreen() {
               required
             />
           </Form.Group>
+          <Form.Group className='mb-3' controlId='shippingMethod'>
+            <Form.Label>Shipping Method</Form.Label>
+            <div>
+              <Form.Check
+                type='radio'
+                label='Fast (15 - 20 mins) [+ $0.5]'
+                id='shippingMethodFast'
+                name='shippingMethod'
+                value='Fast'
+                checked={shippingMethod === 'Fast'}
+                onChange={(e) => setShippingMethod(e.target.value)}
+              />
+              <Form.Check
+                type='radio'
+                label='Slow (40 mins)'
+                id='shippingMethodSlow'
+                name='shippingMethod'
+                value='Slow'
+                checked={shippingMethod === 'Slow'}
+                onChange={(e) => setShippingMethod(e.target.value)}
+              />
+            </div>
+          </Form.Group>
+
           <div className='mb-3'>
             <Button variant='primary' type='submit'>
               Continue

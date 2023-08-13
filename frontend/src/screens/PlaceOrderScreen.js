@@ -36,13 +36,30 @@ export default function PlaceOrderScreen() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { cart, userInfo } = state;
 
-  const round2 = (num) => Math.round(num * 100 + Number.EPSILON) / 100; // 123.2345 => 123.23
+  // const round2 = (num) => Math.round(num * 100 + Number.EPSILON) / 100; // 123.2345 => 123.23
+  // cart.itemsPrice = round2(
+  //   cart.cartItems.reduce((a, c) => a + c.quantity * c.totalPriceProduct, 0)
+  // );
+  // cart.shippingPrice = cart.itemsPrice > 20 ? round2(0) : round2(2); //$2 for ship or freeship for order > $20
+  // cart.taxPrice = round2(0.08 * cart.itemsPrice); //VAT Vietnam 8%
+  // cart.totalPrice = cart.itemsPrice + cart.shippingPrice + cart.taxPrice;
+
+  const round2 = (num) => Math.round(num * 100 + Number.EPSILON) / 100;
+
   cart.itemsPrice = round2(
     cart.cartItems.reduce((a, c) => a + c.quantity * c.totalPriceProduct, 0)
   );
-  cart.shippingPrice = cart.itemsPrice > 20 ? round2(0) : round2(2); //$2 for ship or freeship for order > $20
-  cart.taxPrice = round2(0.08 * cart.itemsPrice); //VAT Vietnam 8%
-  cart.totalPrice = cart.itemsPrice + cart.shippingPrice + cart.taxPrice;
+
+  cart.shippingPrice = cart.itemsPrice > 20 ? round2(0) : round2(2);
+
+  if (cart.shippingAddress.shippingMethod === 'Fast') {
+    cart.shippingPrice += 0.5;
+  }
+
+  cart.taxPrice = round2(0.08 * cart.itemsPrice);
+  cart.totalPrice = round2(
+    cart.itemsPrice + cart.shippingPrice + cart.taxPrice
+  );
 
   const placeOrderHandler = async () => {
     try {
@@ -79,6 +96,7 @@ export default function PlaceOrderScreen() {
     if (!cart.paymentMethod) {
       navigate('/payment');
     }
+    console.log(cart);
   }, [cart, navigate]);
 
   return (
@@ -98,6 +116,9 @@ export default function PlaceOrderScreen() {
                 <strong>Address: </strong> {cart.shippingAddress.address},
                 {cart.shippingAddress.city}, {cart.shippingAddress.postalCode},
                 {cart.shippingAddress.country}
+                <br />
+                <strong>Shipping Method:</strong>{' '}
+                {cart.shippingAddress.shippingMethod}
               </Card.Text>
               <Link to='/shipping'>Edit</Link>
             </Card.Body>
@@ -177,11 +198,12 @@ export default function PlaceOrderScreen() {
                 <ListGroup.Item>
                   <div className='d-grid'>
                     <Button
+                      style={{ backgroundColor: '#5e9ea0' }}
                       type='button'
                       onClick={placeOrderHandler}
                       disabled={cart.cartItems.length === 0}
                     >
-                      Place Order
+                      <b> Place Order </b>
                     </Button>
                   </div>
                   {loading && <LoadingBox></LoadingBox>}

@@ -9,6 +9,7 @@ import { useContext, useEffect, useState } from 'react';
 import { Store } from '../Store';
 import { toast } from 'react-toastify';
 import { getError } from '../utils';
+import PasswordChecklist from 'react-password-checklist';
 
 export default function SignupScreen() {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ export default function SignupScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [passwordMeetsCriteria, setPasswordMeetsCriteria] = useState(false);
 
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { userInfo } = state;
@@ -83,9 +85,25 @@ export default function SignupScreen() {
               required
             />
           </Form.Group>
+
+          <PasswordChecklist
+            rules={['minLength', 'specialChar', 'number', 'capital']}
+            minLength={8}
+            value={password}
+            onChange={(isValid) => setPasswordMeetsCriteria(isValid)}
+          />
+          {!passwordMeetsCriteria && (
+            <div style={{ color: 'red' }}>Password must meet criteria</div>
+          )}
         </Form.Group>
         <div className='mb-3'>
-          <Button type='submit'>Sign Up</Button>
+          <Button
+            style={{ backgroundColor: '#5e9ea0' }}
+            type='submit'
+            disabled={!passwordMeetsCriteria}
+          >
+            <b> Sign Up </b>
+          </Button>
         </div>
         <div className='mb-3'>
           Already have an account?{' '}

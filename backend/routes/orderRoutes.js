@@ -3,7 +3,14 @@ import expressAsyncHandler from 'express-async-handler';
 import Order from '../models/orderModel.js';
 import User from '../models/userModel.js';
 import Product from '../models/productModel.js';
-import { isAuth, isAdmin, mailgun, payOrderEmailTemplate } from '../utils.js';
+import {
+  isAuth,
+  isAdmin,
+  mailgun,
+  payOrderEmailTemplate,
+  deliveringNotificationEmailTemplate,
+  deliveredNotificationEmailTemplate,
+} from '../utils.js';
 
 const orderRouter = express.Router();
 
@@ -105,16 +112,74 @@ orderRouter.get(
   })
 );
 
+//Create Delivering order for admin
+orderRouter.put(
+  '/:id/delivering',
+  isAuth,
+  expressAsyncHandler(async (req, res) => {
+    const order = await Order.findById(req.params.id).populate(
+      'user',
+      'email name'
+    );
+    if (order) {
+      order.isDelivering = true;
+      order.deliveringAt = Date.now();
+      await order.save();
+
+      mailgun()
+        .messages()
+        .send(
+          {
+            from: 'Savoré Café Shop <savorecafeshop@xuandat.id.vn>',
+            to: `${order.user.name} <${order.user.email}>`,
+            subject: `New order ${order._id}`,
+            html: deliveringNotificationEmailTemplate(order),
+          },
+          (error, body) => {
+            if (error) {
+              console.log(error);
+            } else {
+              console.log(body);
+            }
+          }
+        );
+      res.send({ message: 'Order Delivering' });
+    } else {
+      return res.status(404).send({ message: 'Order Not Found' });
+    }
+  })
+);
 //Create Deliver order for admin
 orderRouter.put(
   '/:id/deliver',
   isAuth,
   expressAsyncHandler(async (req, res) => {
-    const order = await Order.findById(req.params.id);
+    const order = await Order.findById(req.params.id).populate(
+      'user',
+      'email name'
+    );
     if (order) {
       order.isDelivered = true;
       order.deliveredAt = Date.now();
       await order.save();
+
+      mailgun()
+        .messages()
+        .send(
+          {
+            from: 'Savoré Café Shop <savorecafeshop@xuandat.id.vn>',
+            to: `${order.user.name} <${order.user.email}>`,
+            subject: `New order ${order._id}`,
+            html: deliveredNotificationEmailTemplate(order),
+          },
+          (error, body) => {
+            if (error) {
+              console.log(error);
+            } else {
+              console.log(body);
+            }
+          }
+        );
       res.send({ message: 'Order Delivered' });
     } else {
       res.status(404).send({ message: 'Order Not Found' });
@@ -122,7 +187,7 @@ orderRouter.put(
   })
 );
 
-// Create Pay-Pal Order
+// Create send receipt Pay-Pal Order
 orderRouter.put(
   '/:id/pay',
   isAuth,
