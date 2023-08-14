@@ -40,6 +40,7 @@ import SearchScreen from './screens/SearchScreen';
 import ProtectedRoute from './components/ProtectedRoute';
 import DashboardScreen from './screens/DashboardScreen';
 import AdminRoute from './components/AdminRoute';
+import StaffRoute from './components/StaffRoute';
 
 // Product Management
 import ProductListScreen from './screens/ProductListScreen';
@@ -155,6 +156,23 @@ function App() {
                         <NavDropdown.Item>Orders</NavDropdown.Item>
                       </LinkContainer>
                       <LinkContainer to="/admin/users">
+                        <NavDropdown.Item>Users</NavDropdown.Item>
+                      </LinkContainer>
+                    </NavDropdown>
+                  )}
+
+                  {userInfo && userInfo.isStaff && (
+                    <NavDropdown title="staff" id="staff-nav-dropdown">
+                      <LinkContainer to="/staff/dashboard">
+                        <NavDropdown.Item>Dashboard</NavDropdown.Item>
+                      </LinkContainer>
+                      <LinkContainer to="/staff/products">
+                        <NavDropdown.Item>Products</NavDropdown.Item>
+                      </LinkContainer>
+                      <LinkContainer to="/staff/orders">
+                        <NavDropdown.Item>Orders</NavDropdown.Item>
+                      </LinkContainer>
+                      <LinkContainer to="/staff/users">
                         <NavDropdown.Item>Users</NavDropdown.Item>
                       </LinkContainer>
                     </NavDropdown>
@@ -293,6 +311,57 @@ function App() {
                   <AdminRoute>
                     <UserEditScreen />
                   </AdminRoute>
+                }
+              ></Route>
+
+              {/*Staff Route*/}
+              <Route
+                path="/staff/dashboard"
+                element={
+                  <StaffRoute>
+                    <DashboardScreen />
+                  </StaffRoute>
+                }
+              ></Route>
+              <Route
+                path="/staff/users"
+                element={
+                  <StaffRoute>
+                    <UserListScreen />
+                  </StaffRoute>
+                }
+              ></Route>
+
+              <Route
+                path="/staff/products"
+                element={
+                  <StaffRoute>
+                    <ProductListScreen />
+                  </StaffRoute>
+                }
+              ></Route>
+              <Route
+                path="/staff/orders"
+                element={
+                  <StaffRoute>
+                    <OrderListScreen />
+                  </StaffRoute>
+                }
+              ></Route>
+              <Route
+                path="/staff/product/:id"
+                element={
+                  <StaffRoute>
+                    <ProductEditScreen />
+                  </StaffRoute>
+                }
+              ></Route>
+              <Route
+                path="/staff/user/:id"
+                element={
+                  <StaffRoute>
+                    <UserEditScreen />
+                  </StaffRoute>
                 }
               ></Route>
               <Route path="/" element={<HomeScreen />} />
