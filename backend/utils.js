@@ -46,28 +46,26 @@ export const isAuth = (req, res, next) => {
 export const isAdmin = (req, res, next) => {
   if (req.user && req.user.isAdmin) {
     next();
+  } else {
+    res.status(401).send({ message: 'Invalid Admin Token' });
   }
-  // } else {
-  //   res.status(401).send({ message: 'Invalid Admin Token' });
-  // }
 };
 
 // Staff Validation Check for Dashboard Screen Permission
 export const isStaff = (req, res, next) => {
   if (req.user && req.user.isStaff) {
     next();
+  } else {
+    res.status(401).send({ message: 'Invalid Staff Token' });
   }
-  // } else {
-  //   res.status(401).send({ message: 'Invalid Staff Token' });
-  // }
 };
 
 // Admin or Staff Validation Check for Dashboard Screen Permission
 export const isAdminOrStaff = (req, res, next) => {
-  if (req.user && (req.user.isAdmin || req.user.isStaff)) {
+  if (req.user && (req.user.isStaff || req.user.isAdmin)) {
     next();
   } else {
-    res.status(403).send({ message: 'Admin or Staff access required' });
+    res.status(401).send({ message: 'Admin or Staff access required' });
   }
 };
 

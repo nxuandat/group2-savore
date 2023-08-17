@@ -100,7 +100,6 @@ export default function StaffProductListScreen() {
         toast.success('product created successfully');
         dispatch({ type: 'CREATE_SUCCESS' });
         navigate(`/staff/product/${data.product._id}`);
-        navigate(`/staff/product/${data.product._id}`);
       } catch (err) {
         toast.error(getError(error));
         dispatch({

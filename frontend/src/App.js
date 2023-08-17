@@ -40,7 +40,6 @@ import SearchScreen from './screens/SearchScreen';
 import ProtectedRoute from './components/ProtectedRoute';
 import DashboardScreen from './screens/DashboardScreen';
 import AdminRoute from './components/AdminRoute';
-import StaffRoute from './components/StaffRoute';
 
 // Product Management
 import ProductListScreen from './screens/ProductListScreen';
@@ -162,19 +161,14 @@ function App() {
                       </LinkContainer>
                     </NavDropdown>
                   )}
-                  {userInfo && userInfo.isStaff && !userInfo.isAdmin && (
+                  {/* {userInfo && userInfo.isStaff && !userInfo.isAdmin && ( */}
+                  {userInfo && userInfo.isStaff && (
                     <NavDropdown title="Staff" id="staff-nav-dropdown">
-                      <LinkContainer to="/staff/dashboard">
-                        <NavDropdown.Item>Dashboard</NavDropdown.Item>
-                      </LinkContainer>
-                      <LinkContainer to="/staff/products">
+                      <LinkContainer to="/admin/products">
                         <NavDropdown.Item>Products</NavDropdown.Item>
                       </LinkContainer>
-                      <LinkContainer to="/staff/orders">
+                      <LinkContainer to="/admin/orders">
                         <NavDropdown.Item>Orders</NavDropdown.Item>
-                      </LinkContainer>
-                      <LinkContainer to="/staff/users">
-                        <NavDropdown.Item>Users</NavDropdown.Item>
                       </LinkContainer>
                     </NavDropdown>
                   )}
@@ -317,24 +311,7 @@ function App() {
 
               {/*Staff Route*/}
               <Route
-                path="/staff/dashboard"
-                element={
-                  <StaffRoute>
-                    <DashboardScreen />
-                  </StaffRoute>
-                }
-              ></Route>
-              <Route
-                path="/staff/users"
-                element={
-                  <StaffRoute>
-                    <UserListScreen />
-                  </StaffRoute>
-                }
-              ></Route>
-
-              <Route
-                path="/staff/products"
+                path="/admin/products"
                 element={
                   <AdminRoute>
                     <ProductListScreen />
@@ -342,29 +319,22 @@ function App() {
                 }
               ></Route>
               <Route
-                path="/staff/orders"
+                path="/admin/orders"
                 element={
-                  <StaffRoute>
+                  <AdminRoute>
                     <OrderListScreen />
-                  </StaffRoute>
+                  </AdminRoute>
                 }
               ></Route>
               <Route
-                path="/staff/product/:id"
+                path="/admin/product/:id"
                 element={
-                  <StaffRoute>
+                  <AdminRoute>
                     <ProductEditScreen />
-                  </StaffRoute>
+                  </AdminRoute>
                 }
               ></Route>
-              <Route
-                path="/staff/user/:id"
-                element={
-                  <StaffRoute>
-                    <UserEditScreen />
-                  </StaffRoute>
-                }
-              ></Route>
+
               <Route path="/" element={<HomeScreen />} />
             </Routes>
           </Container>
