@@ -11,6 +11,7 @@ export default function ShippingAddressScreen() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const [shippingMethod, setShippingMethod] = useState('Fast');
   const {
+    fullBox,
     userInfo,
     cart: { shippingAddress },
   } = state;
@@ -36,6 +37,7 @@ export default function ShippingAddressScreen() {
         city,
         postalCode,
         country,
+        location: shippingAddress.location,
         shippingMethod,
       },
     });
@@ -47,21 +49,27 @@ export default function ShippingAddressScreen() {
         city,
         postalCode,
         country,
+        location: shippingAddress.location,
         shippingMethod,
       })
     );
     navigate('/payment');
   };
+
+  useEffect(() => {
+    ctxDispatch({ type: 'SET_FULLBOX_OFF' });
+  }, [ctxDispatch, fullBox]);
+
   return (
     <div>
       <Helmet>
         <title>Shipping Address</title>
       </Helmet>
       <CheckoutSteps step1 step2></CheckoutSteps>
-      <div className='container small-container'>
-        <h1 className='my-3'>Shipping Address</h1>
+      <div className="container small-container">
+        <h1 className="my-3">Shipping Address</h1>
         <Form onSubmit={submitHandler}>
-          <Form.Group className='mb-3' controlId='fullName'>
+          <Form.Group className="mb-3" controlId="fullName">
             <Form.Label>Full Name</Form.Label>
             <Form.Control
               value={fullName}
@@ -69,7 +77,7 @@ export default function ShippingAddressScreen() {
               required
             />
           </Form.Group>
-          <Form.Group className='mb-3' controlId='address'>
+          <Form.Group className="mb-3" controlId="address">
             <Form.Label>Address</Form.Label>
             <Form.Control
               value={address}
@@ -77,7 +85,7 @@ export default function ShippingAddressScreen() {
               required
             />
           </Form.Group>
-          <Form.Group className='mb-3' controlId='city'>
+          <Form.Group className="mb-3" controlId="city">
             <Form.Label>City</Form.Label>
             <Form.Control
               value={city}
@@ -85,7 +93,7 @@ export default function ShippingAddressScreen() {
               required
             />
           </Form.Group>
-          <Form.Group className='mb-3' controlId='postalCode'>
+          <Form.Group className="mb-3" controlId="postalCode">
             <Form.Label>Postal Code</Form.Label>
             <Form.Control
               value={postalCode}
@@ -93,7 +101,7 @@ export default function ShippingAddressScreen() {
               required
             />
           </Form.Group>
-          <Form.Group className='mb-3' controlId='country'>
+          <Form.Group className="mb-3" controlId="country">
             <Form.Label>Country</Form.Label>
             <Form.Control
               value={country}
@@ -101,32 +109,50 @@ export default function ShippingAddressScreen() {
               required
             />
           </Form.Group>
-          <Form.Group className='mb-3' controlId='shippingMethod'>
+          <div className="mb-3">
+            <Button
+              id="chooseOnMap"
+              type="button"
+              variant="light"
+              onClick={() => navigate('/map')}
+            >
+              Choose Location On Map
+            </Button>
+            {shippingAddress.location && shippingAddress.location.lat ? (
+              <div>
+                LAT: {shippingAddress.location.lat}
+                LNG:{shippingAddress.location.lng}
+              </div>
+            ) : (
+              <div>No location</div>
+            )}
+          </div>
+          <Form.Group className="mb-3" controlId="shippingMethod">
             <Form.Label>Shipping Method</Form.Label>
             <div>
               <Form.Check
-                type='radio'
-                label='Fast (15 - 20 mins) [+ $0.5]'
-                id='shippingMethodFast'
-                name='shippingMethod'
-                value='Fast'
+                type="radio"
+                label="Fast (15 - 20 mins) [+ $0.5]"
+                id="shippingMethodFast"
+                name="shippingMethod"
+                value="Fast"
                 checked={shippingMethod === 'Fast'}
                 onChange={(e) => setShippingMethod(e.target.value)}
               />
               <Form.Check
-                type='radio'
-                label='Slow (40 mins)'
-                id='shippingMethodSlow'
-                name='shippingMethod'
-                value='Slow'
+                type="radio"
+                label="Slow (40 mins)"
+                id="shippingMethodSlow"
+                name="shippingMethod"
+                value="Slow"
                 checked={shippingMethod === 'Slow'}
                 onChange={(e) => setShippingMethod(e.target.value)}
               />
             </div>
           </Form.Group>
 
-          <div className='mb-3'>
-            <Button variant='primary' type='submit'>
+          <div className="mb-3">
+            <Button variant="primary" type="submit">
               Continue
             </Button>
           </div>
