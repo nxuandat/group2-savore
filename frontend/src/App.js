@@ -34,6 +34,16 @@ import { getError } from './utils';
 import axios from 'axios';
 import SearchBox from './components/SearchBox';
 
+// footer
+import React from 'react';
+import {
+  MDBFooter,
+  MDBContainer,
+  MDBRow,
+  MDBCol,
+  MDBIcon,
+  MDBBtn,
+} from 'mdb-react-ui-kit';
 //search Screen
 import SearchScreen from './screens/SearchScreen';
 //admin view
@@ -312,9 +322,165 @@ function App() {
             </Routes>
           </Container>
         </main>
-        <footer>
-          <div className="text-center">&copy;2023 SavoreCafeShop</div>
-        </footer>
+        <MDBFooter
+          style={{ backgroundColor: 'rgb(47, 79, 78)' }}
+          className="text-center text-lg-start text-light mt-3"
+        >
+          <section className="">
+            <MDBContainer className="text-center text-md-start mt-5">
+              <MDBRow className="mt-3">
+                <MDBCol md="3" lg="4" xl="3" className="mx-auto mb-4">
+                  <h6 className="text-uppercase fw-bold mb-4">
+                    <img src="/128.png" alt=" " className="me-3" />
+                    Savore Café Shop
+                  </h6>
+                  <p style={{ textAlign: 'justify' }}>
+                    The ideal destination for coffee aficionados and those with
+                    a taste for exquisite pastries. We take pride in being the
+                    go-to place for delightful experiences and refined flavors
+                    that coffee and desserts can offer.
+                  </p>
+                </MDBCol>
+
+                <MDBCol md="2" lg="2" xl="2" className="mx-auto mb-4">
+                  <h6 className="text-uppercase fw-bold mb-4">Products</h6>
+                  <p>
+                    <Link to="/search?category=Coffee" className="link">
+                      Coffee
+                    </Link>
+                  </p>
+                  <p>
+                    <Link to="/search?category=Freeze" className="link">
+                      Freeze
+                    </Link>
+                  </p>
+                  <p>
+                    <Link to="/search?category=Milk%20Tea" className="link">
+                      Milk Tea
+                    </Link>
+                  </p>
+                  <p>
+                    <Link to="/search?category=Cake" className="link">
+                      Cake
+                    </Link>
+                  </p>
+                  <p>
+                    <Link to="/search?category=Topping" className="link">
+                      Topping
+                    </Link>
+                  </p>
+                </MDBCol>
+
+                <MDBCol md="4" lg="3" xl="3" className="mx-auto mb-4">
+                  <h6 className="text-uppercase fw-bold mb-4">Opening Time</h6>
+                  <div className="mb-2">
+                    <MDBIcon icon="angle-right" /> Monday
+                    <span> 7.00 AM - 8.00 PM</span>
+                  </div>
+                  <div className="mb-2">
+                    <MDBIcon icon="angle-right" /> Tuesday
+                    <span> 7.00 AM - 8.00 PM</span>
+                  </div>
+                  <div className="mb-2">
+                    <MDBIcon icon="angle-right" /> Wednesday
+                    <span> 7.00 AM - 8.00 PM</span>
+                  </div>
+                  <div className="mb-2">
+                    <MDBIcon icon="angle-right" /> Thursday
+                    <span> 7.00 AM - 8.00 PM</span>
+                  </div>
+                  <div className="mb-2">
+                    <MDBIcon icon="angle-right" /> Thursday
+                    <span> 7.00 AM - 8.00 PM</span>
+                  </div>
+                  <div className="mb-2">
+                    <MDBIcon icon="angle-right" /> Friday
+                    <span> 7.00 AM - 8.00 PM</span>
+                  </div>
+                  <div className="mb-2">
+                    <MDBIcon icon="angle-right" /> Saturday
+                    <span> 7.00 AM - 10.00 PM</span>
+                  </div>
+                  <div className="mb-2">
+                    <MDBIcon icon="angle-right" /> Sunday
+                    <span> 7.00 AM - 10.00 PM</span>
+                  </div>
+                </MDBCol>
+
+                <MDBCol md="4" lg="3" xl="3" className="mx-auto mb-md-0 mb-4">
+                  <h6 className="text-uppercase fw-bold mb-4">Contact</h6>
+                  <p>
+                    <MDBIcon color="light" icon="home" className="me-2" />
+                    Nguyen Van Cu, district 5, HoChiMinh city
+                  </p>
+                  <p>
+                    <MDBIcon color="light" icon="envelope" className="me-3" />
+                    SavoreCafeShop@example.com
+                  </p>
+                  <p>
+                    <MDBIcon color="light" icon="phone" className="me-3" /> + 01
+                    234 567 88
+                  </p>
+                  <p>
+                    <MDBBtn
+                      outline
+                      color="light"
+                      floating
+                      className="m-1"
+                      href="#!"
+                      role="button"
+                    >
+                      <MDBIcon fab icon="facebook-f" />
+                    </MDBBtn>
+
+                    <MDBBtn
+                      outline
+                      color="light"
+                      floating
+                      className="m-1"
+                      href="#!"
+                      role="button"
+                    >
+                      <MDBIcon fab icon="twitter" />
+                    </MDBBtn>
+
+                    <MDBBtn
+                      outline
+                      color="light"
+                      floating
+                      className="m-1"
+                      href="#!"
+                      role="button"
+                    >
+                      <MDBIcon fab icon="google" />
+                    </MDBBtn>
+
+                    <MDBBtn
+                      outline
+                      color="light"
+                      floating
+                      className="m-1"
+                      href="#!"
+                      role="button"
+                    >
+                      <MDBIcon fab icon="instagram" />
+                    </MDBBtn>
+                  </p>
+                </MDBCol>
+              </MDBRow>
+            </MDBContainer>
+          </section>
+          <div
+            className="text-center p-3 text-light"
+            style={{ backgroundColor: 'rgb(47, 79, 78)' }}
+            textDecoration="none"
+          >
+            &copy;2023{' '}
+            <a className="text-light" href="https://savore.onrender.com">
+              SavoreCafeShop
+            </a>
+          </div>
+        </MDBFooter>
       </div>
     </BrowserRouter>
   );
