@@ -43,7 +43,7 @@ const reducer = (state, action) => {
   }
 };
 
-export default function ProductListScreen() {
+export default function StaffProductListScreen() {
   const [
     {
       loading,
@@ -99,6 +99,7 @@ export default function ProductListScreen() {
         );
         toast.success('product created successfully');
         dispatch({ type: 'CREATE_SUCCESS' });
+        navigate(`/staff/product/${data.product._id}`);
         navigate(`/staff/product/${data.product._id}`);
       } catch (err) {
         toast.error(getError(error));

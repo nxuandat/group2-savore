@@ -122,6 +122,7 @@ function App() {
                       </Badge>
                     )}
                   </Link>
+
                   {userInfo ? (
                     <NavDropdown title={userInfo.name} id="basic-nav-dropdown">
                       <LinkContainer to="/profile">
@@ -144,6 +145,7 @@ function App() {
                       Sign In
                     </Link>
                   )}
+
                   {userInfo && userInfo.isAdmin && (
                     <NavDropdown title="Admin" id="admin-nav-dropdown">
                       <LinkContainer to="/admin/dashboard">
@@ -160,9 +162,8 @@ function App() {
                       </LinkContainer>
                     </NavDropdown>
                   )}
-
-                  {userInfo && userInfo.isStaff && (
-                    <NavDropdown title="staff" id="staff-nav-dropdown">
+                  {userInfo && userInfo.isStaff && !userInfo.isAdmin && (
+                    <NavDropdown title="Staff" id="staff-nav-dropdown">
                       <LinkContainer to="/staff/dashboard">
                         <NavDropdown.Item>Dashboard</NavDropdown.Item>
                       </LinkContainer>
@@ -335,9 +336,9 @@ function App() {
               <Route
                 path="/staff/products"
                 element={
-                  <StaffRoute>
+                  <AdminRoute>
                     <ProductListScreen />
-                  </StaffRoute>
+                  </AdminRoute>
                 }
               ></Route>
               <Route
