@@ -161,8 +161,7 @@ function App() {
                       </LinkContainer>
                     </NavDropdown>
                   )}
-                  {/* {userInfo && userInfo.isStaff && !userInfo.isAdmin && ( */}
-                  {userInfo && userInfo.isStaff && (
+                  {userInfo && userInfo.isStaff && !userInfo.isAdmin && (
                     <NavDropdown title="Staff" id="staff-nav-dropdown">
                       <LinkContainer to="/admin/products">
                         <NavDropdown.Item>Products</NavDropdown.Item>
