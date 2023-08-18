@@ -42,8 +42,16 @@ import {
   MDBRow,
   MDBCol,
   MDBIcon,
-  MDBBtn,
+  // MDBBtn,
 } from 'mdb-react-ui-kit';
+import { Footer } from 'flowbite-react';
+import {
+  // BsDribble,
+  BsFacebook,
+  BsGoogle,
+  BsInstagram,
+  BsTwitter,
+} from 'react-icons/bs';
 //search Screen
 import SearchScreen from './screens/SearchScreen';
 //admin view
@@ -107,81 +115,81 @@ function App() {
             : 'site-container d-flex flex-column'
         }
       >
-        <ToastContainer position="bottom-center" limit={1} />
+        <ToastContainer position='bottom-center' limit={1} />
         <header>
           <Navbar
             style={{ backgroundColor: '#2f4f4e' }}
-            variant="dark"
-            expand="lg"
+            variant='dark'
+            expand='lg'
           >
             <Container>
               <Button
-                variant="dark"
+                variant='dark'
                 onClick={() => setSidebarIsOpen(!sidebarIsOpen)}
               >
-                <i className="fas fa-bars"></i>
+                <i className='fas fa-bars'></i>
               </Button>
-              <LinkContainer to="/">
+              <LinkContainer to='/'>
                 <Navbar.Brand>Savoré Coffee Shop</Navbar.Brand>
               </LinkContainer>
-              <Navbar.Toggle aria-controls="basic-navbar-nav" />
-              <Navbar.Collapse id="basic-navbar-nav">
+              <Navbar.Toggle aria-controls='basic-navbar-nav' />
+              <Navbar.Collapse id='basic-navbar-nav'>
                 <SearchBox />
-                <Nav className="me-auto w-100 justify-content-end">
-                  <Link to="/cart" className="nav-link">
+                <Nav className='me-auto w-100 justify-content-end'>
+                  <Link to='/cart' className='nav-link'>
                     Cart
                     {cart.cartItems.length > 0 && (
-                      <Badge pill bg="danger">
+                      <Badge pill bg='danger'>
                         {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
                       </Badge>
                     )}
                   </Link>
 
                   {userInfo ? (
-                    <NavDropdown title={userInfo.name} id="basic-nav-dropdown">
-                      <LinkContainer to="/profile">
+                    <NavDropdown title={userInfo.name} id='basic-nav-dropdown'>
+                      <LinkContainer to='/profile'>
                         <NavDropdown.Item>User Profile</NavDropdown.Item>
                       </LinkContainer>
-                      <LinkContainer to="/orderhistory">
+                      <LinkContainer to='/orderhistory'>
                         <NavDropdown.Item>Order History</NavDropdown.Item>
                       </LinkContainer>
                       <NavDropdown.Divider />
                       <Link
-                        className="dropdown-item signout-link align-items-center"
-                        to="#signout"
+                        className='dropdown-item signout-link align-items-center'
+                        to='#signout'
                         onClick={signoutHandler}
                       >
                         Sign Out
                       </Link>
                     </NavDropdown>
                   ) : (
-                    <Link className="nav-link" to="/signin">
+                    <Link className='nav-link' to='/signin'>
                       Sign In
                     </Link>
                   )}
 
                   {userInfo && userInfo.isAdmin && (
-                    <NavDropdown title="Admin" id="admin-nav-dropdown">
-                      <LinkContainer to="/admin/dashboard">
+                    <NavDropdown title='Admin' id='admin-nav-dropdown'>
+                      <LinkContainer to='/admin/dashboard'>
                         <NavDropdown.Item>Dashboard</NavDropdown.Item>
                       </LinkContainer>
-                      <LinkContainer to="/admin/products">
+                      <LinkContainer to='/admin/products'>
                         <NavDropdown.Item>Products</NavDropdown.Item>
                       </LinkContainer>
-                      <LinkContainer to="/admin/orders">
+                      <LinkContainer to='/admin/orders'>
                         <NavDropdown.Item>Orders</NavDropdown.Item>
                       </LinkContainer>
-                      <LinkContainer to="/admin/users">
+                      <LinkContainer to='/admin/users'>
                         <NavDropdown.Item>Users</NavDropdown.Item>
                       </LinkContainer>
                     </NavDropdown>
                   )}
                   {userInfo && userInfo.isStaff && !userInfo.isAdmin && (
-                    <NavDropdown title="Staff" id="staff-nav-dropdown">
-                      <LinkContainer to="/admin/products">
+                    <NavDropdown title='Staff' id='staff-nav-dropdown'>
+                      <LinkContainer to='/admin/products'>
                         <NavDropdown.Item>Products</NavDropdown.Item>
                       </LinkContainer>
-                      <LinkContainer to="/admin/orders">
+                      <LinkContainer to='/admin/orders'>
                         <NavDropdown.Item>Orders</NavDropdown.Item>
                       </LinkContainer>
                     </NavDropdown>
@@ -203,7 +211,7 @@ function App() {
               : 'side-navbar d-flex justify-content-between flex-wrap flex-column'
           }
         >
-          <Nav className="flex-column text-white w-100 p-2">
+          <Nav className='flex-column text-white w-100 p-2'>
             <Nav.Item style={{ color: '#5e9ea0', fontSize: '30px' }}>
               <strong>Categories</strong>
             </Nav.Item>
@@ -228,25 +236,25 @@ function App() {
           </Nav>
         </div>
         <main>
-          <Container className="mt-3">
+          <Container className='mt-3'>
             <Routes>
-              <Route path="/product/:slug" element={<ProductScreen />} />
-              <Route path="/cart" element={<CartScreen />} />
-              <Route path="/search" element={<SearchScreen />} />
-              <Route path="/signin" element={<SigninScreen />} />
-              <Route path="/signup" element={<SignupScreen />} />
+              <Route path='/product/:slug' element={<ProductScreen />} />
+              <Route path='/cart' element={<CartScreen />} />
+              <Route path='/search' element={<SearchScreen />} />
+              <Route path='/signin' element={<SigninScreen />} />
+              <Route path='/signup' element={<SignupScreen />} />
 
               <Route
-                path="/forget-password"
+                path='/forget-password'
                 element={<ForgetPasswordScreen />}
               />
               <Route
-                path="/reset-password/:token"
+                path='/reset-password/:token'
                 element={<ResetPasswordScreen />}
               />
 
               <Route
-                path="/profile"
+                path='/profile'
                 element={
                   <ProtectedRoute>
                     <ProfileScreen />
@@ -254,16 +262,16 @@ function App() {
                 }
               />
               <Route
-                path="/map"
+                path='/map'
                 element={
                   <ProtectedRoute>
                     <MapScreen />
                   </ProtectedRoute>
                 }
               />
-              <Route path="/placeorder" element={<PlaceOrderScreen />} />
+              <Route path='/placeorder' element={<PlaceOrderScreen />} />
               <Route
-                path="/order/:id"
+                path='/order/:id'
                 element={
                   <ProtectedRoute>
                     <OrderScreen />
@@ -271,18 +279,18 @@ function App() {
                 }
               ></Route>
               <Route
-                path="/orderhistory"
+                path='/orderhistory'
                 element={
                   <ProtectedRoute>
                     <OrderHistoryScreen />
                   </ProtectedRoute>
                 }
               ></Route>
-              <Route path="/shipping" element={<ShippingAddressScreen />} />
-              <Route path="/payment" element={<PaymentMethodScreen />}></Route>
+              <Route path='/shipping' element={<ShippingAddressScreen />} />
+              <Route path='/payment' element={<PaymentMethodScreen />}></Route>
               {/*admin route*/}
               <Route
-                path="/admin/dashboard"
+                path='/admin/dashboard'
                 element={
                   <AdminRoute>
                     <DashboardScreen />
@@ -290,7 +298,7 @@ function App() {
                 }
               ></Route>
               <Route
-                path="/admin/users"
+                path='/admin/users'
                 element={
                   <AdminRoute>
                     <UserListScreen />
@@ -299,7 +307,7 @@ function App() {
               ></Route>
 
               <Route
-                path="/admin/products"
+                path='/admin/products'
                 element={
                   <AdminRoute>
                     <ProductListScreen />
@@ -307,7 +315,7 @@ function App() {
                 }
               ></Route>
               <Route
-                path="/admin/orders"
+                path='/admin/orders'
                 element={
                   <AdminRoute>
                     <OrderListScreen />
@@ -315,7 +323,7 @@ function App() {
                 }
               ></Route>
               <Route
-                path="/admin/product/:id"
+                path='/admin/product/:id'
                 element={
                   <AdminRoute>
                     <ProductEditScreen />
@@ -323,7 +331,7 @@ function App() {
                 }
               ></Route>
               <Route
-                path="/admin/user/:id"
+                path='/admin/user/:id'
                 element={
                   <AdminRoute>
                     <UserEditScreen />
@@ -333,7 +341,7 @@ function App() {
 
               {/*Staff Route*/}
               <Route
-                path="/admin/products"
+                path='/admin/products'
                 element={
                   <AdminRoute>
                     <ProductListScreen />
@@ -341,7 +349,7 @@ function App() {
                 }
               ></Route>
               <Route
-                path="/admin/orders"
+                path='/admin/orders'
                 element={
                   <AdminRoute>
                     <OrderListScreen />
@@ -349,7 +357,7 @@ function App() {
                 }
               ></Route>
               <Route
-                path="/admin/product/:id"
+                path='/admin/product/:id'
                 element={
                   <AdminRoute>
                     <ProductEditScreen />
@@ -357,20 +365,20 @@ function App() {
                 }
               ></Route>
 
-              <Route path="/" element={<HomeScreen />} />
+              <Route path='/' element={<HomeScreen />} />
             </Routes>
           </Container>
         </main>
         <MDBFooter
           style={{ backgroundColor: 'rgb(47, 79, 78)' }}
-          className="text-center text-lg-start text-light mt-3"
+          className='text-center text-lg-start text-light mt-3'
         >
-          <section className="">
-            <MDBContainer className="text-center text-md-start mt-5">
-              <MDBRow className="mt-3">
-                <MDBCol md="3" lg="4" xl="3" className="mx-auto mb-4">
-                  <h6 className="text-uppercase fw-bold mb-4">
-                    <img src="/128.png" alt=" " className="me-3" />
+          <section className=''>
+            <MDBContainer className='text-center text-md-start mt-5'>
+              <MDBRow className='mt-3'>
+                <MDBCol md='3' lg='4' xl='3' className='mx-auto mb-4'>
+                  <h6 className='text-uppercase fw-bold mb-4 justify-content'>
+                    <img src='/128.png' alt=' ' className='me-3' />
                     Savore Café Shop
                   </h6>
                   <p style={{ textAlign: 'justify' }}>
@@ -381,142 +389,126 @@ function App() {
                   </p>
                 </MDBCol>
 
-                <MDBCol md="2" lg="2" xl="2" className="mx-auto mb-4">
-                  <h6 className="text-uppercase fw-bold mb-4">Products</h6>
+                <MDBCol md='2' lg='2' xl='2' className='mx-auto mb-4'>
+                  <h6 className='text-uppercase fw-bold mb-4'>Products</h6>
                   <p>
-                    <Link to="/search?category=Coffee" className="link">
+                    <Link to='/search?category=Coffee' className='link'>
                       Coffee
                     </Link>
                   </p>
                   <p>
-                    <Link to="/search?category=Freeze" className="link">
+                    <Link to='/search?category=Freeze' className='link'>
                       Freeze
                     </Link>
                   </p>
                   <p>
-                    <Link to="/search?category=Milk%20Tea" className="link">
+                    <Link to='/search?category=Milk%20Tea' className='link'>
                       Milk Tea
                     </Link>
                   </p>
                   <p>
-                    <Link to="/search?category=Cake" className="link">
+                    <Link to='/search?category=Cake' className='link'>
                       Cake
                     </Link>
                   </p>
                   <p>
-                    <Link to="/search?category=Topping" className="link">
+                    <Link to='/search?category=Topping' className='link'>
                       Topping
                     </Link>
                   </p>
                 </MDBCol>
 
-                <MDBCol md="4" lg="3" xl="3" className="mx-auto mb-4">
-                  <h6 className="text-uppercase fw-bold mb-4">Opening Time</h6>
-                  <div className="mb-2">
-                    <MDBIcon icon="angle-right" /> Monday
+                <MDBCol md='4' lg='3' xl='3' className='mx-auto mb-4'>
+                  <h6 className='text-uppercase fw-bold mb-4'>Opening Time</h6>
+                  <div className='mb-2'>
+                    <MDBIcon icon='angle-right' /> Monday
                     <span> 7.00 AM - 8.00 PM</span>
                   </div>
-                  <div className="mb-2">
-                    <MDBIcon icon="angle-right" /> Tuesday
+                  <div className='mb-2'>
+                    <MDBIcon icon='angle-right' /> Tuesday
                     <span> 7.00 AM - 8.00 PM</span>
                   </div>
-                  <div className="mb-2">
-                    <MDBIcon icon="angle-right" /> Wednesday
+                  <div className='mb-2'>
+                    <MDBIcon icon='angle-right' /> Wednesday
                     <span> 7.00 AM - 8.00 PM</span>
                   </div>
-                  <div className="mb-2">
-                    <MDBIcon icon="angle-right" /> Thursday
+                  <div className='mb-2'>
+                    <MDBIcon icon='angle-right' /> Thursday
                     <span> 7.00 AM - 8.00 PM</span>
                   </div>
-                  <div className="mb-2">
-                    <MDBIcon icon="angle-right" /> Thursday
+                  <div className='mb-2'>
+                    <MDBIcon icon='angle-right' /> Thursday
                     <span> 7.00 AM - 8.00 PM</span>
                   </div>
-                  <div className="mb-2">
-                    <MDBIcon icon="angle-right" /> Friday
+                  <div className='mb-2'>
+                    <MDBIcon icon='angle-right' /> Friday
                     <span> 7.00 AM - 8.00 PM</span>
                   </div>
-                  <div className="mb-2">
-                    <MDBIcon icon="angle-right" /> Saturday
+                  <div className='mb-2'>
+                    <MDBIcon icon='angle-right' /> Saturday
                     <span> 7.00 AM - 10.00 PM</span>
                   </div>
-                  <div className="mb-2">
-                    <MDBIcon icon="angle-right" /> Sunday
+                  <div className='mb-2'>
+                    <MDBIcon icon='angle-right' /> Sunday
                     <span> 7.00 AM - 10.00 PM</span>
                   </div>
                 </MDBCol>
 
-                <MDBCol md="4" lg="3" xl="3" className="mx-auto mb-md-0 mb-4">
-                  <h6 className="text-uppercase fw-bold mb-4">Contact</h6>
+                <MDBCol md='4' lg='3' xl='3' className='mx-auto mb-md-0 mb-4'>
+                  <h6 className='text-uppercase fw-bold mb-4'>Contact</h6>
                   <p>
-                    <MDBIcon color="light" icon="home" className="me-2" />
+                    <MDBIcon color='light' icon='home' className='me-2' />
                     Nguyen Van Cu, district 5, HoChiMinh city
                   </p>
                   <p>
-                    <MDBIcon color="light" icon="envelope" className="me-3" />
+                    <MDBIcon color='light' icon='envelope' className='me-3' />
                     SavoreCafeShop@example.com
                   </p>
                   <p>
-                    <MDBIcon color="light" icon="phone" className="me-3" /> + 01
+                    <MDBIcon color='light' icon='phone' className='me-3' /> + 01
                     234 567 88
                   </p>
                   <p>
-                    <MDBBtn
-                      outline
-                      color="light"
-                      floating
-                      className="m-1"
-                      href="#!"
-                      role="button"
-                    >
-                      <MDBIcon fab icon="facebook-f" />
-                    </MDBBtn>
-
-                    <MDBBtn
-                      outline
-                      color="light"
-                      floating
-                      className="m-1"
-                      href="#!"
-                      role="button"
-                    >
-                      <MDBIcon fab icon="twitter" />
-                    </MDBBtn>
-
-                    <MDBBtn
-                      outline
-                      color="light"
-                      floating
-                      className="m-1"
-                      href="#!"
-                      role="button"
-                    >
-                      <MDBIcon fab icon="google" />
-                    </MDBBtn>
-
-                    <MDBBtn
-                      outline
-                      color="light"
-                      floating
-                      className="m-1"
-                      href="#!"
-                      role="button"
-                    >
-                      <MDBIcon fab icon="instagram" />
-                    </MDBBtn>
+                    <div className='d-flex justify-content-center justify-content-lg-between p-2 '>
+                      <Footer.Icon
+                        href='#!'
+                        icon={BsFacebook}
+                        className='me-4 cus-icon'
+                        size='lg'
+                        color='white'
+                      />
+                      <Footer.Icon
+                        href='#!'
+                        icon={BsInstagram}
+                        className='m-4 cus-icon'
+                        font-size='40px'
+                      />
+                      <Footer.Icon
+                        href='#!'
+                        icon={BsTwitter}
+                        className='m-4 cus-icon'
+                        size='lg'
+                      />
+                      <Footer.Icon
+                        href='#!'
+                        icon={BsGoogle}
+                        className='m-4 cus-icon'
+                        size='lg'
+                      />
+                    </div>
                   </p>
                 </MDBCol>
               </MDBRow>
             </MDBContainer>
           </section>
           <div
-            className="text-center p-3 text-light"
+            className='text-center p-3 text-light'
             style={{ backgroundColor: 'rgb(47, 79, 78)' }}
-            textDecoration="none"
+            textDecoration='none'
           >
             &copy;2023{' '}
-            <a className="text-light" href="https://savore.onrender.com">
-              SavoreCafeShop
+            <a className='link' href='https://savore.onrender.com'>
+              SavoreCafeShop.com
             </a>
           </div>
         </MDBFooter>

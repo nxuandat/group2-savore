@@ -143,3 +143,22 @@ button.thumbnail {
   border-radius: 0 1rem 1rem 0;
   border-left: 0;
 }
+
+.link {
+  color: white;
+  text-decoration: none;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-style: italic;
+}
+
+.link:hover {
+  color: #61dafb;
+}
+
+.cus-icon {
+  color: white;
+}
+
+.cus-icon:hover {
+  color: #61dafb;
+}
