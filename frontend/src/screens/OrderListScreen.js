@@ -52,6 +52,10 @@ export default function OrderListScreen() {
         const { data } = await axios.get(`/api/orders`, {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
+
+        // Sắp xếp mảng orders theo thời gian tạo đơn hàng (mới nhất đến cũ hơn)
+        data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
         dispatch({ type: 'FETCH_SUCCESS', payload: data });
       } catch (err) {
         dispatch({ type: 'FETCH_FAIL', payload: getError(err) });
