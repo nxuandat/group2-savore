@@ -120,12 +120,17 @@ export default function SearchScreen() {
   }, [dispatch]);
 
   const getFilterUrl = (filter, skipPathname = false) => {
-    const filterPage = filter.page || page;
+    let filterPage = filter.page || page;
     const filterCategory = filter.category || category;
     const filterQuery = filter.query || query;
     const filterRating = filter.rating || rating;
     const filterPrice = filter.price || price;
     const sortOrder = filter.order || order;
+
+    // If filter is by rating, set page to 1
+    if (filterRating !== rating && filterPage !== 1) {
+      filterPage = 1;
+    }
 
     const queryString = `category=${filterCategory}&query=${filterQuery}&price=${filterPrice}&rating=${filterRating}&order=${sortOrder}&page=${filterPage}`;
 
