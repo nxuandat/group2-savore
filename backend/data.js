@@ -1,6 +1,20 @@
 import bcrypt from 'bcryptjs';
 
 const data = {
+  discounts: [
+    {
+      code: 'FwPbGd',
+      amount: 3,
+    },
+    {
+      code: 'a6W1Td',
+      amount: 4,
+    },
+    {
+      code: 'sqKpeB',
+      amount: 5,
+    },
+  ],
   users: [
     {
       name: 'savore',

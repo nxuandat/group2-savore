@@ -9,7 +9,9 @@ import { useContext, useEffect, useState } from 'react';
 import { Store } from '../Store';
 import { toast } from 'react-toastify';
 import { getError } from '../utils';
-
+import SetCookie from '../hooks/setCookie';
+// import GetCookie from '../hooks/getCookie';
+import RemoveCookie from '../hooks/removeCookie';
 export default function SigninScreen() {
   const navigate = useNavigate();
   const { search } = useLocation();
@@ -30,7 +32,10 @@ export default function SigninScreen() {
         password,
       });
       ctxDispatch({ type: 'USER_SIGNIN', payload: data });
+      RemoveCookie('userInfo');
+      SetCookie('userInfo', JSON.stringify(data));
       localStorage.setItem('userInfo', JSON.stringify(data));
+      sessionStorage.setItem('userInfo', JSON.stringify(data));
       navigate(redirect || '/');
     } catch (err) {
       toast.error(getError(err));
