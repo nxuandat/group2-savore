@@ -1,20 +1,6 @@
 import bcrypt from 'bcryptjs';
 
 const data = {
-  discounts: [
-    {
-      code: 'FwPbGd',
-      amount: 3,
-    },
-    {
-      code: 'a6W1Td',
-      amount: 4,
-    },
-    {
-      code: 'sqKpeB',
-      amount: 5,
-    },
-  ],
   users: [
     {
       name: 'savore',
@@ -262,6 +248,29 @@ const data = {
       numReviews: 18,
       description: 'high quality tea',
       sizes: ['Small', 'Medium', 'Large'], // Thêm thông tin về kích thước
+    },
+  ],
+  discounts: [
+    {
+      code: 'FwPbGd',
+      isPercent: true,
+      amount: 3,
+      expireDate: '',
+      isActive: true,
+    },
+    {
+      code: 'a6W1Td',
+      isPercent: true,
+      amount: 4,
+      expireDate: '',
+      isActive: true,
+    },
+    {
+      code: 'sqKpeB',
+      isPercent: true,
+      amount: 5,
+      expireDate: '',
+      isActive: true,
     },
   ],
 };

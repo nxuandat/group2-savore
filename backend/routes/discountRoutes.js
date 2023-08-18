@@ -19,19 +19,14 @@ discountRouter.post(
   isAdminOrStaff,
   expressAsyncHandler(async (req, res) => {
     const newDiscount = new Discount({
-      name: 'sample name ' + Date.now(),
-      slug: 'sample-name-' + Date.now(),
-      image: '/images/p1.jpg',
-      price: 0,
-      category: 'sample category',
-      brand: 'sample brand',
-      countInStock: 0,
-      rating: 0,
-      numReviews: 0,
-      description: 'sample description',
+      code: 'sample code',
+      isPercent: true,
+      amount: 5, // if is percent, then number must be ≤ 100, else it’s amount of discount
+      expireDate: '',
+      isActive: true,
     });
-    const Discount = await newDiscount.save();
-    res.send({ message: 'Discount Created', Discount });
+    const discount = await newDiscount.save();
+    res.send({ message: 'Discount Created', discount });
   })
 );
 
@@ -40,15 +35,17 @@ discountRouter.put(
   isAuth,
   isAdminOrStaff,
   expressAsyncHandler(async (req, res) => {
-    const DiscountId = req.params.id;
-    const Discount = await Discount.findById(DiscountId);
-    if (Discount) {
-      Discount.code = req.body.code;
-      Discount.isPercent = req.body.isPercent;
-      Discount.amount = req.body.amount;
-      Discount.expireDate = req.body.expireDate;
-      Discount.isActive = req.body.isActive;
-      await Discount.save();
+    const discountId = req.params.id;
+    const discount = await Discount.findById(discountId);
+    if (discount) {
+      discount.code = req.body.code;
+      d;
+      discount.isPercent = req.body.isPercent;
+      discount.amount = req.body.amount;
+      discount.expireDate = req.body.expireDate;
+      discount.expireDate = req.body.expireDate;
+      discount.isActive = req.body.isActive;
+      await discount.save();
       res.send({ message: 'Discount Updated' });
     } else {
       res.status(404).send({ message: 'Discount Not Found' });
@@ -61,9 +58,9 @@ discountRouter.delete(
   isAuth,
   isAdminOrStaff,
   expressAsyncHandler(async (req, res) => {
-    const Discount = await Discount.findById(req.params.id);
-    if (Discount) {
-      await Discount.deleteOne();
+    const discount = await Discount.findById(req.params.id);
+    if (discount) {
+      await discount.deleteOne();
       res.send({ message: 'Discount Deleted' });
     } else {
       res.status(404).send({ message: 'Discount Not Found' });
@@ -75,10 +72,10 @@ discountRouter.delete(
 //   '/:id/reviews',
 //   isAuth,
 //   expressAsyncHandler(async (req, res) => {
-//     const DiscountId = req.params.id;
-//     const Discount = await Discount.findById(DiscountId);
-//     if (Discount) {
-//       if (Discount.reviews.find((x) => x.name === req.user.name)) {
+//     const discountId = req.params.id;
+//     const discount = await Discount.findById(discountId);
+//     if (discount) {
+//       if (discount.reviews.find((x) => x.name === req.user.name)) {
 //         return res
 //           .status(400)
 //           .send({ message: 'You already submitted a review' });
@@ -119,90 +116,12 @@ discountRouter.get(
     const page = query.page || 1;
     const pageSize = query.pageSize || PAGE_SIZE;
 
-    const Discounts = await Discount.find()
+    const discounts = await Discount.find()
       .skip(pageSize * (page - 1))
       .limit(pageSize);
     const countDiscounts = await Discount.countDocuments();
     res.send({
-      Discounts,
-      countDiscounts,
-      page,
-      pages: Math.ceil(countDiscounts / pageSize),
-    });
-  })
-);
-
-discountRouter.get(
-  '/search',
-  expressAsyncHandler(async (req, res) => {
-    const { query } = req;
-    const pageSize = query.pageSize || PAGE_SIZE;
-    const page = query.page || 1;
-    const category = query.category || '';
-    const price = query.price || '';
-    const rating = query.rating || '';
-    const order = query.order || '';
-    const searchQuery = query.query || '';
-
-    const queryFilter =
-      searchQuery && searchQuery !== 'all'
-        ? {
-            name: {
-              $regex: searchQuery,
-              $options: 'i',
-            },
-          }
-        : {};
-    const categoryFilter = category && category !== 'all' ? { category } : {};
-    const ratingFilter =
-      rating && rating !== 'all'
-        ? {
-            rating: {
-              $gte: Number(rating),
-            },
-          }
-        : {};
-    const priceFilter =
-      price && price !== 'all'
-        ? {
-            // 1-20
-            price: {
-              $gte: Number(price.split('-')[0]),
-              $lte: Number(price.split('-')[1]),
-            },
-          }
-        : {};
-    const sortOrder =
-      order === 'featured'
-        ? { featured: -1 }
-        : order === 'lowest'
-        ? { price: 1 }
-        : order === 'highest'
-        ? { price: -1 }
-        : order === 'toprated'
-        ? { rating: -1 }
-        : order === 'newest'
-        ? { createdAt: -1 }
-        : { _id: -1 };
-
-    const Discounts = await Discount.find({
-      ...queryFilter,
-      ...categoryFilter,
-      ...priceFilter,
-      ...ratingFilter,
-    })
-      .sort(sortOrder)
-      .skip(pageSize * (page - 1))
-      .limit(pageSize);
-
-    const countDiscounts = await Discount.countDocuments({
-      ...queryFilter,
-      ...categoryFilter,
-      ...priceFilter,
-      ...ratingFilter,
-    });
-    res.send({
-      Discounts,
+      discounts,
       countDiscounts,
       page,
       pages: Math.ceil(countDiscounts / pageSize),
@@ -211,6 +130,84 @@ discountRouter.get(
 );
 
 // discountRouter.get(
+//   '/search',
+//   expressAsyncHandler(async (req, res) => {
+//     const { query } = req;
+//     const pageSize = query.pageSize || PAGE_SIZE;
+//     const page = query.page || 1;
+//     const category = query.category || '';
+//     const price = query.price || '';
+//     const rating = query.rating || '';
+//     const order = query.order || '';
+//     const searchQuery = query.query || '';
+
+//     const queryFilter =
+//       searchQuery && searchQuery !== 'all'
+//         ? {
+//             name: {
+//               $regex: searchQuery,
+//               $options: 'i',
+//             },
+//           }
+//         : {};
+//     const categoryFilter = category && category !== 'all' ? { category } : {};
+//     const ratingFilter =
+//       rating && rating !== 'all'
+//         ? {
+//             rating: {
+//               $gte: Number(rating),
+//             },
+//           }
+//         : {};
+//     const priceFilter =
+//       price && price !== 'all'
+//         ? {
+//             // 1-20
+//             price: {
+//               $gte: Number(price.split('-')[0]),
+//               $lte: Number(price.split('-')[1]),
+//             },
+//           }
+//         : {};
+//     const sortOrder =
+//       order === 'featured'
+//         ? { featured: -1 }
+//         : order === 'lowest'
+//         ? { price: 1 }
+//         : order === 'highest'
+//         ? { price: -1 }
+//         : order === 'toprated'
+//         ? { rating: -1 }
+//         : order === 'newest'
+//         ? { createdAt: -1 }
+//         : { _id: -1 };
+
+//     const Discounts = await Discount.find({
+//       ...queryFilter,
+//       ...categoryFilter,
+//       ...priceFilter,
+//       ...ratingFilter,
+//     })
+//       .sort(sortOrder)
+//       .skip(pageSize * (page - 1))
+//       .limit(pageSize);
+
+//     const countDiscounts = await Discount.countDocuments({
+//       ...queryFilter,
+//       ...categoryFilter,
+//       ...priceFilter,
+//       ...ratingFilter,
+//     });
+//     res.send({
+//       Discounts,
+//       countDiscounts,
+//       page,
+//       pages: Math.ceil(countDiscounts / pageSize),
+//     });
+//   })
+// );
+
+// DiscountRouter.get(
 //   '/categories',
 //   expressAsyncHandler(async (req, res) => {
 //     const categories = await Discount.find().distinct('category');
@@ -219,17 +216,17 @@ discountRouter.get(
 // );
 
 discountRouter.get('/slug/:slug', async (req, res) => {
-  const Discount = await Discount.findOne({ slug: req.params.slug });
-  if (Discount) {
-    res.send(Discount);
+  const discount = await Discount.findOne({ slug: req.params.slug });
+  if (discount) {
+    res.send(discount);
   } else {
     res.status(404).send({ message: 'Discount Not Found' });
   }
 });
 discountRouter.get('/:id', async (req, res) => {
-  const Discount = await Discount.findById(req.params.id);
-  if (Discount) {
-    res.send(Discount);
+  const discount = await Discount.findById(req.params.id);
+  if (discount) {
+    res.send(discount);
   } else {
     res.status(404).send({ message: 'Discount Not Found' });
   }

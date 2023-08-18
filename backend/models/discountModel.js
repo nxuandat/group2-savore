@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const DiscountCodesSchema = new mongoose.Schema(
+const discountSchema = new mongoose.Schema(
   {
     code: { type: String, require: true, unique: true },
     isPercent: { type: Boolean, require: true, default: true },
@@ -22,5 +22,5 @@ const DiscountCodesSchema = new mongoose.Schema(
 //   next();
 // });
 
-const Discount = mongoose.model('DiscountCodes', DiscountCodesSchema);
+const Discount = mongoose.model('Discount', discountSchema);
 export default Discount;
