@@ -191,7 +191,7 @@ export default function SearchScreen() {
                 <li key={r.name}>
                   <Link
                     to={getFilterUrl({ rating: r.rating })}
-                    className={`${r.rating}` === `${rating}` ? 'text-bold' : ''}
+                    className={r.rating === rating ? 'text-bold' : ''}
                   >
                     <Rating caption={' & up'} rating={r.rating}></Rating>
                   </Link>
@@ -267,15 +267,17 @@ export default function SearchScreen() {
                 {[...Array(pages).keys()].map((x) => (
                   <LinkContainer
                     key={x + 1}
-                    className="mx-1"
+                    className={`mx-1 ${
+                      Number(page) === x + 1 ? 'selected-page' : ''
+                    }`}
                     to={{
                       pathname: '/search',
-                      search: getFilterUrl({ page: x + 1 }, true), // Sửa 'seacrh' thành 'search'
+                      search: getFilterUrl({ page: x + 1 }, true),
                     }}
                   >
                     <Button
                       className={Number(page) === x + 1 ? 'text-bold' : ''}
-                      variant="light"
+                      variant={Number(page) === x + 1 ? 'primary' : 'light'}
                     >
                       {x + 1}
                     </Button>
