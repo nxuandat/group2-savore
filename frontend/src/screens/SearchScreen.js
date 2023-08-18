@@ -74,7 +74,7 @@ export const ratings = [
 export default function SearchScreen() {
   const navigate = useNavigate();
   const { search } = useLocation();
-  const sp = new URLSearchParams(search); 
+  const sp = new URLSearchParams(search);
   // /search?category=Tea
   const category = sp.get('category') || 'all';
   const query = sp.get('query') || 'all';
@@ -99,7 +99,7 @@ export default function SearchScreen() {
       } catch (err) {
         dispatch({
           type: 'FETCH_FAIL',
-          payload: getError(error),
+          payload: err.message,
         });
       }
     };
@@ -119,16 +119,17 @@ export default function SearchScreen() {
     fetchCategories();
   }, [dispatch]);
 
-  const getFilterUrl = (filter, skipPathname) => {
+  const getFilterUrl = (filter, skipPathname = false) => {
     const filterPage = filter.page || page;
     const filterCategory = filter.category || category;
     const filterQuery = filter.query || query;
     const filterRating = filter.rating || rating;
     const filterPrice = filter.price || price;
     const sortOrder = filter.order || order;
-    return `${
-      skipPathname ? '' : '/search?'
-    }category=${filterCategory}&query=${filterQuery}&price=${filterPrice}&rating=${filterRating}&order=${sortOrder}&page=${filterPage}`;
+
+    const queryString = `category=${filterCategory}&query=${filterQuery}&price=${filterPrice}&rating=${filterRating}&order=${sortOrder}&page=${filterPage}`;
+
+    return `${skipPathname ? '' : '/search?'}${queryString}`;
   };
   return (
     <div>
@@ -190,7 +191,7 @@ export default function SearchScreen() {
                 <li key={r.name}>
                   <Link
                     to={getFilterUrl({ rating: r.rating })}
-                    className={`${r.rating}` === `${rating}` ? 'text-bold' : ''}
+                    className={r.rating === rating ? 'text-bold' : ''}
                   >
                     <Rating caption={' & up'} rating={r.rating}></Rating>
                   </Link>
@@ -266,15 +267,17 @@ export default function SearchScreen() {
                 {[...Array(pages).keys()].map((x) => (
                   <LinkContainer
                     key={x + 1}
-                    className="mx-1"
+                    className={`mx-1 ${
+                      Number(page) === x + 1 ? 'selected-page' : ''
+                    }`}
                     to={{
                       pathname: '/search',
-                      seacrh: getFilterUrl({ page: x + 1 }, true),
+                      search: getFilterUrl({ page: x + 1 }, true),
                     }}
                   >
                     <Button
                       className={Number(page) === x + 1 ? 'text-bold' : ''}
-                      variant="light"
+                      variant={Number(page) === x + 1 ? 'primary' : 'light'}
                     >
                       {x + 1}
                     </Button>

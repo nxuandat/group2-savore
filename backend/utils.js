@@ -15,6 +15,7 @@ export const generateToken = (user) => {
       name: user.name,
       email: user.email,
       isAdmin: user.isAdmin,
+      isStaff: user.isStaff,
     },
     process.env.JWT_SECRET,
     {
@@ -56,6 +57,15 @@ export const isStaff = (req, res, next) => {
     next();
   } else {
     res.status(401).send({ message: 'Invalid Staff Token' });
+  }
+};
+
+// Admin or Staff Validation Check for Dashboard Screen Permission
+export const isAdminOrStaff = (req, res, next) => {
+  if (req.user && (req.user.isStaff || req.user.isAdmin)) {
+    next();
+  } else {
+    res.status(401).send({ message: 'Admin or Staff access required' });
   }
 };
 
