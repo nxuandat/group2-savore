@@ -83,11 +83,11 @@ function App() {
   const { fullBox, cart, userInfo } = state;
   const signoutHandler = () => {
     ctxDispatch({ type: 'USER_SIGNOUT' });
-    localStorage.removeItem('userInfo');
-    localStorage.removeItem('shippingAddress');
-    localStorage.removeItem('paymentMethod');
-    // Xóa thông tin trong giỏ hàng
-    ctxDispatch({ type: 'CART_REMOVE_ITEM' });
+    // localStorage.removeItem('userInfo');
+    // localStorage.removeItem('shippingAddress');
+    // localStorage.removeItem('paymentMethod');
+    localStorage.clear();
+    sessionStorage.clear();
     window.location.href = '/signin';
   };
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
