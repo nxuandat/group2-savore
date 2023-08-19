@@ -58,10 +58,12 @@ export default function PlaceOrderScreen() {
 
   cart.taxPrice = round2(0.08 * cart.itemsPrice);
   cart.discount =
-    round2(-1 * cart.discount) > 0 ? round2(-1 * cart.discount) : round2(0);
+    round2(cart.itemsPrice) >= 30
+      ? round2(1 * cart.itemsPrice * 0.2)
+      : round2(0); //reduce 20% if total price >= $30
 
   cart.totalPrice = round2(
-    cart.itemsPrice + cart.shippingPrice + cart.taxPrice + cart.discount
+    cart.itemsPrice + cart.shippingPrice + cart.taxPrice + -1 * cart.discount
   );
 
   const placeOrderHandler = async () => {
@@ -103,6 +105,13 @@ export default function PlaceOrderScreen() {
     console.log(cart);
   }, [cart, navigate]);
 
+  // useEffect(() => {
+  //   if (!cart.discount) {
+  //     navigate('/discount');
+  //   }
+  //   console.log(cart);
+  // }, [cart, navigate]);
+
   return (
     <div>
       <CheckoutSteps step1 step2 step3 step4></CheckoutSteps>
@@ -140,6 +149,16 @@ export default function PlaceOrderScreen() {
 
           <Card className="mb-3">
             <Card.Body>
+              <Card.Title>Discount</Card.Title>
+              <Card.Text>
+                <strong>Amount:</strong> ${cart.discount}
+              </Card.Text>
+              {/* <Link to="/discount">Edit</Link> */}
+            </Card.Body>
+          </Card>
+
+          <Card className="mb-3">
+            <Card.Body>
               <Card.Title>Items</Card.Title>
               <ListGroup variant="flush">
                 {cart.cartItems.map((item) => (
@@ -162,7 +181,13 @@ export default function PlaceOrderScreen() {
                   </ListGroup.Item>
                 ))}
               </ListGroup>
-              <strong>Discount:</strong> {cart.discount} <br />
+              {/* <strong>Discount:</strong> {cart.discount} <br /> */}
+              {/* <ListGroup.Item>
+                <Row>
+                  <Col>Discount</Col>
+                  <Col>${cart.discount.toFixed(2)}</Col>
+                </Row>
+              </ListGroup.Item> */}
               <Link to="/cart">Edit</Link>
             </Card.Body>
           </Card>

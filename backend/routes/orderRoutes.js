@@ -29,11 +29,9 @@ orderRouter.post(
   isAuth,
   expressAsyncHandler(async (req, res) => {
     if (req.user.isAdmin || req.user.isStaff) {
-      res
-        .status(403)
-        .send({
-          message: 'Admin and staff members are not allowed to place orders.',
-        });
+      res.status(403).send({
+        message: 'Admin and staff members are not allowed to place orders.',
+      });
     } else {
       const newOrder = new Order({
         orderItems: req.body.orderItems.map((x) => ({ ...x, product: x._id })),
@@ -42,6 +40,7 @@ orderRouter.post(
         itemsPrice: req.body.itemsPrice,
         shippingPrice: req.body.shippingPrice,
         taxPrice: req.body.taxPrice,
+        discount: req.body.discount,
         totalPrice: req.body.totalPrice,
         user: req.user._id,
       });
