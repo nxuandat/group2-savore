@@ -111,7 +111,7 @@ productRouter.post(
   })
 );
 
-const PAGE_SIZE = 3;
+const PAGE_SIZE = 9;
 
 // Manage Product as Admin Role
 productRouter.get(

@@ -190,6 +190,15 @@ export default function ProductEditScreen() {
               required
             />
           </Form.Group>
+          {/* <Form.Group className="mb-3" controlId="image">
+            <Form.Label>Image File</Form.Label>
+            <Form.Control
+              value={image}
+              onChange={(e) => setImage(e.target.value)}
+              required
+            />
+          </Form.Group> */}
+
           <Form.Group className="mb-3" controlId="image">
             <Form.Label>Image File</Form.Label>
             <Form.Control
@@ -197,12 +206,36 @@ export default function ProductEditScreen() {
               onChange={(e) => setImage(e.target.value)}
               required
             />
+            {image && (
+              <img
+                src={image}
+                alt="Product"
+                className="uploaded-image"
+                style={{ maxWidth: '200px', height: '200px' }} // Thêm thuộc tính style tại đây
+              />
+            )}
           </Form.Group>
+
           <Form.Group className="mb-3" controlId="imageFile">
             <Form.Label>Upload Image</Form.Label>
             <Form.Control type="file" onChange={uploadFileHandler} />
             {loadingUpload && <LoadingBox></LoadingBox>}
           </Form.Group>
+
+          {/* <Form.Group className="mb-3" controlId="additionalImage">
+            <Form.Label>Additional Images</Form.Label>
+            {images.length === 0 && <MessageBox>No image</MessageBox>}
+            <ListGroup variant="flush">
+              {images.map((x) => (
+                <ListGroup.Item key={x}>
+                  {x}
+                  <Button variant="light" onClick={() => deleteFileHandler(x)}>
+                    <i className="fa fa-times-circle"></i>
+                  </Button>
+                </ListGroup.Item>
+              ))}
+            </ListGroup>
+          </Form.Group> */}
 
           <Form.Group className="mb-3" controlId="additionalImage">
             <Form.Label>Additional Images</Form.Label>
@@ -210,7 +243,13 @@ export default function ProductEditScreen() {
             <ListGroup variant="flush">
               {images.map((x) => (
                 <ListGroup.Item key={x}>
-                  {x}
+                  <div>
+                    <img
+                      src={x}
+                      alt="Additional Product"
+                      className="uploaded-image"
+                    />
+                  </div>
                   <Button variant="light" onClick={() => deleteFileHandler(x)}>
                     <i className="fa fa-times-circle"></i>
                   </Button>
