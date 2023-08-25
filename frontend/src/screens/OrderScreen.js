@@ -275,16 +275,16 @@ export default function OrderScreen() {
   return loading ? (
     <LoadingBox></LoadingBox>
   ) : error ? (
-    <MessageBox variant="danger">{error}</MessageBox>
+    <MessageBox variant='danger'>{error}</MessageBox>
   ) : (
     <div>
       <Helmet>
         <title>Order {orderId}</title>
       </Helmet>
-      <h1 className="my-3">Order {orderId}</h1>
+      <h1 className='my-3'>Order {orderId}</h1>
       <Row>
         <Col md={8}>
-          <Card className="mb-3">
+          <Card className='mb-3'>
             <Card.Body>
               <Card.Title>Shipping</Card.Title>
               <Card.Text>
@@ -296,7 +296,7 @@ export default function OrderScreen() {
                 {order.shippingAddress.location &&
                   order.shippingAddress.location.lat && (
                     <a
-                      target="_new"
+                      target='_new'
                       href={`https://maps.google.com?q=${order.shippingAddress.location.lat},${order.shippingAddress.location.lng}`}
                     >
                       Show On Map
@@ -307,19 +307,19 @@ export default function OrderScreen() {
                 {order.shippingAddress.shippingMethod}
               </Card.Text>
               {order.isDelivered ? (
-                <MessageBox variant="success">
+                <MessageBox variant='success'>
                   Delivered at {order.deliveredAt}
                 </MessageBox>
               ) : order.isDelivering ? (
-                <MessageBox variant="info">
+                <MessageBox variant='info'>
                   Delivering at {order.deliveringAt}
                 </MessageBox>
               ) : (
-                <MessageBox variant="danger">Preparing...</MessageBox>
+                <MessageBox variant='danger'>Preparing...</MessageBox>
               )}
             </Card.Body>
           </Card>
-          <Card className="mb-3">
+          <Card className='mb-3'>
             <Card.Body>
               <Card.Title>Payment</Card.Title>
               <Card.Text>
@@ -327,32 +327,32 @@ export default function OrderScreen() {
               </Card.Text>
               {order.isPaid ? (
                 order.paymentMethod === 'PayPal' ? (
-                  <MessageBox variant="success">
+                  <MessageBox variant='success'>
                     Paid at {order.paidAt}
                   </MessageBox>
                 ) : order.paymentMethod === 'COD' ? (
-                  <MessageBox variant="info">Cash on Delivery</MessageBox>
+                  <MessageBox variant='info'>Cash on Delivery</MessageBox>
                 ) : null
               ) : order.paymentMethod === 'PayPal' ? (
-                <MessageBox variant="danger">Not Paid</MessageBox>
+                <MessageBox variant='danger'>Not Paid</MessageBox>
               ) : order.paymentMethod === 'COD' ? (
-                <MessageBox variant="warning">Cash on Delivery</MessageBox>
+                <MessageBox variant='warning'>Cash on Delivery</MessageBox>
               ) : null}
             </Card.Body>
           </Card>
 
-          <Card className="mb-3">
+          <Card className='mb-3'>
             <Card.Body>
               <Card.Title>Items</Card.Title>
-              <ListGroup variant="flush">
+              <ListGroup variant='flush'>
                 {order.orderItems.map((item) => (
                   <ListGroup.Item key={item._id}>
-                    <Row className="align-items-center">
+                    <Row className='align-items-center'>
                       <Col md={6}>
                         <img
                           src={item.image}
                           alt={item.name}
-                          className="img-fluid rounded img-thumbnail"
+                          className='img-fluid rounded img-thumbnail'
                         ></img>{' '}
                         <Link to={`/product/${item.slug}`}>{item.name}</Link>
                         <p>Size: {item.size}</p> {/* Hiển thị kích thước */}
@@ -370,10 +370,10 @@ export default function OrderScreen() {
           </Card>
         </Col>
         <Col md={4}>
-          <Card className="mb-3">
+          <Card className='mb-3'>
             <Card.Body>
               <Card.Title>Order Summary</Card.Title>
-              <ListGroup variant="flush">
+              <ListGroup variant='flush'>
                 <ListGroup.Item>
                   <Row>
                     <Col>Items</Col>
@@ -408,7 +408,7 @@ export default function OrderScreen() {
                     </Col>
                   </Row>
                 </ListGroup.Item>
-                {!order.isPaid && (
+                {!order.isPaid && !userInfo.isAdmin && !userInfo.isStaff && (
                   <ListGroup.Item>
                     {isPending ? (
                       <LoadingBox />
@@ -421,11 +421,11 @@ export default function OrderScreen() {
                         ></PayPalButtons>
                       </div>
                     ) : order.paymentMethod === 'COD' ? (
-                      <div className="d-grid">
+                      <div className='d-grid'>
                         <Button
                           style={{ backgroundColor: '#5e9ea0' }}
-                          variant="primary"
-                          size="lg"
+                          variant='primary'
+                          size='lg'
                           onClick={payWithCODHandler}
                         >
                           <b> Confirm (COD) </b>
@@ -442,10 +442,10 @@ export default function OrderScreen() {
                     // !order.isDelivering &&
                     <ListGroup.Item>
                       {loadingDelivering && <LoadingBox></LoadingBox>}
-                      <div className="d-grid">
+                      <div className='d-grid'>
                         <Button
                           style={{ backgroundColor: '#5e9ea0' }}
-                          type="button"
+                          type='button'
                           onClick={deliveringOrderHandler}
                           // disabled={order.isDelivering || order.isDelivered}
                         >
@@ -462,10 +462,10 @@ export default function OrderScreen() {
                     // !order.isDelivering &&
                     <ListGroup.Item>
                       {loadingDelivering && <LoadingBox></LoadingBox>}
-                      <div className="d-grid">
+                      <div className='d-grid'>
                         <Button
                           style={{ backgroundColor: '#5e9ea0' }}
-                          type="button"
+                          type='button'
                           onClick={deliveringOrderHandler}
                           // disabled={order.isDelivering || order.isDelivered}
                         >
@@ -481,10 +481,10 @@ export default function OrderScreen() {
                 !order.isDelivered && (
                   <ListGroup.Item>
                     {loadingDeliver && <LoadingBox></LoadingBox>}
-                    <div className="d-grid">
+                    <div className='d-grid'>
                       <Button
                         style={{ backgroundColor: '#5e9ea0' }}
-                        type="button"
+                        type='button'
                         onClick={deliverOrderHandler}
                         // disabled={order.isDelivering || order.isDelivered}
                       >
@@ -500,10 +500,10 @@ export default function OrderScreen() {
                 !order.isDelivered && (
                   <ListGroup.Item>
                     {loadingDeliver && <LoadingBox></LoadingBox>}
-                    <div className="d-grid">
+                    <div className='d-grid'>
                       <Button
                         style={{ backgroundColor: '#5e9ea0' }}
-                        type="button"
+                        type='button'
                         onClick={deliverOrderHandler}
                         // disabled={order.isDelivering || order.isDelivered}
                       >
