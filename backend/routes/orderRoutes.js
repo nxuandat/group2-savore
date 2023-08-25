@@ -140,7 +140,7 @@ orderRouter.put(
           {
             from: 'Savoré Café Shop <savorecafeshop@xuandat.id.vn>',
             to: `${order.user.name} <${order.user.email}>`,
-            subject: `New order ${order._id}`,
+            subject: `Your Order ${order._id} Is On Its Way`,
             html: deliveringNotificationEmailTemplate(order),
           },
           (error, body) => {
@@ -177,7 +177,7 @@ orderRouter.put(
           {
             from: 'Savoré Café Shop <savorecafeshop@xuandat.id.vn>',
             to: `${order.user.name} <${order.user.email}>`,
-            subject: `New order ${order._id}`,
+            subject: `Order ${order._id} Delivery Confirmation and Pickup Invitation`,
             html: deliveredNotificationEmailTemplate(order),
           },
           (error, body) => {

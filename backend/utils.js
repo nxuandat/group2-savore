@@ -153,7 +153,6 @@ export const payOrderEmailTemplate = (order) => {
 
 export const deliveringNotificationEmailTemplate = (order) => {
   return `
-    <h1>Your Order Is On Its Way</h1>
     <p>Hi ${order.user.name},</p>
     <p>We're excited to let you know that your order is on its way to you! Your selected products are being prepared and packaged with care, and we expect them to arrive at your doorstep very soon.</p>
     <p>Here are the details: </p>
@@ -239,7 +238,6 @@ export const deliveringNotificationEmailTemplate = (order) => {
 
 export const deliveredNotificationEmailTemplate = (order) => {
   return `
-    <h1>Order Delivery Confirmation and Pickup Invitation</h1>
     <p>Hi ${order.user.name},</p>
     <p>We are pleased to inform you that your order has been successfully delivered and is ready for pickup</p>
     <p>Here are the details: </p>
