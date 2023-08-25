@@ -115,6 +115,10 @@ export const payOrderEmailTemplate = (order) => {
           <td align="right"> ${order.shippingPrice.toFixed(2)}</td>
         </tr>
         <tr>
+          <td colspan="3">Discount Price:</td>
+          <td align="right"> ${order.discount.toFixed(2)}</td>
+        </tr>
+        <tr>
           <td colspan="3"><strong>Total Price:</strong></td>
           <td align="right"><strong> ${order.totalPrice.toFixed(
             2
@@ -186,6 +190,10 @@ export const deliveringNotificationEmailTemplate = (order) => {
         <tr>
           <td colspan="3">Shipping Price:</td>
           <td align="right"> ${order.shippingPrice.toFixed(2)}</td>
+        </tr>
+        <tr>
+          <td colspan="3">Discount Price:</td>
+          <td align="right"> ${order.discount.toFixed(2)}</td>
         </tr>
         <tr>
           <td colspan="3"><strong>Total Price:</strong></td>
@@ -268,6 +276,10 @@ export const deliveredNotificationEmailTemplate = (order) => {
         <tr>
           <td colspan="3">Shipping Price:</td>
           <td align="right"> ${order.shippingPrice.toFixed(2)}</td>
+        </tr>
+        <tr>
+          <td colspan="3">Discount Price:</td>
+          <td align="right"> ${order.discount.toFixed(2)}</td>
         </tr>
         <tr>
           <td colspan="3"><strong>Total Price:</strong></td>

@@ -83,7 +83,7 @@ userRouter.post(
         .messages()
         .send(
           {
-            from: 'SSavoré Café Shop <savorecafeshop@xuandat.id.vn>',
+            from: 'Savoré Café Shop <savorecafeshop@xuandat.id.vn>',
             to: `${user.name} <${user.email}>`,
             subject: `Reset Password`,
             html: ` 
