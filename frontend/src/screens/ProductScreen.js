@@ -16,6 +16,7 @@ import { getError } from '../utils';
 import { Store } from '../Store';
 import FloatingLabel from 'react-bootstrap/esm/FloatingLabel';
 import { toast } from 'react-toastify';
+import Product from '../components/Product';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -46,7 +47,7 @@ function ProductScreen() {
   const [selectedImage, setSelectedImage] = useState('');
   const [selectedSize, setSelectedSize] = useState('');
   const [selectedSizePrice, setSelectedSizePrice] = useState(0);
-
+  const [products, setProducts] = useState([]);
   const navigate = useNavigate();
   const params = useParams();
   const { slug } = params;
@@ -63,8 +64,19 @@ function ProductScreen() {
       dispatch({ type: 'FETCH_REQUEST' });
       try {
         const result = await axios.get(`/api/products/slug/${slug}`);
+        const { data } = await axios.get(`/api/products`);
+
+        // Lọc danh sách sản phẩm có cùng category với sản phẩm đang xem
+        const categoryProducts = data.filter(
+          (product) =>
+            product.category === result.data.category &&
+            product.name !== result.data.name
+        );
+
+        setProducts(categoryProducts); // Cập nhật state với danh sách sản phẩm cùng category
         dispatch({ type: 'FETCH_SUCCESS', payload: result.data });
       } catch (err) {
+        toast.error(getError(err));
         dispatch({ type: 'FETCH_FAIL', payload: getError(err) });
       }
     };
@@ -248,24 +260,38 @@ function ProductScreen() {
                   </Row>
                 </ListGroup.Item>
 
-                {product.countInStock > 0 && (
-                  <ListGroup.Item>
-                    <div className='d-grid'>
-                      <Button
-                        style={{ backgroundColor: '#5e9ea0' }}
-                        onClick={addToCartHandler}
-                        variant='primary'
-                      >
-                        <b> Add to Cart </b>
-                      </Button>
-                    </div>
-                  </ListGroup.Item>
-                )}
+                {product.countInStock > 0 &&
+                  (userInfo
+                    ? !userInfo.isAdmin && !userInfo.isStaff
+                    : true) && (
+                    <ListGroup.Item>
+                      <div className='d-grid'>
+                        <Button
+                          style={{ backgroundColor: '#5e9ea0' }}
+                          onClick={addToCartHandler}
+                          variant='primary'
+                        >
+                          <b> Add to Cart </b>
+                        </Button>
+                      </div>
+                    </ListGroup.Item>
+                  )}
               </ListGroup>
             </Card.Body>
           </Card>
         </Col>
       </Row>
+      {/* Display all menu of Coffee Shop */}
+
+      <h1>Suggested Products</h1>
+      <Row>
+        {products.map((product) => (
+          <Col key={product.slug} sm={6} md={4} lg={3} className='mb-3'>
+            <Product product={product}></Product>
+          </Col>
+        ))}
+      </Row>
+
       <div className='my-3'>
         <h2 ref={reviewsRef}>Reviews</h2>
         <div className='mb-3'>

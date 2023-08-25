@@ -52,6 +52,10 @@ export default function OrderListScreen() {
         const { data } = await axios.get(`/api/orders`, {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
+
+        // Sắp xếp mảng orders theo thời gian tạo đơn hàng (mới nhất đến cũ hơn)
+        data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
         dispatch({ type: 'FETCH_SUCCESS', payload: data });
       } catch (err) {
         dispatch({ type: 'FETCH_FAIL', payload: getError(err) });
@@ -91,9 +95,9 @@ export default function OrderListScreen() {
       {loading ? (
         <LoadingBox></LoadingBox>
       ) : error ? (
-        <MessageBox variant='danger'>{error}</MessageBox>
+        <MessageBox variant="danger">{error}</MessageBox>
       ) : (
-        <table className='table'>
+        <table className="table">
           <thead>
             <tr>
               <th>ID</th>
@@ -126,8 +130,8 @@ export default function OrderListScreen() {
                 </td>
                 <td>
                   <Button
-                    type='button'
-                    variant='light'
+                    type="button"
+                    variant="light"
                     onClick={() => {
                       navigate(`/order/${order._id}`);
                     }}
@@ -136,8 +140,8 @@ export default function OrderListScreen() {
                   </Button>
                   &nbsp;
                   <Button
-                    type='button'
-                    variant='light'
+                    type="button"
+                    variant="light"
                     onClick={() => deleteHandler(order)}
                   >
                     Delete

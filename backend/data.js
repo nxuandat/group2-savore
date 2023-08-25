@@ -7,18 +7,21 @@ const data = {
       email: 'adminSavore@example.com',
       password: bcrypt.hashSync('123456'),
       isAdmin: true,
+      isStaff: true,
     },
     {
       name: 'yen',
       email: 'userSavore@example.com',
       password: bcrypt.hashSync('123456'),
       isAdmin: false,
+      isStaff: true,
     },
     {
       name: 'test',
       email: 'testSavore@example.com',
       password: bcrypt.hashSync('123456'),
       isAdmin: false,
+      isStaff: false,
     },
   ],
   products: [
@@ -245,6 +248,29 @@ const data = {
       numReviews: 18,
       description: 'high quality tea',
       sizes: ['Small', 'Medium', 'Large'], // Thêm thông tin về kích thước
+    },
+  ],
+  discounts: [
+    {
+      code: 'FwPbGd',
+      isPercent: true,
+      amount: 3,
+      expireDate: '',
+      isActive: true,
+    },
+    {
+      code: 'a6W1Td',
+      isPercent: true,
+      amount: 4,
+      expireDate: '',
+      isActive: true,
+    },
+    {
+      code: 'sqKpeB',
+      isPercent: true,
+      amount: 5,
+      expireDate: '',
+      isActive: true,
     },
   ],
 };

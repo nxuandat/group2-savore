@@ -4,7 +4,7 @@ import expressAsyncHandler from 'express-async-handler';
 import Product from '../models/productModel.js';
 
 // Manage Products
-import { isAuth, isAdmin } from '../utils.js';
+import { isAuth, isAdminOrStaff } from '../utils.js';
 
 const productRouter = express.Router();
 
@@ -16,7 +16,7 @@ productRouter.get('/', async (req, res) => {
 productRouter.post(
   '/',
   isAuth,
-  isAdmin,
+  isAdminOrStaff,
   expressAsyncHandler(async (req, res) => {
     const newProduct = new Product({
       name: 'sample name ' + Date.now(),
@@ -38,7 +38,7 @@ productRouter.post(
 productRouter.put(
   '/:id',
   isAuth,
-  isAdmin,
+  isAdminOrStaff,
   expressAsyncHandler(async (req, res) => {
     const productId = req.params.id;
     const product = await Product.findById(productId);
@@ -63,7 +63,7 @@ productRouter.put(
 productRouter.delete(
   '/:id',
   isAuth,
-  isAdmin,
+  isAdminOrStaff,
   expressAsyncHandler(async (req, res) => {
     const product = await Product.findById(req.params.id);
     if (product) {
@@ -111,13 +111,13 @@ productRouter.post(
   })
 );
 
-const PAGE_SIZE = 3;
+const PAGE_SIZE = 9;
 
 // Manage Product as Admin Role
 productRouter.get(
   '/admin',
   isAuth,
-  isAdmin,
+  isAdminOrStaff,
   expressAsyncHandler(async (req, res) => {
     const { query } = req;
     const page = query.page || 1;

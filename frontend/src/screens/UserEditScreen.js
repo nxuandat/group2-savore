@@ -123,23 +123,47 @@ export default function UserEditScreen() {
             />
           </Form.Group>
 
-          <Form.Check
+          <Form.Group className="mb-3" controlId="role">
+            <Form.Label>Role</Form.Label>
+            <Form.Select
+              value={isAdmin ? 'admin' : isStaff ? 'staff' : 'user'}
+              onChange={(e) => {
+                const selectedRole = e.target.value;
+                if (selectedRole === 'admin') {
+                  setIsAdmin(true);
+                  setIsStaff(false);
+                } else if (selectedRole === 'staff') {
+                  setIsAdmin(false);
+                  setIsStaff(true);
+                } else {
+                  setIsAdmin(false);
+                  setIsStaff(false);
+                }
+              }}
+            >
+              <option value="admin">Admin</option>
+              <option value="staff">Staff</option>
+              <option value="user">User</option>
+            </Form.Select>
+          </Form.Group>
+
+          {/* <Form.Check
             className="mb-3"
             type="checkbox"
             id="isAdmin"
             label="isAdmin"
             checked={isAdmin}
             onChange={(e) => setIsAdmin(e.target.checked)}
-          />
+          /> */}
 
-          <Form.Check
+          {/* <Form.Check
             className="mb-3"
             type="checkbox"
             id="isStaff"
             label="isStaff"
             checked={isStaff}
             onChange={(e) => setIsStaff(e.target.checked)}
-          />
+          /> */}
 
           <div className="mb-3">
             <Button

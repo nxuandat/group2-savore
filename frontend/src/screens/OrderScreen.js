@@ -292,6 +292,16 @@ export default function OrderScreen() {
                 <strong>Address: </strong> {order.shippingAddress.address},
                 {order.shippingAddress.city}, {order.shippingAddress.postalCode}
                 ,{order.shippingAddress.country}
+                &nbsp;
+                {order.shippingAddress.location &&
+                  order.shippingAddress.location.lat && (
+                    <a
+                      target='_new'
+                      href={`https://maps.google.com?q=${order.shippingAddress.location.lat},${order.shippingAddress.location.lng}`}
+                    >
+                      Show On Map
+                    </a>
+                  )}
                 <br />
                 <strong>Shipping Method:</strong>{' '}
                 {order.shippingAddress.shippingMethod}
@@ -384,6 +394,12 @@ export default function OrderScreen() {
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <Row>
+                    <Col>Discount</Col>
+                    <Col>${order.discount.toFixed(2)}</Col>
+                  </Row>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <Row>
                     <Col>
                       <strong> Order Total</strong>
                     </Col>
@@ -392,7 +408,7 @@ export default function OrderScreen() {
                     </Col>
                   </Row>
                 </ListGroup.Item>
-                {!order.isPaid && (
+                {!order.isPaid && !userInfo.isAdmin && !userInfo.isStaff && (
                   <ListGroup.Item>
                     {isPending ? (
                       <LoadingBox />
@@ -438,8 +454,47 @@ export default function OrderScreen() {
                       </div>
                     </ListGroup.Item>
                   )}
+
+                {userInfo.isStaff &&
+                  order.isPaid &&
+                  !order.isDelivered &&
+                  !order.isDelivering && (
+                    // !order.isDelivering &&
+                    <ListGroup.Item>
+                      {loadingDelivering && <LoadingBox></LoadingBox>}
+                      <div className='d-grid'>
+                        <Button
+                          style={{ backgroundColor: '#5e9ea0' }}
+                          type='button'
+                          onClick={deliveringOrderHandler}
+                          // disabled={order.isDelivering || order.isDelivered}
+                        >
+                          <b> Delivering Order </b>
+                        </Button>
+                      </div>
+                    </ListGroup.Item>
+                  )}
               </ListGroup>
               {userInfo.isAdmin &&
+                order.isPaid &&
+                order.isDelivering &&
+                !order.isDelivered && (
+                  <ListGroup.Item>
+                    {loadingDeliver && <LoadingBox></LoadingBox>}
+                    <div className='d-grid'>
+                      <Button
+                        style={{ backgroundColor: '#5e9ea0' }}
+                        type='button'
+                        onClick={deliverOrderHandler}
+                        // disabled={order.isDelivering || order.isDelivered}
+                      >
+                        <b> Delivered Order </b>
+                      </Button>
+                    </div>
+                  </ListGroup.Item>
+                )}
+
+              {userInfo.isStaff &&
                 order.isPaid &&
                 order.isDelivering &&
                 !order.isDelivered && (

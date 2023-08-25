@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import seedRouter from './routes/seedRoutes.js';
 import productRouter from './routes/productRoutes.js';
+import discountRouter from './routes/discountRoutes.js';
 import userRouter from './routes/userRoutes.js';
 import orderRouter from './routes/orderRoutes.js';
 import uploadRouter from './routes/uploadRoutes.js';
@@ -29,9 +30,20 @@ app.get('/api/keys/paypal', (req, res) => {
   res.send(process.env.PAYPAL_CLIENT_ID || 'sb');
 });
 
+//GOOGLE
+app.get('/api/keys/google', (req, res) => {
+  res.send({ key: process.env.GOOGLE_API_KEY || '' });
+});
+
+app.get('/api/recaptcha-site-key', (req, res) => {
+  const recaptchaSiteKey = process.env.RECAPTCHA_SITE_KEY;
+  res.json({ siteKey: recaptchaSiteKey });
+});
+
 app.use('/api/upload', uploadRouter);
 app.use('/api/seed', seedRouter);
 app.use('/api/products', productRouter);
+app.use('/api/discounts', discountRouter);
 app.use('/api/users', userRouter);
 app.use('/api/orders', orderRouter);
 

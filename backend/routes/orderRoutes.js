@@ -5,7 +5,7 @@ import User from '../models/userModel.js';
 import Product from '../models/productModel.js';
 import {
   isAuth,
-  isAdmin,
+  isAdminOrStaff,
   mailgun,
   payOrderEmailTemplate,
   deliveringNotificationEmailTemplate,
@@ -17,29 +17,37 @@ const orderRouter = express.Router();
 orderRouter.get(
   '/',
   isAuth,
-  isAdmin,
+  isAdminOrStaff,
   expressAsyncHandler(async (req, res) => {
     const orders = await Order.find().populate('user', 'name');
     res.send(orders);
   })
 );
+
 orderRouter.post(
   '/',
   isAuth,
   expressAsyncHandler(async (req, res) => {
-    const newOrder = new Order({
-      orderItems: req.body.orderItems.map((x) => ({ ...x, product: x._id })),
-      shippingAddress: req.body.shippingAddress,
-      paymentMethod: req.body.paymentMethod,
-      itemsPrice: req.body.itemsPrice,
-      shippingPrice: req.body.shippingPrice,
-      taxPrice: req.body.taxPrice,
-      totalPrice: req.body.totalPrice,
-      user: req.user._id,
-    });
+    if (req.user.isAdmin || req.user.isStaff) {
+      res.status(403).send({
+        message: 'Admin and staff members are not allowed to place orders.',
+      });
+    } else {
+      const newOrder = new Order({
+        orderItems: req.body.orderItems.map((x) => ({ ...x, product: x._id })),
+        shippingAddress: req.body.shippingAddress,
+        paymentMethod: req.body.paymentMethod,
+        itemsPrice: req.body.itemsPrice,
+        shippingPrice: req.body.shippingPrice,
+        taxPrice: req.body.taxPrice,
+        discount: req.body.discount,
+        totalPrice: req.body.totalPrice,
+        user: req.user._id,
+      });
 
-    const order = await newOrder.save();
-    res.status(201).send({ message: 'New Order Created', order });
+      const order = await newOrder.save();
+      res.status(201).send({ message: 'New Order Created', order });
+    }
   })
 );
 
@@ -47,7 +55,7 @@ orderRouter.post(
 orderRouter.get(
   '/summary',
   isAuth,
-  isAdmin,
+  isAdminOrStaff,
   expressAsyncHandler(async (req, res) => {
     const orders = await Order.aggregate([
       {
@@ -132,7 +140,7 @@ orderRouter.put(
           {
             from: 'Savoré Café Shop <savorecafeshop@xuandat.id.vn>',
             to: `${order.user.name} <${order.user.email}>`,
-            subject: `New order ${order._id}`,
+            subject: `Your Order ${order._id} Is On Its Way`,
             html: deliveringNotificationEmailTemplate(order),
           },
           (error, body) => {
@@ -169,7 +177,7 @@ orderRouter.put(
           {
             from: 'Savoré Café Shop <savorecafeshop@xuandat.id.vn>',
             to: `${order.user.name} <${order.user.email}>`,
-            subject: `New order ${order._id}`,
+            subject: `Order ${order._id} Delivery Confirmation and Pickup Invitation`,
             html: deliveredNotificationEmailTemplate(order),
           },
           (error, body) => {
@@ -235,7 +243,7 @@ orderRouter.put(
 orderRouter.delete(
   '/:id',
   isAuth,
-  isAdmin,
+  isAdminOrStaff,
   expressAsyncHandler(async (req, res) => {
     const order = await Order.findById(req.params.id);
     if (order) {
