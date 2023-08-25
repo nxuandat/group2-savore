@@ -23,6 +23,7 @@ export default function SignupScreen() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordMeetsCriteria, setPasswordMeetsCriteria] = useState(false);
+  const [recaptchaSiteKey, setRecaptchaSiteKey] = useState('');
 
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { userInfo } = state;
@@ -76,6 +77,14 @@ export default function SignupScreen() {
     if (userInfo) {
       navigate(redirect);
     }
+    // Fetch the reCAPTCHA site key from the server
+    Axios.get('/api/recaptcha-site-key')
+      .then((response) => {
+        setRecaptchaSiteKey(response.data.siteKey);
+      })
+      .catch((error) => {
+        console.error('Error fetching reCAPTCHA site key:', error);
+      });
   }, [navigate, redirect, userInfo]);
   return (
     <Container className='small-container'>
@@ -124,7 +133,7 @@ export default function SignupScreen() {
         </Form.Group>
         <div className='mb-3'>
           <ReCAPTCHA
-            sitekey='6LdkLNMnAAAAAD9hAnil36XRQY-6y99UZce2rlW9' //{process.env.REACT_APP_RECAPTCHA_SITE_KEY} //{sitekeyReCaptcha}
+            sitekey={recaptchaSiteKey}
             onChange={handleCaptchaChange}
             className='mb-3'
           />

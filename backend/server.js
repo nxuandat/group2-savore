@@ -35,6 +35,11 @@ app.get('/api/keys/google', (req, res) => {
   res.send({ key: process.env.GOOGLE_API_KEY || '' });
 });
 
+app.get('/api/recaptcha-site-key', (req, res) => {
+  const recaptchaSiteKey = process.env.RECAPTCHA_SITE_KEY;
+  res.json({ siteKey: recaptchaSiteKey });
+});
+
 app.use('/api/upload', uploadRouter);
 app.use('/api/seed', seedRouter);
 app.use('/api/products', productRouter);
