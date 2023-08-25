@@ -10,6 +10,7 @@ import { Store } from '../Store';
 import { toast } from 'react-toastify';
 import { getError } from '../utils';
 import PasswordChecklist from 'react-password-checklist';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 export default function SignupScreen() {
   const navigate = useNavigate();
@@ -43,6 +44,31 @@ export default function SignupScreen() {
       navigate(redirect || '/');
     } catch (err) {
       toast.error(getError(err));
+    }
+  };
+
+  // const sitekeyReCaptcha = process.env.REACT_APP_RECAPTCHA_SITE_KEY;
+  const [isCaptchaVerified, setIsCaptchaVerified] = useState(false);
+  const [isSignUpSuccessful, setIsSignUpSuccessful] = useState(false);
+
+  const handleCaptchaChange = (value) => {
+    console.log('ReCAPTCHA value:', value);
+    // Đây là nơi bạn có thể kiểm tra nếu giá trị value không null để xác minh Captcha
+    if (value) {
+      setIsCaptchaVerified(true);
+    } else {
+      setIsCaptchaVerified(false);
+    }
+  };
+
+  const handleSignUp = (e) => {
+    e.preventDefault();
+
+    if (isCaptchaVerified) {
+      submitHandler(e);
+      setIsSignUpSuccessful(true); // Khi đăng ký thành công, cập nhật state
+    } else {
+      alert('Please complete the ReCAPTCHA challenge.');
     }
   };
 
@@ -97,10 +123,16 @@ export default function SignupScreen() {
           )}
         </Form.Group>
         <div className='mb-3'>
+          <ReCAPTCHA
+            sitekey='6LdkLNMnAAAAAD9hAnil36XRQY-6y99UZce2rlW9' //{process.env.REACT_APP_RECAPTCHA_SITE_KEY} //{sitekeyReCaptcha}
+            onChange={handleCaptchaChange}
+            className='mb-3'
+          />
           <Button
             style={{ backgroundColor: '#5e9ea0' }}
             type='submit'
-            disabled={!passwordMeetsCriteria}
+            disabled={!passwordMeetsCriteria && isSignUpSuccessful}
+            onClick={(e) => handleSignUp(e)}
           >
             <b> Sign Up </b>
           </Button>
