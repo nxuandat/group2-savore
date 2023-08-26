@@ -12,6 +12,9 @@ import { getError } from '../utils';
 import SetCookie from '../hooks/setCookie';
 // import GetCookie from '../hooks/getCookie';
 import RemoveCookie from '../hooks/removeCookie';
+//Google login
+import GoogleLogin from 'react-google-login';
+
 export default function SigninScreen() {
   const navigate = useNavigate();
   const { search } = useLocation();
@@ -30,6 +33,26 @@ export default function SigninScreen() {
       const { data } = await Axios.post('/api/users/signin', {
         email,
         password,
+      });
+      ctxDispatch({ type: 'USER_SIGNIN', payload: data });
+      RemoveCookie('userInfo');
+      SetCookie('userInfo', JSON.stringify(data));
+      localStorage.setItem('userInfo', JSON.stringify(data));
+      sessionStorage.setItem('userInfo', JSON.stringify(data));
+      navigate(redirect || '/');
+    } catch (err) {
+      toast.error(getError(err));
+    }
+  };
+
+  const handleFailure = (error) => {
+    console.log(error);
+  };
+  const handleGoogleLogin = async (googleData) => {
+    // Gửi token của Google cho server để xác thực
+    try {
+      const { data } = await Axios.post('/api/users/google-login', {
+        token: googleData.tokenId,
       });
       ctxDispatch({ type: 'USER_SIGNIN', payload: data });
       RemoveCookie('userInfo');
@@ -76,6 +99,13 @@ export default function SigninScreen() {
             <b> Sign In </b>{' '}
           </Button>
         </div>
+        <GoogleLogin
+          clientId="GOOGLE_CLIENT_ID"
+          buttonText="Login with Google"
+          onSuccess={handleGoogleLogin}
+          onFailure={handleFailure}
+          cookiePolicy="single_host_origin"
+        />
         <div className="mb-3">
           New customer?{' '}
           <Link to={`/signup?redirect=${redirect}`}>Create your account</Link>

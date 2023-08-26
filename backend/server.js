@@ -8,8 +8,10 @@ import discountRouter from './routes/discountRoutes.js';
 import userRouter from './routes/userRoutes.js';
 import orderRouter from './routes/orderRoutes.js';
 import uploadRouter from './routes/uploadRoutes.js';
+import { OAuth2Client } from 'google-auth-library';
 
 dotenv.config();
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 mongoose
   .connect(process.env.MONGODB_URI)

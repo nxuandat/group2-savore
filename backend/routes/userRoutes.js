@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs';
 import expressAsyncHandler from 'express-async-handler';
 import jwt from 'jsonwebtoken';
 import User from '../models/userModel.js';
+import { OAuth2Client } from 'google-auth-library';
 import {
   isAuth,
   isAdminOrStaff,
@@ -12,6 +13,39 @@ import {
 } from '../utils.js';
 
 const userRouter = express.Router();
+
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
+userRouter.post('/google-login', async (req, res) => {
+  const { token } = req.body;
+  try {
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+    const { name, email } = ticket.getPayload();
+
+    // Kiểm tra xem người dùng đã tồn tại trong cơ sở dữ liệu hay chưa
+    let user = await User.findOne({ email });
+
+    if (!user) {
+      // Nếu người dùng chưa tồn tại, tạo một người dùng mới
+      user = new User({
+        name,
+        email,
+        isAdmin: false,
+        isStaff: false,
+      });
+
+      // Lưu người dùng mới vào cơ sở dữ liệu
+      await user.save();
+    }
+
+    res.status(201).json(user);
+  } catch (error) {
+    res.status(400).json({ message: 'Invalid token' });
+  }
+});
 
 userRouter.get(
   '/',
