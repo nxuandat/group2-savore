@@ -77,6 +77,7 @@ import UserEditScreen from './screens/UserEditScreen';
 import ForgetPasswordScreen from './screens/ForgetPasswordScreen';
 import ResetPasswordScreen from './screens/ResetPasswordScreen';
 import MapScreen from './screens/MapScreen';
+import AboutUsScreen from './screens/AboutUsScreen';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -248,6 +249,7 @@ function App() {
               <Route path='/search' element={<SearchScreen />} />
               <Route path='/signin' element={<SigninScreen />} />
               <Route path='/signup' element={<SignupScreen />} />
+              <Route path='/about' element={<AboutUsScreen />} />
 
               <Route
                 path='/forget-password'
@@ -467,7 +469,7 @@ function App() {
                   </p>
                   <p>
                     <MDBIcon color='light' icon='envelope' className='me-3' />
-                    SavoreCafeShop@example.com
+                    info@SavoreCafeShop.com
                   </p>
                   <p>
                     <MDBIcon color='light' icon='phone' className='me-3' /> + 01
@@ -501,6 +503,9 @@ function App() {
                         size='lg'
                       />
                     </div>
+                    <LinkContainer to='/about'>
+                      <Nav.Link>About Us</Nav.Link>
+                    </LinkContainer>
                   </p>
                 </MDBCol>
               </MDBRow>
