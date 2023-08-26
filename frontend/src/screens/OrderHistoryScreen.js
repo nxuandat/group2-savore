@@ -39,6 +39,9 @@ export default function OrderHistoryScreen() {
 
           { headers: { Authorization: `Bearer ${userInfo.token}` } }
         );
+        // Sắp xếp mảng orders theo thời gian tạo đơn hàng (mới nhất đến cũ hơn)
+        data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
         dispatch({ type: 'FETCH_SUCCESS', payload: data });
       } catch (error) {
         dispatch({

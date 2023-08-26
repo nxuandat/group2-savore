@@ -377,25 +377,36 @@ export default function OrderScreen() {
                 <ListGroup.Item>
                   <Row>
                     <Col>Items</Col>
-                    <Col>${Number(order.itemsPrice).toFixed(2)}</Col>
+                    <Col>
+                      ${order.itemsPrice ? order.itemsPrice.toFixed(2) : '0.0'}
+                    </Col>
                   </Row>
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <Row>
                     <Col>Shipping</Col>
-                    <Col>${order.shippingPrice.toFixed(2)}</Col>
+                    <Col>
+                      $
+                      {order.shippingPrice
+                        ? order.shippingPrice.toFixed(2)
+                        : 'N/A'}
+                    </Col>
                   </Row>
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <Row>
                     <Col>Tax</Col>
-                    <Col>${order.taxPrice.toFixed(2)}</Col>
+                    <Col>
+                      ${order.taxPrice ? order.taxPrice.toFixed(2) : '0.0'}
+                    </Col>
                   </Row>
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <Row>
                     <Col>Discount</Col>
-                    <Col>${order.discount.toFixed(2)}</Col>
+                    <Col>
+                      ${order.discount ? order.discount.toFixed(2) : '0.0'}
+                    </Col>
                   </Row>
                 </ListGroup.Item>
                 <ListGroup.Item>
@@ -404,7 +415,10 @@ export default function OrderScreen() {
                       <strong> Order Total</strong>
                     </Col>
                     <Col>
-                      <strong>${order.totalPrice.toFixed(2)}</strong>
+                      <strong>
+                        $
+                        {order.totalPrice ? order.totalPrice.toFixed(2) : 'N/A'}
+                      </strong>
                     </Col>
                   </Row>
                 </ListGroup.Item>
