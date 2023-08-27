@@ -67,6 +67,16 @@ export default function PlaceOrderScreen() {
   );
 
   const placeOrderHandler = async () => {
+    const currentDate = new Date();
+    const currentHour = currentDate.getHours();
+
+    // Check if the current hour is between 10 PM and 7 AM
+    if (currentHour >= 22 || currentHour < 7) {
+      toast.error(
+        'Order placement is not available at this time. We are open from 7am to 10pm.'
+      );
+      return;
+    }
     try {
       dispatch({ type: 'CREATE_REQUEST' });
 

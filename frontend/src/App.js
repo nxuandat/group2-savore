@@ -179,6 +179,9 @@ function App() {
       onClose={handleMobileMenuClose}
     ></Menu>
   );
+  const currentDate = new Date();
+  const currentHour = currentDate.getHours();
+  const isClosed = currentHour >= 14 || currentHour < 7;
 
   return (
     <BrowserRouter>
@@ -210,6 +213,22 @@ function App() {
               <LinkContainer to="/">
                 <Navbar.Brand>Savoré Coffee Shop</Navbar.Brand>
               </LinkContainer>
+
+              {isClosed && (
+                <div className="closing-notification">
+                  <p
+                    style={{
+                      color: 'red',
+                      fontWeight: 'bold',
+                      textAlign: 'center',
+                    }}
+                  >
+                    We are currently closed. Please visit us between 7 AM and 10
+                    PM.
+                  </p>
+                </div>
+              )}
+
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
                 <SearchBox />
@@ -594,27 +613,27 @@ function App() {
                   <h6 className="text-uppercase fw-bold mb-4">Opening Time</h6>
                   <div className="mb-2">
                     <MDBIcon icon="angle-right" /> Monday
-                    <span> 7.00 AM - 8.00 PM</span>
+                    <span> 7.00 AM - 10.00 PM</span>
                   </div>
                   <div className="mb-2">
                     <MDBIcon icon="angle-right" /> Tuesday
-                    <span> 7.00 AM - 8.00 PM</span>
+                    <span> 7.00 AM - 10.00 PM</span>
                   </div>
                   <div className="mb-2">
                     <MDBIcon icon="angle-right" /> Wednesday
-                    <span> 7.00 AM - 8.00 PM</span>
+                    <span> 7.00 AM - 10.00 PM</span>
                   </div>
                   <div className="mb-2">
                     <MDBIcon icon="angle-right" /> Thursday
-                    <span> 7.00 AM - 8.00 PM</span>
+                    <span> 7.00 AM - 10.00 PM</span>
                   </div>
                   <div className="mb-2">
                     <MDBIcon icon="angle-right" /> Thursday
-                    <span> 7.00 AM - 8.00 PM</span>
+                    <span> 7.00 AM - 10.00 PM</span>
                   </div>
                   <div className="mb-2">
                     <MDBIcon icon="angle-right" /> Friday
-                    <span> 7.00 AM - 8.00 PM</span>
+                    <span> 7.00 AM - 10.00 PM</span>
                   </div>
                   <div className="mb-2">
                     <MDBIcon icon="angle-right" /> Saturday

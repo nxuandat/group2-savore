@@ -52,15 +52,15 @@ function HomeScreen() {
       </Helmet>
       <RotatingBanner />
       <h1>Featured Products</h1>
-      <div className='products'>
+      <div className="products">
         {loading ? (
           <LoadingBox />
         ) : error ? (
-          <MessageBox variant='danger'>{error}</MessageBox>
+          <MessageBox variant="danger">{error}</MessageBox>
         ) : (
           <Row>
             {products.map((product) => (
-              <Col key={product.slug} sm={6} md={4} lg={3} className='mb-3'>
+              <Col key={product.slug} sm={6} md={4} lg={3} className="mb-3">
                 <Product product={product}></Product>
               </Col>
             ))}

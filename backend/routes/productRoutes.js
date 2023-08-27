@@ -7,6 +7,7 @@ import Product from '../models/productModel.js';
 import { isAuth, isAdminOrStaff } from '../utils.js';
 
 const productRouter = express.Router();
+const PAGE_SIZE = 9;
 
 productRouter.get('/', async (req, res) => {
   const products = await Product.find();
@@ -110,8 +111,6 @@ productRouter.post(
     }
   })
 );
-
-const PAGE_SIZE = 9;
 
 // Manage Product as Admin Role
 productRouter.get(
