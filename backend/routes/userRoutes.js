@@ -4,6 +4,7 @@ import expressAsyncHandler from 'express-async-handler';
 import jwt from 'jsonwebtoken';
 import User from '../models/userModel.js';
 import { OAuth2Client } from 'google-auth-library';
+
 import {
   isAuth,
   isAdminOrStaff,
@@ -13,7 +14,7 @@ import {
 } from '../utils.js';
 
 const userRouter = express.Router();
-
+const PAGE_SIZE = 5;
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 userRouter.post('/google-login', async (req, res) => {
@@ -54,6 +55,28 @@ userRouter.get(
   expressAsyncHandler(async (req, res) => {
     const users = await User.find({});
     res.send(users);
+  })
+);
+
+userRouter.get(
+  '/admin',
+  isAuth,
+  isAdminOrStaff,
+  expressAsyncHandler(async (req, res) => {
+    const { query } = req;
+    const page = parseInt(query.page) || 1; // Chuyển query param 'page' sang số nguyên
+    const pageSize = parseInt(query.pageSize) || PAGE_SIZE;
+
+    const skip = pageSize * (page - 1);
+
+    const users = await User.find().skip(skip).limit(pageSize);
+    const countUsers = await User.countDocuments();
+    res.send({
+      users,
+      countUsers,
+      page,
+      pages: Math.ceil(countUsers / pageSize),
+    });
   })
 );
 
