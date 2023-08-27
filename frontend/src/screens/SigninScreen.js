@@ -100,7 +100,7 @@ export default function SigninScreen() {
           </Button>
         </div>
         <GoogleLogin
-          clientId="GOOGLE_CLIENT_ID"
+          clientId="1074655056657-j97aesldj7edi18f9iqd885ftil8papf.apps.googleusercontent.com"
           buttonText="Login with Google"
           onSuccess={handleGoogleLogin}
           onFailure={handleFailure}

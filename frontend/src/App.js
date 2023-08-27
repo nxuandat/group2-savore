@@ -1,5 +1,6 @@
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
+import './App.css';
 import 'react-toastify/dist/ReactToastify.css';
 import HomeScreen from './screens/HomeScreen';
 import ProductScreen from './screens/ProductScreen';
@@ -639,38 +640,36 @@ function App() {
                     <MDBIcon color="light" icon="phone" className="me-3" /> + 01
                     234 567 88
                   </p>
-                  <p>
-                    <div className="d-flex justify-content-center justify-content-lg-between p-2 ">
-                      <Footer.Icon
-                        href="#!"
-                        icon={BsFacebook}
-                        className="me-4 cus-icon"
-                        size="lg"
-                        color="white"
-                      />
-                      <Footer.Icon
-                        href="#!"
-                        icon={BsInstagram}
-                        className="m-4 cus-icon"
-                        font-size="40px"
-                      />
-                      <Footer.Icon
-                        href="#!"
-                        icon={BsTwitter}
-                        className="m-4 cus-icon"
-                        size="lg"
-                      />
-                      <Footer.Icon
-                        href="#!"
-                        icon={BsGoogle}
-                        className="m-4 cus-icon"
-                        size="lg"
-                      />
-                    </div>
-                    <LinkContainer to="/about">
-                      <Nav.Link>About Us</Nav.Link>
-                    </LinkContainer>
-                  </p>
+                  <div className="d-flex justify-content-center justify-content-lg-between p-2 ">
+                    <Footer.Icon
+                      href="#!"
+                      icon={BsFacebook}
+                      className="me-4 cus-icon"
+                      size="lg"
+                      color="white"
+                    />
+                    <Footer.Icon
+                      href="#!"
+                      icon={BsInstagram}
+                      className="m-4 cus-icon"
+                      fontSize="40px"
+                    />
+                    <Footer.Icon
+                      href="#!"
+                      icon={BsTwitter}
+                      className="m-4 cus-icon"
+                      size="lg"
+                    />
+                    <Footer.Icon
+                      href="#!"
+                      icon={BsGoogle}
+                      className="m-4 cus-icon"
+                      size="lg"
+                    />
+                  </div>
+                  <LinkContainer to="/about">
+                    <Nav.Link>About Us</Nav.Link>
+                  </LinkContainer>
                 </MDBCol>
               </MDBRow>
             </MDBContainer>

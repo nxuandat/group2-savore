@@ -7,7 +7,7 @@ function AboutUsScreen() {
     window.scrollTo(0, 0);
   }, []);
   return (
-    <Container className='mt-3'>
+    <Container className="mt-3">
       <h1>About Us</h1>
       <RotatingBanner />
       <p>
@@ -52,27 +52,27 @@ function AboutUsScreen() {
       </p>
       <ul>
         <li>
-          Nguyễn Ngọc Hân - Creative Visionary: Hân's imaginative touch brings
+          Nguyen Ngoc Han - Creative Visionary: Han's imaginative touch brings
           our cafe's ambiance to life, making every visit an immersive
           experience.
         </li>
         <li>
-          Nguyễn Tuấn Kiệt - Coffee Connoisseur: Kiệt's expertise in sourcing
+          Nguyen Tuan Kiet - Coffee Connoisseur: Kiet's expertise in sourcing
           and roasting coffee beans elevates our brews to new heights, ensuring
           that each cup is a masterpiece of flavor.
         </li>
         <li>
-          Phạm Thị Như Yến - Pastry Maestro: Yến's artistic flair and culinary
+          Pham Thi Nhu Yen - Pastry Maestro: Yen's artistic flair and culinary
           skills turn our pastries into edible works of art, bringing joy to
           your taste buds with every bite.
         </li>
         <li>
-          Trần Minh Châu - Hospitality Maven: Châu's warm personality and
+          Tran Minh Chau - Hospitality Maven: Chau's warm personality and
           dedication to service create an inviting atmosphere where everyone
           feels like family.
         </li>
         <li>
-          Nguyễn Xuân Đạt - Innovator Extraordinaire: Đạt's creative mind drives
+          Nguyen Xuan Dat - Innovator Extraordinaire: Dat's creative mind drives
           our menu's diversity, ensuring that there's always something new and
           exciting to try.
         </li>
