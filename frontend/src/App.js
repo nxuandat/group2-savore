@@ -655,6 +655,14 @@ function App() {
                 <MDBCol md='4' lg='3' xl='3' className='mx-auto mb-md-0 mb-4'>
                   <h6 className='text-uppercase fw-bold mb-4'>Contact</h6>
                   <p>
+                    <LinkContainer to='/about'>
+                      <Nav.Link className='link'>
+                        <MDBIcon color='light' icon='coffee' className='me-2' />
+                        About Us
+                      </Nav.Link>
+                    </LinkContainer>
+                  </p>
+                  <p>
                     <MDBIcon color='light' icon='home' className='me-2' />
                     Nguyen Van Cu, district 5, HoChiMinh city
                   </p>
@@ -693,9 +701,6 @@ function App() {
                       size='lg'
                     />
                   </div>
-                  <LinkContainer to='/about'>
-                    <Nav.Link>About Us</Nav.Link>
-                  </LinkContainer>
                 </MDBCol>
               </MDBRow>
             </MDBContainer>
