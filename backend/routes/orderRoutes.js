@@ -13,7 +13,7 @@ import {
 } from '../utils.js';
 
 const orderRouter = express.Router();
-
+const PAGE_SIZE = 10;
 orderRouter.get(
   '/',
   isAuth,
@@ -21,6 +21,28 @@ orderRouter.get(
   expressAsyncHandler(async (req, res) => {
     const orders = await Order.find().populate('user', 'name');
     res.send(orders);
+  })
+);
+
+orderRouter.get(
+  '/admin',
+  isAuth,
+  isAdminOrStaff,
+  expressAsyncHandler(async (req, res) => {
+    const { query } = req;
+    const page = parseInt(query.page) || 1; // Chuyển query param 'page' sang số nguyên
+    const pageSize = parseInt(query.pageSize) || PAGE_SIZE;
+
+    const skip = pageSize * (page - 1);
+
+    const orders = await Order.find().skip(skip).limit(pageSize);
+    const countOrders = await Order.countDocuments();
+    res.send({
+      orders,
+      countOrders,
+      page,
+      pages: Math.ceil(countOrders / pageSize),
+    });
   })
 );
 
