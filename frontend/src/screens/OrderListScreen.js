@@ -71,12 +71,7 @@ export default function OrderListScreen() {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
 
-        // Sắp xếp mảng orders thay vì data
-        const sortedOrders = data.orders.sort(
-          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-        );
-
-        dispatch({ type: 'FETCH_SUCCESS', payload: sortedOrders });
+        dispatch({ type: 'FETCH_SUCCESS', payload: data.orders });
         setTotalPages(data.pages);
         setCurrentPage(data.page);
       } catch (err) {
@@ -117,10 +112,10 @@ export default function OrderListScreen() {
       {loading ? (
         <LoadingBox></LoadingBox>
       ) : error ? (
-        <MessageBox variant='danger'>{error}</MessageBox>
+        <MessageBox variant="danger">{error}</MessageBox>
       ) : (
         <>
-          <table className='table'>
+          <table className="table">
             <thead>
               <tr>
                 <th>ID</th>
@@ -153,8 +148,8 @@ export default function OrderListScreen() {
                   </td>
                   <td>
                     <Button
-                      type='button'
-                      variant='light'
+                      type="button"
+                      variant="light"
                       onClick={() => {
                         navigate(`/order/${order._id}`);
                       }}
@@ -163,8 +158,8 @@ export default function OrderListScreen() {
                     </Button>
                     &nbsp;
                     <Button
-                      type='button'
-                      variant='light'
+                      type="button"
+                      variant="light"
                       onClick={() => deleteHandler(order)}
                     >
                       Delete
