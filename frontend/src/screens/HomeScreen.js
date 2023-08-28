@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 import axios from 'axios';
 import logger from 'use-reducer-logger';
 import Row from 'react-bootstrap/Row';
@@ -7,6 +7,8 @@ import Product from '../components/Product';
 import { Helmet } from 'react-helmet-async';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
+import RotatingBanner from '../components/RotatingBanner';
+import { Link, useLocation } from 'react-router-dom';
 
 // import data from '../data';
 const reducer = (state, action) => {
@@ -14,7 +16,13 @@ const reducer = (state, action) => {
     case 'FETCH_REQUEST':
       return { ...state, loading: true };
     case 'FETCH_SUCCESS':
-      return { ...state, products: action.payload, loading: false };
+      return {
+        ...state,
+        products: action.payload,
+        page: action.payload.page,
+        pages: action.payload.pages,
+        loading: false,
+      };
     case 'FETCH_FAIL':
       return { ...state, loading: false, error: action.payload };
     default:
@@ -23,18 +31,30 @@ const reducer = (state, action) => {
 };
 
 function HomeScreen() {
-  const [{ loading, error, products }, dispatch] = useReducer(logger(reducer), {
-    products: [],
-    loading: true,
-    error: '',
-  });
+  const [{ loading, error, products, pages }, dispatch] = useReducer(
+    logger(reducer),
+    {
+      products: [],
+      loading: true,
+      error: '',
+    }
+  );
   //const [products, setProducts] = useState([]);
+  const { search } = useLocation();
+  const sp = new URLSearchParams(search);
+  const page = sp.get('page') || 1;
+
+  // Thêm state để lưu trữ thông tin phân trang
+  const [currentPage, setCurrentPage] = useState(page);
+  const [totalPages, setTotalPages] = useState(pages);
   useEffect(() => {
     const fetchData = async () => {
       dispatch({ type: 'FETCH_REQUEST' });
       try {
-        const result = await axios.get('/api/products');
-        dispatch({ type: 'FETCH_SUCCESS', payload: result.data });
+        const result = await axios.get(`/api/products/all?page=${page}`);
+        dispatch({ type: 'FETCH_SUCCESS', payload: result.data.products });
+        setTotalPages(result.data.pages);
+        setCurrentPage(result.data.page);
       } catch (err) {
         dispatch({ type: 'FETCH_FAIL', payload: err.message });
       }
@@ -42,27 +62,39 @@ function HomeScreen() {
       //setProducts(result.data);
     };
     fetchData();
-  }, []);
+  }, [page]);
 
   return (
     <div>
       <Helmet>
         <title>SavoreCafeShop</title>
       </Helmet>
+      <RotatingBanner />
       <h1>Featured Products</h1>
-      <div className="products">
+      <div className='products'>
         {loading ? (
           <LoadingBox />
         ) : error ? (
-          <MessageBox variant="danger">{error}</MessageBox>
+          <MessageBox variant='danger'>{error}</MessageBox>
         ) : (
-          <Row>
-            {products.map((product) => (
-              <Col key={product.slug} sm={6} md={4} lg={3} className="mb-3">
-                <Product product={product}></Product>
-              </Col>
+          <>
+            <Row>
+              {products.map((product) => (
+                <Col key={product.slug} sm={6} md={4} lg={3} className='mb-3'>
+                  <Product product={product}></Product>
+                </Col>
+              ))}
+            </Row>
+            {[...Array(totalPages).keys()].map((x) => (
+              <Link
+                className={x + 1 === currentPage ? 'btn text-bold' : 'btn'}
+                key={x + 1}
+                to={`/all?page=${x + 1}`}
+              >
+                {x + 1}
+              </Link>
             ))}
-          </Row>
+          </>
         )}
       </div>
     </div>

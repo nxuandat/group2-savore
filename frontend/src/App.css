@@ -1,44 +1,78 @@
-.App {
-  text-align: center;
+.navbar {
+  padding: 10px 0;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.navbar-toggler {
+  color: white;
+  border: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+.navbar-brand {
+  font-size: 24px;
+  font-weight: bold;
   color: white;
 }
 
-.signout-link {
-  color: #212529; /* màu chữ */
-  font-size: 1rem; /* kích thước chữ */
-  padding: 0.5rem 1rem; /* khoảng cách giữa nội dung và khung */
+.navbar-nav {
+  align-items: center;
 }
 
-.App-link {
-  color: #61dafb;
+.navbar-nav .nav-item {
+  margin: 0 10px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.navbar-nav .MuiSvgIcon-root {
+  font-size: 20px;
+}
+
+.navbar-nav .MuiBadge-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+}
+
+.navbar-nav .nav-item:hover .nav-link {
+  color: #fff;
+}
+
+.navbar-nav .nav-item.dropdown:hover .dropdown-toggle {
+  color: #fff;
+}
+
+.side-navbar .nav-item {
+  margin: 10px 0;
+}
+
+.side-navbar .nav-item:hover {
+  opacity: 0.8;
+}
+
+.side-navbar .MuiSvgIcon-root {
+  font-size: 24px;
+}
+
+.side-navbar .username {
+  font-weight: bold;
+}
+
+.side-navbar .signin-link {
+  color: white;
+  font-size: 18px;
+}
+
+.side-navbar .cart-icon {
+  position: relative;
+}
+
+.navbar-nav .dropdown-menu {
+  border: none;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  min-width: 200px;
+  right: 0;
+  left: auto;
+}
+
+.navbar-nav .dropdown-item {
+  font-size: 16px;
+  padding: 8px 15px;
 }

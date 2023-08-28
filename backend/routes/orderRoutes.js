@@ -13,7 +13,7 @@ import {
 } from '../utils.js';
 
 const orderRouter = express.Router();
-
+const PAGE_SIZE = 9;
 orderRouter.get(
   '/',
   isAuth,
@@ -21,6 +21,28 @@ orderRouter.get(
   expressAsyncHandler(async (req, res) => {
     const orders = await Order.find().populate('user', 'name');
     res.send(orders);
+  })
+);
+
+orderRouter.get(
+  '/admin',
+  isAuth,
+  isAdminOrStaff,
+  expressAsyncHandler(async (req, res) => {
+    const { query } = req;
+    const page = parseInt(query.page) || 1; // Chuyển query param 'page' sang số nguyên
+    const pageSize = parseInt(query.pageSize) || PAGE_SIZE;
+
+    const skip = pageSize * (page - 1);
+
+    const orders = await Order.find().skip(skip).limit(pageSize);
+    const countOrders = await Order.countDocuments();
+    res.send({
+      orders,
+      countOrders,
+      page,
+      pages: Math.ceil(countOrders / pageSize),
+    });
   })
 );
 
@@ -96,13 +118,29 @@ orderRouter.get(
   })
 );
 
-// Create Order History
+// Order History
+const Max_Page_Size = 9;
 orderRouter.get(
   '/mine',
   isAuth,
   expressAsyncHandler(async (req, res) => {
-    const orders = await Order.find({ user: req.user._id });
-    res.send(orders);
+    const { query } = req;
+    const page = parseInt(query.page) || 1;
+    const pageSize = parseInt(query.pageSize) || Max_Page_Size;
+    const skip = pageSize * (page - 1);
+
+    const countOrders = await Order.countDocuments({ user: req.user._id });
+
+    const orders = await Order.find({ user: req.user._id })
+      .skip(skip)
+      .limit(pageSize);
+
+    res.send({
+      orders,
+      countOrders,
+      page,
+      pages: Math.ceil(countOrders / pageSize),
+    });
   })
 );
 

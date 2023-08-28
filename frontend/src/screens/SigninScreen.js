@@ -12,6 +12,8 @@ import { getError } from '../utils';
 import SetCookie from '../hooks/setCookie';
 // import GetCookie from '../hooks/getCookie';
 import RemoveCookie from '../hooks/removeCookie';
+//Google login
+// import GoogleLoginComponent from '../components/GoogleLoginComponent';
 export default function SigninScreen() {
   const navigate = useNavigate();
   const { search } = useLocation();
@@ -48,39 +50,40 @@ export default function SigninScreen() {
     }
   }, [navigate, redirect, userInfo]);
   return (
-    <Container className="small-container">
+    <Container className='small-container'>
       <Helmet>
         <title>Sign In</title>
       </Helmet>
-      <h1 className="my-3">Sign In</h1>
+      <h1 className='my-3'>Sign In</h1>
       <Form onSubmit={submitHandler}>
-        <Form.Group className="mb-3" controlId="email">
+        <Form.Group className='mb-3' controlId='email'>
           <Form.Label>Email</Form.Label>
           <Form.Control
-            type="email"
+            type='email'
             required
             onChange={(e) => setEmail(e.target.value)}
           />
         </Form.Group>
-        <Form.Group className="mb-3" controlId="password">
+        <Form.Group className='mb-3' controlId='password'>
           <Form.Label>Password</Form.Label>
           <Form.Control
-            type="password"
+            type='password'
             required
             onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Group>
-        <div className="mb-3">
-          <Button style={{ backgroundColor: '#5e9ea0' }} type="submit">
+        <div className='mb-3'>
+          <Button style={{ backgroundColor: '#5e9ea0' }} type='submit'>
             {' '}
             <b> Sign In </b>{' '}
           </Button>
         </div>
-        <div className="mb-3">
+        {/* <GoogleLoginComponent /> */}
+        <div className='mb-3'>
           New customer?{' '}
           <Link to={`/signup?redirect=${redirect}`}>Create your account</Link>
         </div>
-        <div className="mb-3">
+        <div className='mb-3'>
           Forget Password? <Link to={`/forget-password`}>Reset Password</Link>
         </div>
       </Form>

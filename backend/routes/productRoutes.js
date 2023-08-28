@@ -7,11 +7,33 @@ import Product from '../models/productModel.js';
 import { isAuth, isAdminOrStaff } from '../utils.js';
 
 const productRouter = express.Router();
-
+const PAGE_SIZE = 9;
+const page_size_homescreen = 12;
 productRouter.get('/', async (req, res) => {
   const products = await Product.find();
   res.send(products);
 });
+
+productRouter.get(
+  '/all',
+  expressAsyncHandler(async (req, res) => {
+    const { query } = req;
+    const pageSize = query.pageSize || page_size_homescreen;
+    const page = query.page || 1;
+
+    const products = await Product.find()
+      .skip(pageSize * (page - 1))
+      .limit(pageSize);
+
+    const countProducts = await Product.countDocuments();
+    res.send({
+      products,
+      countProducts,
+      page,
+      pages: Math.ceil(countProducts / pageSize),
+    });
+  })
+);
 
 productRouter.post(
   '/',
@@ -111,8 +133,6 @@ productRouter.post(
   })
 );
 
-const PAGE_SIZE = 9;
-
 // Manage Product as Admin Role
 productRouter.get(
   '/admin',
@@ -136,11 +156,12 @@ productRouter.get(
   })
 );
 
+const search_page_size = 3;
 productRouter.get(
   '/search',
   expressAsyncHandler(async (req, res) => {
     const { query } = req;
-    const pageSize = query.pageSize || PAGE_SIZE;
+    const pageSize = query.pageSize || search_page_size;
     const page = query.page || 1;
     const category = query.category || '';
     const price = query.price || '';

@@ -1,5 +1,6 @@
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
+import './App.css';
 import 'react-toastify/dist/ReactToastify.css';
 import HomeScreen from './screens/HomeScreen';
 import ProductScreen from './screens/ProductScreen';
@@ -77,15 +78,25 @@ import UserEditScreen from './screens/UserEditScreen';
 import ForgetPasswordScreen from './screens/ForgetPasswordScreen';
 import ResetPasswordScreen from './screens/ResetPasswordScreen';
 import MapScreen from './screens/MapScreen';
+import AboutUsScreen from './screens/AboutUsScreen';
+
+import IconButton from '@mui/material/IconButton';
+import MenuItem from '@mui/material/MenuItem';
+import Menu from '@mui/material/Menu';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import ListAltIcon from '@mui/icons-material/ListAlt';
+import LogoutIcon from '@mui/icons-material/Logout';
+import CategoryIcon from '@mui/icons-material/Category';
+import LoginIcon from '@mui/icons-material/Login';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { fullBox, cart, userInfo } = state;
   const signoutHandler = () => {
     ctxDispatch({ type: 'USER_SIGNOUT' });
-    // localStorage.removeItem('userInfo');
-    // localStorage.removeItem('shippingAddress');
-    // localStorage.removeItem('paymentMethod');
     localStorage.clear();
     sessionStorage.clear();
     window.location.href = '/signin';
@@ -98,12 +109,83 @@ function App() {
       try {
         const { data } = await axios.get(`/api/products/categories`);
         setCategories(data);
+        console.log(currentDate);
+        console.log(currentHour);
+        console.log(isClosed);
       } catch (err) {
         toast.error(getError(err));
       }
     };
     fetchCategories();
   }, []);
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+
+  const isMenuOpen = Boolean(anchorEl);
+  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  const handleProfileMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMobileMenuClose = () => {
+    setMobileMoreAnchorEl(null);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    handleMobileMenuClose();
+  };
+
+  const handleMobileMenuOpen = (event) => {
+    setMobileMoreAnchorEl(event.currentTarget);
+  };
+
+  const menuId = 'primary-search-account-menu';
+  const renderMenu = (
+    <Menu
+      anchorEl={anchorEl}
+      anchorOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      id={menuId}
+      keepMounted
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      open={isMenuOpen}
+      onClose={handleMenuClose}
+    >
+      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+    </Menu>
+  );
+
+  const mobileMenuId = 'primary-search-account-menu-mobile';
+  const renderMobileMenu = (
+    <Menu
+      anchorEl={mobileMoreAnchorEl}
+      anchorOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      id={mobileMenuId}
+      keepMounted
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      open={isMobileMenuOpen}
+      onClose={handleMobileMenuClose}
+    ></Menu>
+  );
+  const currentDate = new Date();
+  const currentHour = currentDate.getHours();
+  const isClosed = currentHour >= 22 || currentHour < 7;
+
   return (
     <BrowserRouter>
       <div
@@ -134,6 +216,7 @@ function App() {
               <LinkContainer to='/'>
                 <Navbar.Brand>Savoré Coffee Shop</Navbar.Brand>
               </LinkContainer>
+
               <Navbar.Toggle aria-controls='basic-navbar-nav' />
               <Navbar.Collapse id='basic-navbar-nav'>
                 <SearchBox />
@@ -142,51 +225,144 @@ function App() {
                     ? !userInfo.isAdmin && !userInfo.isStaff
                     : true) && (
                     <Link to='/cart' className='nav-link'>
-                      Cart
-                      {cart.cartItems.length > 0 && (
-                        <Badge pill bg='danger'>
-                          {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
-                        </Badge>
-                      )}
+                      <MenuItem onClick={handleProfileMenuOpen}>
+                        <IconButton
+                          size='large'
+                          aria-haspopup='true'
+                          color='inherit'
+                        >
+                          <ShoppingCartIcon />
+                        </IconButton>
+                        <p className='m-0 ms-2'>Shopping Cart</p>
+                        {cart.cartItems.length > 0 && (
+                          <Badge pill bg='danger'>
+                            {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
+                          </Badge>
+                        )}
+                      </MenuItem>
                     </Link>
                   )}
+
                   {userInfo ? (
                     <NavDropdown title={userInfo.name} id='basic-nav-dropdown'>
-                      <LinkContainer to='/profile'>
-                        <NavDropdown.Item>User Profile</NavDropdown.Item>
-                      </LinkContainer>
-                      <LinkContainer to='/orderhistory'>
-                        <NavDropdown.Item>Order History</NavDropdown.Item>
-                      </LinkContainer>
+                      <MenuItem onClick={handleProfileMenuOpen}>
+                        <IconButton
+                          size='large'
+                          aria-haspopup='true'
+                          color='inherit'
+                        >
+                          <AccountCircle />
+                        </IconButton>
+                        <LinkContainer to='/profile'>
+                          <NavDropdown.Item>User Profile</NavDropdown.Item>
+                        </LinkContainer>
+                      </MenuItem>
+                      {(userInfo
+                        ? !userInfo.isAdmin && !userInfo.isStaff
+                        : true) && (
+                        <MenuItem onClick={handleProfileMenuOpen}>
+                          <IconButton
+                            size='large'
+                            aria-haspopup='true'
+                            color='inherit'
+                          >
+                            <ListAltIcon />
+                          </IconButton>
+
+                          <LinkContainer to='/orderhistory'>
+                            <NavDropdown.Item>Order History</NavDropdown.Item>
+                          </LinkContainer>
+                        </MenuItem>
+                      )}
                       <NavDropdown.Divider />
-                      <Link
-                        className='dropdown-item signout-link align-items-center'
-                        to='#signout'
-                        onClick={signoutHandler}
-                      >
-                        Sign Out
-                      </Link>
+                      <MenuItem onClick={handleProfileMenuOpen}>
+                        <IconButton
+                          size='large'
+                          aria-haspopup='true'
+                          color='inherit'
+                        >
+                          <LogoutIcon />
+                        </IconButton>
+                        <Link
+                          className='dropdown-item signout-link align-items-center'
+                          to='#signout'
+                          onClick={signoutHandler}
+                        >
+                          Sign Out
+                        </Link>
+                      </MenuItem>
                     </NavDropdown>
                   ) : (
                     <Link className='nav-link' to='/signin'>
-                      Sign In
+                      <MenuItem onClick={handleProfileMenuOpen}>
+                        <IconButton
+                          fontSize='large'
+                          aria-label='account of current user'
+                          aria-controls='primary-search-account-menu'
+                          aria-haspopup='true'
+                          color='inherit'
+                        >
+                          <LoginIcon />
+                        </IconButton>
+                        <p className='m-0 ms-2'>Sign In</p>
+                      </MenuItem>
                     </Link>
                   )}
 
                   {userInfo && userInfo.isAdmin && (
                     <NavDropdown title='Admin' id='admin-nav-dropdown'>
-                      <LinkContainer to='/admin/dashboard'>
-                        <NavDropdown.Item>Dashboard</NavDropdown.Item>
-                      </LinkContainer>
-                      <LinkContainer to='/admin/products'>
-                        <NavDropdown.Item>Products</NavDropdown.Item>
-                      </LinkContainer>
-                      <LinkContainer to='/admin/orders'>
-                        <NavDropdown.Item>Orders</NavDropdown.Item>
-                      </LinkContainer>
-                      <LinkContainer to='/admin/users'>
-                        <NavDropdown.Item>Users</NavDropdown.Item>
-                      </LinkContainer>
+                      <MenuItem onClick={handleProfileMenuOpen}>
+                        <IconButton
+                          fontSize='large'
+                          aria-haspopup='true'
+                          color='inherit'
+                        >
+                          <DashboardIcon />
+                        </IconButton>
+                        <LinkContainer to='/admin/dashboard'>
+                          {/* <DashboardIcon /> */}
+                          <NavDropdown.Item>Dashboard</NavDropdown.Item>
+                        </LinkContainer>
+                      </MenuItem>
+
+                      <MenuItem onClick={handleProfileMenuOpen}>
+                        <IconButton
+                          fontSize='large'
+                          aria-haspopup='true'
+                          color='inherit'
+                        >
+                          <CategoryIcon />
+                        </IconButton>
+                        <LinkContainer to='/admin/products'>
+                          <NavDropdown.Item>Products</NavDropdown.Item>
+                        </LinkContainer>
+                      </MenuItem>
+
+                      <MenuItem onClick={handleProfileMenuOpen}>
+                        <IconButton
+                          fontSize='large'
+                          aria-haspopup='true'
+                          color='inherit'
+                        >
+                          <ListAltIcon />
+                        </IconButton>
+                        <LinkContainer to='/admin/orders'>
+                          <NavDropdown.Item>Orders</NavDropdown.Item>
+                        </LinkContainer>
+                      </MenuItem>
+
+                      <MenuItem onClick={handleProfileMenuOpen}>
+                        <IconButton
+                          fontSize='large'
+                          aria-haspopup='true'
+                          color='inherit'
+                        >
+                          <VerifiedUserIcon />
+                        </IconButton>
+                        <LinkContainer to='/admin/users'>
+                          <NavDropdown.Item>Users</NavDropdown.Item>
+                        </LinkContainer>
+                      </MenuItem>
                     </NavDropdown>
                   )}
                   {userInfo && userInfo.isStaff && !userInfo.isAdmin && (
@@ -240,6 +416,25 @@ function App() {
             ))}
           </Nav>
         </div>
+        {isClosed && (
+          <div className='closing-notification'>
+            <p
+              style={{
+                color: 'red',
+                fontWeight: 'bold',
+                textAlign: 'center',
+                backgroundColor: '#f8d7da',
+                padding: '10px',
+                borderRadius: '5px',
+                marginBottom: '20px',
+              }}
+            >
+              We are currently closed. Our opening hours are from 7 AM to 10 PM.
+              Please visit us during these times.
+            </p>
+          </div>
+        )}
+
         <main>
           <Container className='mt-3'>
             <Routes>
@@ -248,6 +443,7 @@ function App() {
               <Route path='/search' element={<SearchScreen />} />
               <Route path='/signin' element={<SigninScreen />} />
               <Route path='/signup' element={<SignupScreen />} />
+              <Route path='/about' element={<AboutUsScreen />} />
 
               <Route
                 path='/forget-password'
@@ -371,6 +567,7 @@ function App() {
               ></Route>
 
               <Route path='/' element={<HomeScreen />} />
+              <Route path='/all' element={<HomeScreen />} />
             </Routes>
           </Container>
         </main>
@@ -427,27 +624,27 @@ function App() {
                   <h6 className='text-uppercase fw-bold mb-4'>Opening Time</h6>
                   <div className='mb-2'>
                     <MDBIcon icon='angle-right' /> Monday
-                    <span> 7.00 AM - 8.00 PM</span>
+                    <span> 7.00 AM - 10.00 PM</span>
                   </div>
                   <div className='mb-2'>
                     <MDBIcon icon='angle-right' /> Tuesday
-                    <span> 7.00 AM - 8.00 PM</span>
+                    <span> 7.00 AM - 10.00 PM</span>
                   </div>
                   <div className='mb-2'>
                     <MDBIcon icon='angle-right' /> Wednesday
-                    <span> 7.00 AM - 8.00 PM</span>
+                    <span> 7.00 AM - 10.00 PM</span>
                   </div>
                   <div className='mb-2'>
                     <MDBIcon icon='angle-right' /> Thursday
-                    <span> 7.00 AM - 8.00 PM</span>
+                    <span> 7.00 AM - 10.00 PM</span>
                   </div>
                   <div className='mb-2'>
                     <MDBIcon icon='angle-right' /> Thursday
-                    <span> 7.00 AM - 8.00 PM</span>
+                    <span> 7.00 AM - 10.00 PM</span>
                   </div>
                   <div className='mb-2'>
                     <MDBIcon icon='angle-right' /> Friday
-                    <span> 7.00 AM - 8.00 PM</span>
+                    <span> 7.00 AM - 10.00 PM</span>
                   </div>
                   <div className='mb-2'>
                     <MDBIcon icon='angle-right' /> Saturday
@@ -462,46 +659,52 @@ function App() {
                 <MDBCol md='4' lg='3' xl='3' className='mx-auto mb-md-0 mb-4'>
                   <h6 className='text-uppercase fw-bold mb-4'>Contact</h6>
                   <p>
+                    <LinkContainer to='/about'>
+                      <Nav.Link className='link'>
+                        <MDBIcon color='light' icon='coffee' className='me-2' />
+                        About Us
+                      </Nav.Link>
+                    </LinkContainer>
+                  </p>
+                  <p>
                     <MDBIcon color='light' icon='home' className='me-2' />
                     Nguyen Van Cu, district 5, HoChiMinh city
                   </p>
                   <p>
                     <MDBIcon color='light' icon='envelope' className='me-3' />
-                    SavoreCafeShop@example.com
+                    info@SavoreCafeShop.com
                   </p>
                   <p>
                     <MDBIcon color='light' icon='phone' className='me-3' /> + 01
                     234 567 88
                   </p>
-                  <p>
-                    <div className='d-flex justify-content-center justify-content-lg-between p-2 '>
-                      <Footer.Icon
-                        href='#!'
-                        icon={BsFacebook}
-                        className='me-4 cus-icon'
-                        size='lg'
-                        color='white'
-                      />
-                      <Footer.Icon
-                        href='#!'
-                        icon={BsInstagram}
-                        className='m-4 cus-icon'
-                        font-size='40px'
-                      />
-                      <Footer.Icon
-                        href='#!'
-                        icon={BsTwitter}
-                        className='m-4 cus-icon'
-                        size='lg'
-                      />
-                      <Footer.Icon
-                        href='#!'
-                        icon={BsGoogle}
-                        className='m-4 cus-icon'
-                        size='lg'
-                      />
-                    </div>
-                  </p>
+                  <div className='d-flex justify-content-center justify-content-lg-between p-2 '>
+                    <Footer.Icon
+                      href='#!'
+                      icon={BsFacebook}
+                      className='me-4 cus-icon'
+                      size='lg'
+                      color='white'
+                    />
+                    <Footer.Icon
+                      href='#!'
+                      icon={BsInstagram}
+                      className='m-4 cus-icon'
+                      fontSize='40px'
+                    />
+                    <Footer.Icon
+                      href='#!'
+                      icon={BsTwitter}
+                      className='m-4 cus-icon'
+                      size='lg'
+                    />
+                    <Footer.Icon
+                      href='#!'
+                      icon={BsGoogle}
+                      className='m-4 cus-icon'
+                      size='lg'
+                    />
+                  </div>
                 </MDBCol>
               </MDBRow>
             </MDBContainer>

@@ -57,7 +57,7 @@ export default function DashboardScreen() {
       {loading ? (
         <LoadingBox />
       ) : error ? (
-        <MessageBox variant="danger">{error}</MessageBox>
+        <MessageBox variant='danger'>{error}</MessageBox>
       ) : (
         <>
           <Row>
@@ -94,20 +94,20 @@ export default function DashboardScreen() {
                       ? summary.orders[0].totalSales.toFixed(2)
                       : 0}
                   </Card.Title>
-                  <Card.Text> Orders</Card.Text>
+                  <Card.Text> Revenue </Card.Text>
                 </Card.Body>
               </Card>
             </Col>
           </Row>
-          <div className="my-3">
+          <div className='my-3'>
             <h2>Sales</h2>
             {summary.dailyOrders.length === 0 ? (
               <MessageBox>No Sale</MessageBox>
             ) : (
               <Chart
-                width="100%"
-                height="400px"
-                chartType="AreaChart"
+                width='100%'
+                height='400px'
+                chartType='AreaChart'
                 loader={<div>Loading Chart...</div>}
                 data={[
                   ['Date', 'Sales'],
@@ -116,15 +116,15 @@ export default function DashboardScreen() {
               ></Chart>
             )}
           </div>
-          <div className="my-3">
+          <div className='my-3'>
             <h2>Categories</h2>
             {summary.productCategories.length === 0 ? (
               <MessageBox>No Category</MessageBox>
             ) : (
               <Chart
-                width="100%"
-                height="400px"
-                chartType="PieChart"
+                width='100%'
+                height='400px'
+                chartType='PieChart'
                 loader={<div>Loading Chart...</div>}
                 data={[
                   ['Category', 'Products'],
