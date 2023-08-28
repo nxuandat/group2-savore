@@ -13,7 +13,7 @@ import SetCookie from '../hooks/setCookie';
 // import GetCookie from '../hooks/getCookie';
 import RemoveCookie from '../hooks/removeCookie';
 //Google login
-
+import GoogleLoginComponent from '../components/GoogleLoginComponent';
 export default function SigninScreen() {
   const navigate = useNavigate();
   const { search } = useLocation();
@@ -78,7 +78,7 @@ export default function SigninScreen() {
             <b> Sign In </b>{' '}
           </Button>
         </div>
-
+        <GoogleLoginComponent />
         <div className="mb-3">
           New customer?{' '}
           <Link to={`/signup?redirect=${redirect}`}>Create your account</Link>
