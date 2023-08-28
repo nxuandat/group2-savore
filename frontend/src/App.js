@@ -257,20 +257,23 @@ function App() {
                           <NavDropdown.Item>User Profile</NavDropdown.Item>
                         </LinkContainer>
                       </MenuItem>
+                      {(userInfo
+                        ? !userInfo.isAdmin && !userInfo.isStaff
+                        : true) && (
+                        <MenuItem onClick={handleProfileMenuOpen}>
+                          <IconButton
+                            size='large'
+                            aria-haspopup='true'
+                            color='inherit'
+                          >
+                            <ListAltIcon />
+                          </IconButton>
 
-                      <MenuItem onClick={handleProfileMenuOpen}>
-                        <IconButton
-                          size='large'
-                          aria-haspopup='true'
-                          color='inherit'
-                        >
-                          <ListAltIcon />
-                        </IconButton>
-                        <LinkContainer to='/orderhistory'>
-                          <NavDropdown.Item>Order History</NavDropdown.Item>
-                        </LinkContainer>
-                      </MenuItem>
-
+                          <LinkContainer to='/orderhistory'>
+                            <NavDropdown.Item>Order History</NavDropdown.Item>
+                          </LinkContainer>
+                        </MenuItem>
+                      )}
                       <NavDropdown.Divider />
                       <MenuItem onClick={handleProfileMenuOpen}>
                         <IconButton

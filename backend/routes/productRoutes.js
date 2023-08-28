@@ -20,21 +20,8 @@ productRouter.get(
     const { query } = req;
     const pageSize = query.pageSize || page_size_homescreen;
     const page = query.page || 1;
-    const order = query.order || 'newest'; // Mặc định là sắp xếp mới nhất
-
-    const sortOrder =
-      order === 'featured'
-        ? { featured: -1 }
-        : order === 'lowest'
-        ? { price: 1 }
-        : order === 'highest'
-        ? { price: -1 }
-        : order === 'toprated'
-        ? { rating: -1 }
-        : { createdAt: -1 };
 
     const products = await Product.find()
-      .sort(sortOrder)
       .skip(pageSize * (page - 1))
       .limit(pageSize);
 
