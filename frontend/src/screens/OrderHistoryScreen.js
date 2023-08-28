@@ -75,10 +75,10 @@ export default function OrderHistoryScreen() {
       {loading ? (
         <LoadingBox></LoadingBox>
       ) : error ? (
-        <MessageBox variant='danger'>{error}</MessageBox>
+        <MessageBox variant="danger">{error}</MessageBox>
       ) : (
         <>
-          <table className='table'>
+          <table className="table">
             <thead>
               <tr>
                 <th>ID</th>
@@ -109,8 +109,8 @@ export default function OrderHistoryScreen() {
                   </td>
                   <td>
                     <Button
-                      type='button'
-                      variant='light'
+                      type="button"
+                      variant="light"
                       onClick={() => {
                         navigate(`/order/${order._id}`);
                       }}
@@ -122,11 +122,13 @@ export default function OrderHistoryScreen() {
               ))}
             </tbody>
           </table>
-          <div className='pagination'>
+          <div className="pagination">
             {[...Array(totalPages).keys()].map((pageNumber) => (
               <Link
                 className={
-                  pageNumber + 1 === currentPage ? 'btn text-bold' : 'btn'
+                  pageNumber + 1 === currentPage
+                    ? 'btn text-bold bg-primary text-white'
+                    : 'btn'
                 }
                 key={pageNumber + 1}
                 to={`/orderhistory?page=${pageNumber + 1}`}

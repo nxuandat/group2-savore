@@ -154,7 +154,11 @@ export default function UserListScreen() {
           <div>
             {[...Array(totalPages).keys()].map((x) => (
               <Link
-                className={x + 1 === currentPage ? 'btn text-bold' : 'btn'}
+                className={
+                  x + 1 === currentPage
+                    ? 'btn text-bold bg-primary text-white'
+                    : 'btn'
+                }
                 key={x + 1}
                 to={`/admin/users?page=${x + 1}`}
               >

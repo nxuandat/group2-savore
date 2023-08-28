@@ -171,7 +171,11 @@ export default function OrderListScreen() {
           </table>
           {[...Array(totalPages).keys()].map((x) => (
             <Link
-              className={x + 1 === currentPage ? 'btn text-bold' : 'btn'}
+              className={
+                x + 1 === currentPage
+                  ? 'btn text-bold bg-primary text-white'
+                  : 'btn'
+              }
               key={x + 1}
               to={`/admin/orders?page=${x + 1}`}
             >
