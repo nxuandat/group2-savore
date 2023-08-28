@@ -118,13 +118,26 @@ orderRouter.get(
   })
 );
 
-// Create Order History
+// Order History
+const Max_Page_Size = 9;
 orderRouter.get(
   '/mine',
   isAuth,
   expressAsyncHandler(async (req, res) => {
-    const orders = await Order.find({ user: req.user._id });
-    res.send(orders);
+    const { query } = req;
+    const page = parseInt(query.page) || 1; // Chuyển query param 'page' sang số nguyên
+    const pageSize = parseInt(query.pageSize) || Max_Page_Size;
+    const skip = pageSize * (page - 1);
+    const orders = await Order.find({ user: req.user._id })
+      .skip(skip)
+      .limit(pageSize);
+    const countOrders = await Order.countDocuments();
+    res.send({
+      orders,
+      countOrders,
+      page,
+      pages: Math.ceil(countOrders / pageSize),
+    });
   })
 );
 
