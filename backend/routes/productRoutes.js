@@ -7,18 +7,37 @@ import Product from '../models/productModel.js';
 import { isAuth, isAdminOrStaff } from '../utils.js';
 
 const productRouter = express.Router();
-const PAGE_SIZE = 12;
+const PAGE_SIZE = 9;
+const page_size_homescreen = 12;
+productRouter.get('/', async (req, res) => {
+  const products = await Product.find();
+  res.send(products);
+});
 
 productRouter.get(
-  '/',
+  '/all',
   expressAsyncHandler(async (req, res) => {
     const { query } = req;
-    const page = parseInt(query.page) || 1; // Chuyển query param 'page' sang số nguyên
-    const pageSize = parseInt(query.pageSize) || PAGE_SIZE;
+    const pageSize = query.pageSize || page_size_homescreen;
+    const page = query.page || 1;
+    const order = query.order || 'newest'; // Mặc định là sắp xếp mới nhất
 
-    const skip = pageSize * (page - 1);
+    const sortOrder =
+      order === 'featured'
+        ? { featured: -1 }
+        : order === 'lowest'
+        ? { price: 1 }
+        : order === 'highest'
+        ? { price: -1 }
+        : order === 'toprated'
+        ? { rating: -1 }
+        : { createdAt: -1 };
 
-    const products = await Product.find().skip(skip).limit(pageSize);
+    const products = await Product.find()
+      .sort(sortOrder)
+      .skip(pageSize * (page - 1))
+      .limit(pageSize);
+
     const countProducts = await Product.countDocuments();
     res.send({
       products,
@@ -150,11 +169,12 @@ productRouter.get(
   })
 );
 
+const search_page_size = 3;
 productRouter.get(
   '/search',
   expressAsyncHandler(async (req, res) => {
     const { query } = req;
-    const pageSize = query.pageSize || PAGE_SIZE;
+    const pageSize = query.pageSize || search_page_size;
     const page = query.page || 1;
     const category = query.category || '';
     const price = query.price || '';

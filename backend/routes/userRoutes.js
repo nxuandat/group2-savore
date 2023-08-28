@@ -14,7 +14,7 @@ import {
 } from '../utils.js';
 
 const userRouter = express.Router();
-const PAGE_SIZE = 5;
+const PAGE_SIZE = 9;
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 userRouter.post('/google-login', async (req, res) => {

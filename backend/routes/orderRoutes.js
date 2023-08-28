@@ -13,7 +13,7 @@ import {
 } from '../utils.js';
 
 const orderRouter = express.Router();
-const PAGE_SIZE = 20;
+const PAGE_SIZE = 9;
 orderRouter.get(
   '/',
   isAuth,
