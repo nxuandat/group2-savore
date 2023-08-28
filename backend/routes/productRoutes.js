@@ -9,6 +9,7 @@ import { isAuth, isAdminOrStaff } from '../utils.js';
 const productRouter = express.Router();
 const PAGE_SIZE = 9;
 
+//check this pls :))
 productRouter.get('/', async (req, res) => {
   const products = await Product.find();
   res.send(products);
@@ -135,11 +136,12 @@ productRouter.get(
   })
 );
 
+const SearchPgaeSize = 3;
 productRouter.get(
   '/search',
   expressAsyncHandler(async (req, res) => {
     const { query } = req;
-    const pageSize = query.pageSize || PAGE_SIZE;
+    const pageSize = query.pageSize || SearchPgaeSize;
     const page = query.page || 1;
     const category = query.category || '';
     const price = query.price || '';

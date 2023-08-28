@@ -35,12 +35,16 @@ function HomeScreen() {
       dispatch({ type: 'FETCH_REQUEST' });
       try {
         const result = await axios.get('/api/products');
-        dispatch({ type: 'FETCH_SUCCESS', payload: result.data });
+        let filteredProducts = [];
+        if (Array.isArray(result.data)) {
+          filteredProducts = result.data
+            .filter((product) => product.rating >= 4)
+            .slice(0, 12);
+        }
+        dispatch({ type: 'FETCH_SUCCESS', payload: filteredProducts });
       } catch (err) {
         dispatch({ type: 'FETCH_FAIL', payload: err.message });
       }
-
-      //setProducts(result.data);
     };
     fetchData();
   }, []);
@@ -52,15 +56,15 @@ function HomeScreen() {
       </Helmet>
       <RotatingBanner />
       <h1>Featured Products</h1>
-      <div className="products">
+      <div className='products'>
         {loading ? (
           <LoadingBox />
         ) : error ? (
-          <MessageBox variant="danger">{error}</MessageBox>
+          <MessageBox variant='danger'>{error}</MessageBox>
         ) : (
           <Row>
             {products.map((product) => (
-              <Col key={product.slug} sm={6} md={4} lg={3} className="mb-3">
+              <Col key={product.slug} sm={6} md={4} lg={3} className='mb-3'>
                 <Product product={product}></Product>
               </Col>
             ))}
