@@ -125,13 +125,16 @@ orderRouter.get(
   isAuth,
   expressAsyncHandler(async (req, res) => {
     const { query } = req;
-    const page = parseInt(query.page) || 1; // Chuyển query param 'page' sang số nguyên
+    const page = parseInt(query.page) || 1;
     const pageSize = parseInt(query.pageSize) || Max_Page_Size;
     const skip = pageSize * (page - 1);
+
+    const countOrders = await Order.countDocuments({ user: req.user._id });
+
     const orders = await Order.find({ user: req.user._id })
       .skip(skip)
       .limit(pageSize);
-    const countOrders = await Order.countDocuments();
+
     res.send({
       orders,
       countOrders,

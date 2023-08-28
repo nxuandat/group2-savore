@@ -55,6 +55,7 @@ export default function OrderHistoryScreen() {
         dispatch({ type: 'FETCH_SUCCESS', payload: data.orders });
         setTotalPages(data.pages);
         setCurrentPage(data.page);
+        console.log(totalPages);
       } catch (error) {
         dispatch({
           type: 'FETCH_FAIL',
@@ -63,7 +64,7 @@ export default function OrderHistoryScreen() {
       }
     };
     fetchData();
-  }, [userInfo, page]);
+  }, [page, userInfo, totalPages]);
   return (
     <div>
       <Helmet>
