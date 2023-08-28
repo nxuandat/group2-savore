@@ -7,12 +7,27 @@ import Product from '../models/productModel.js';
 import { isAuth, isAdminOrStaff } from '../utils.js';
 
 const productRouter = express.Router();
-const PAGE_SIZE = 9;
+const PAGE_SIZE = 12;
 
-productRouter.get('/', async (req, res) => {
-  const products = await Product.find();
-  res.send(products);
-});
+productRouter.get(
+  '/',
+  expressAsyncHandler(async (req, res) => {
+    const { query } = req;
+    const page = parseInt(query.page) || 1; // Chuyển query param 'page' sang số nguyên
+    const pageSize = parseInt(query.pageSize) || PAGE_SIZE;
+
+    const skip = pageSize * (page - 1);
+
+    const products = await Product.find().skip(skip).limit(pageSize);
+    const countProducts = await Product.countDocuments();
+    res.send({
+      products,
+      countProducts,
+      page,
+      pages: Math.ceil(countProducts / pageSize),
+    });
+  })
+);
 
 productRouter.post(
   '/',
